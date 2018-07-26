@@ -9,6 +9,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import {CachedImage} from 'react-native-cached-image';
+import {SocialIcon} from 'react-native-elements';
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -25,9 +26,9 @@ export default class App extends Component<Props> {
                 <CachedImage source={{
                     uri: 'https://wallpapersite.com/images/wallpapers/starry-sky-5005x3417-blue-sky-milky-way-stars-astronomy-5k-13954.jpg'
                 }} style={styles.image}/>
-                <Text style={styles.welcome}>Привет мир!</Text>
-                <Text style={styles.instructions}>To get started, edit App.js</Text>
-                <Text style={styles.instructions}>{instructions}</Text>
+                <SocialIcon
+                    type='twitter'
+                />
             </View>
         );
     }
