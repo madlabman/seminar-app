@@ -16,7 +16,7 @@ export default class MainScreen extends Component {
                 title: 'Заголовок',
                 excerpt: 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому...',
                 permalink: {
-                    uri: 'https://github.com/facebook/react-native',
+                    uri: 'http://seminar-pro.ru/announces/volgograd-2-avgusta-2018-goda-seminar-po-oxrane-truda-oxrana-truda-2018-chto-izmenilos-i-chto-eshhe-zhdet-vperedi/',
                 }
             },
             {
@@ -25,7 +25,10 @@ export default class MainScreen extends Component {
                     uri: 'https://images.pexels.com/photos/217114/pexels-photo-217114.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
                 },
                 title: 'Заголовок 2',
-                excerpt: 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому...'
+                excerpt: 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому...',
+                permalink: {
+                    uri: 'http://seminar-pro.ru/archive/28-maya-2018-goda-v-gorode-volgograd-sostoyalsya-buxgalterskij-seminar-nalogovyj-kontrol-v-2018-godu-novye-trendy-sposoby-zashhity-interesov-nalogoplatelshhika-2/',
+                }
             },
             {
                 key: '3',
@@ -46,13 +49,12 @@ export default class MainScreen extends Component {
         ]
     };
 
-    onAnnouncePress = item => {
+    onItemPress = (item, type) => {
         this.props.navigator.push({
             screen: 'seminar.SinglePostScreen',
             passProps: {
-                item: {
-
-                }
+                item,
+                type
             },
         })
     };
@@ -63,18 +65,34 @@ export default class MainScreen extends Component {
                 <ScrollView style={styles.container}>
 
                     <Text h4 style={styles.listHeader}>Анонсы</Text>
-                    <PostList posts={this.state.posts} onPress={this.onAnnouncePress}/>
+                    <PostList posts={this.state.posts} onPress={this.onItemPress} type={'announce'}/>
                     <View style={styles.buttonContainer}>
                         <Button title={'Все анонсы'} icon={{name: 'bullhorn', type: 'font-awesome'}}
-                                backgroundColor={'#000'} buttonStyle={styles.allPostsButton}/>
+                                backgroundColor={'#000'} buttonStyle={styles.allPostsButton}
+                                onPress={() => {
+                                    this.props.navigator.push({
+                                        screen: 'seminar.PostsScreen',
+                                        passProps: {
+                                            type: 'announce'
+                                        }
+                                    })
+                                }}/>
                     </View>
 
                     <Text h4 style={styles.listHeader}>Новости</Text>
-                    <PostList posts={this.state.posts} onPress={this.onAnnouncePress}/>
+                    <PostList posts={this.state.posts} onPress={this.onItemPress} type={'news'}/>
                     <View style={styles.buttonContainer}>
                         <Button title={'Все новости'} icon={{name: 'web', type: 'evil-icons'}}
                                 backgroundColor={'#000'}
-                                buttonStyle={styles.allPostsButton}/>
+                                buttonStyle={styles.allPostsButton}
+                                onPress={() => {
+                                    this.props.navigator.push({
+                                        screen: 'seminar.PostsScreen',
+                                        passProps: {
+                                            type: 'news'
+                                        }
+                                    })
+                                }}/>
                     </View>
 
                 </ScrollView>
@@ -92,7 +110,8 @@ const styles = StyleSheet.create({
         marginBottom: 30
     },
     allPostsButton: {
-        width: 200
+        width: 180,
+        borderRadius: 5
     },
     buttonContainer: {
         flexDirection: 'row',

@@ -6,9 +6,10 @@ import {Icon, Text} from 'react-native-elements';
 export default class SinglePostScreen extends Component {
 
     render() {
-        return (
-            <View style={styles.container}>
-                <Text h4 style={styles.title}>{this.props.item.title}</Text>
+
+        let voteButtons = null;
+        if (this.props.type === 'announce') {
+            voteButtons = (
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity>
                         <Icon name={'thumb-up'} color={'#fff'}
@@ -19,6 +20,13 @@ export default class SinglePostScreen extends Component {
                               containerStyle={[styles.button, {backgroundColor: 'red'}]}/>
                     </TouchableOpacity>
                 </View>
+            );
+        }
+
+        return (
+            <View style={styles.container}>
+                <Text h4 style={styles.title}>{this.props.item.title}</Text>
+                {voteButtons}
                 <WebView source={this.props.item.permalink} style={styles.browser}/>
             </View>
         )
