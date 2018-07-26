@@ -1,10 +1,17 @@
 import React, {Component} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
+import Communication from 'react-native-communications';
 
 import PostList from '../components/SummaryPostList';
+import {feedbackPhone, feedbackEmail, feedbackSubject} from '../../config';
 
 export default class MainScreen extends Component {
+
+    static navigatorStyle = {
+        navBarTitleTextCentered: true,
+        navBarButtonColor: '#000',
+    };
 
     state = {
         posts: [
@@ -106,6 +113,20 @@ export default class MainScreen extends Component {
                                 }}/>
                     </View>
 
+                    <Text h4 style={styles.listHeader}>Связаться с нами</Text>
+                    <View style={styles.feedbackContainer}>
+                        <Button title={'Позвонить'} buttonStyle={styles.feedbackButton} backgroundColor={'#57d648'}
+                                icon={{name: 'phone'}}
+                                onPress={() => {
+                                    Communication.phonecall(feedbackPhone, false);
+                                }}/>
+                        <Button title={'Написать'} buttonStyle={styles.feedbackButton} backgroundColor={'#0265bd'}
+                                icon={{name: 'email'}}
+                                onPress={() => {
+                                    Communication.email([feedbackEmail], null, null, feedbackSubject, null);
+                                }}/>
+                    </View>
+
                 </ScrollView>
             </View>
         )
@@ -127,5 +148,13 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'center'
+    },
+    feedbackContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+    feedbackButton: {
+        borderRadius: 5
     }
 });
