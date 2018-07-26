@@ -8,7 +8,7 @@ export default class App {
         // Start app
         Navigation.startSingleScreenApp({
             screen: {
-                screen: 'seminar.SignUpScreen',
+                screen: 'seminar.MainScreen',
                 title: 'Семинар-ПРО'
             }
         })
