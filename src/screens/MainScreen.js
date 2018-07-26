@@ -14,7 +14,10 @@ export default class MainScreen extends Component {
                     uri: 'https://images.pexels.com/photos/34950/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
                 },
                 title: 'Заголовок',
-                excerpt: 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому...'
+                excerpt: 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому...',
+                permalink: {
+                    uri: 'https://github.com/facebook/react-native',
+                }
             },
             {
                 key: '2',
@@ -43,8 +46,15 @@ export default class MainScreen extends Component {
         ]
     };
 
-    onAnnouncePress = key => {
-        console.log(key);
+    onAnnouncePress = item => {
+        this.props.navigator.push({
+            screen: 'seminar.SinglePostScreen',
+            passProps: {
+                item: {
+
+                }
+            },
+        })
     };
 
     render() {

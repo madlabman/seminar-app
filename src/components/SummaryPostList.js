@@ -11,7 +11,7 @@ export default class SummaryPostList extends Component {
                     data={this.props.posts}
                     renderItem={
                         ({item}) => (
-                            <TouchableOpacity onPress={() => this.props.onPress(item.key)}>
+                            <TouchableOpacity onPress={() => this.props.onPress(item)}>
                                 <View style={styles.container}>
                                     <View>
                                         <Text style={styles.date}>27.07.2018</Text>
