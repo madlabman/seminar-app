@@ -59,6 +59,17 @@ export default class MainScreen extends Component {
         })
     };
 
+    onNavigatorEvent = event => {
+        if (event.type === 'NavBarButtonPress'
+            && event.id === 'menu-toggle') {
+            this.props.navigator.toggleDrawer();
+        }
+    };
+
+    componentDidMount() {
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    }
+
     render() {
         return (
             <View>

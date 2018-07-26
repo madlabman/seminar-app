@@ -5,6 +5,7 @@ import SignUpScreen from './SignUpScreen';
 import MainScreen from './MainScreen';
 import SinglePostScreen from './SinglePostScreen';
 import PostsScreen from './PostsScreen';
+import MenuScreen from './MenuScreen';
 
 export function registerScreens() {
     Navigation.registerComponent('seminar.SplashScreen', () => SplashScreen);
@@ -12,4 +13,5 @@ export function registerScreens() {
     Navigation.registerComponent('seminar.MainScreen', () => MainScreen);
     Navigation.registerComponent('seminar.SinglePostScreen', () => SinglePostScreen);
     Navigation.registerComponent('seminar.PostsScreen', () => PostsScreen);
+    Navigation.registerComponent('seminar.MenuScreen', () => MenuScreen);
 }

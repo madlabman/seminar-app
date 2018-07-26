@@ -9,7 +9,20 @@ export default class App {
         Navigation.startSingleScreenApp({
             screen: {
                 screen: 'seminar.MainScreen',
-                title: 'Семинар-ПРО'
+                title: 'Семинар-ПРО',
+                navigatorButtons: {
+                    leftButtons: [
+                        {
+                            title: 'Меню',
+                            id: 'menu-toggle'
+                        }
+                    ]
+                }
+            },
+            drawer: {
+                left: {
+                    screen: 'seminar.MenuScreen'
+                }
             }
         })
     }
