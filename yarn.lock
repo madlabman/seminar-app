@@ -4261,6 +4261,10 @@ react-native-navigation@^1.1.478:
   dependencies:
     lodash "4.x.x"
 
+react-native-text-input-mask@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/react-native-text-input-mask/-/react-native-text-input-mask-0.7.0.tgz#2e4571560c47b3c9c0c3f360fd29b192b36a9694"
+
 react-native-vector-icons@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.6.0.tgz#e4014311ffa6de397d914ffc31b7097a874cc8d5"

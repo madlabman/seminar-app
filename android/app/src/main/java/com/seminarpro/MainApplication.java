@@ -1,5 +1,6 @@
 package com.seminarpro;
 
+import com.RNTextInputMask.RNTextInputMaskPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -21,7 +22,8 @@ public class MainApplication extends NavigationApplication {
         // No need to add RnnPackage and MainReactPackage
         return Arrays.<ReactPackage>asList(
                 new VectorIconsPackage(),
-                new RNFetchBlobPackage()
+                new RNFetchBlobPackage(),
+                new RNTextInputMaskPackage()
         );
     }
 
