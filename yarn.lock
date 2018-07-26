@@ -3300,7 +3300,7 @@ lodash@4.17.4:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
-lodash@^4.0.0, lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.6.1:
+lodash@4.x.x, lodash@^4.0.0, lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.6.1:
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
 
@@ -4254,6 +4254,12 @@ react-native-fetch-blob@0.10.8:
   dependencies:
     base-64 "0.1.0"
     glob "7.0.6"
+
+react-native-navigation@^1.1.478:
+  version "1.1.478"
+  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.478.tgz#70430c60cafb36f306f8a9558092bdd854cc6d17"
+  dependencies:
+    lodash "4.x.x"
 
 react-native-vector-icons@^4.6.0:
   version "4.6.0"
