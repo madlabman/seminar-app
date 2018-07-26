@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {CachedImage} from 'react-native-cached-image';
-import {Text} from 'react-native-elements';
+import {Icon, Text} from 'react-native-elements';
 
 export default class SummaryPostList extends Component {
     render() {
@@ -14,12 +14,15 @@ export default class SummaryPostList extends Component {
                             <TouchableOpacity onPress={() => this.props.onPress(item, this.props.type)}>
                                 <View style={styles.container}>
                                     <View>
-                                        <Text style={styles.date}>27.07.2018</Text>
+                                        <View style={styles.dateContainer}>
+                                            <Icon name={'md-calendar'} type='ionicon'/>
+                                            <Text style={styles.date}>27.07.2018</Text>
+                                        </View>
                                         <CachedImage source={item.thumbnail} style={styles.thumbnail}/>
                                     </View>
                                     <View style={styles.innerContainer}>
-                                        <Text style={styles.title}>{item.title}</Text>
-                                        <Text style={styles.excerpt}>{item.excerpt}</Text>
+                                        <Text style={styles.title} numberOfLines={1}>{item.title}</Text>
+                                        <Text style={styles.excerpt} numberOfLines={4}>{item.excerpt}</Text>
                                     </View>
                                 </View>
                             </TouchableOpacity>
@@ -56,7 +59,13 @@ const styles = StyleSheet.create({
         color: '#545454',
     },
     date: {
-        textAlign: 'center',
+        marginLeft: 5,
+        color: '#000',
+        textAlign: 'left',
         fontWeight: 'bold'
+    },
+    dateContainer: {
+        flexDirection: 'row',
+        alignItems: 'center'
     }
 });

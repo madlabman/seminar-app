@@ -19,11 +19,8 @@ export default class PostsScreen extends Component {
     };
 
     render() {
-        const title = this.props.type === 'announce' ? 'Анонсы' : 'Новости';
-
         return (
             <View>
-                <Text h4 style={styles.title}>{title}</Text>
                 <PostList posts={this.props.posts} onPress={this.onAnnouncePress} refreshing={this.state.refreshing}/>
                 <Text>Здесь будет происходить вывод записей, сохраненных в сторе с запросом обновлений при каждом открытии</Text>
             </View>

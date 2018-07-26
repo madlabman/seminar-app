@@ -20,7 +20,7 @@ export default class MainScreen extends Component {
                 thumbnail: {
                     uri: 'https://images.pexels.com/photos/34950/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
                 },
-                title: 'Заголовок',
+                title: 'Охрана труда – 2018: что изменилось и что еще ждет впереди',
                 excerpt: 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому...',
                 permalink: {
                     uri: 'http://seminar-pro.ru/announces/volgograd-2-avgusta-2018-goda-seminar-po-oxrane-truda-oxrana-truda-2018-chto-izmenilos-i-chto-eshhe-zhdet-vperedi/',
@@ -82,45 +82,50 @@ export default class MainScreen extends Component {
             <View>
                 <ScrollView style={styles.container}>
 
-                    <Text h4 style={styles.listHeader}>Анонсы</Text>
-                    <PostList posts={this.state.posts} onPress={this.onItemPress} type={'announce'}/>
                     <View style={styles.buttonContainer}>
-                        <Button title={'Все анонсы'} icon={{name: 'bullhorn', type: 'font-awesome'}}
-                                backgroundColor={'#000'} buttonStyle={styles.allPostsButton}
+                        <Text h4 style={styles.listHeader}>Анонсы</Text>
+                        <Button title={'Все анонсы'} icon={{name: 'bullhorn', type: 'font-awesome', color: '#545454'}}
+                                backgroundColor={'transparent'}
+                                color={'#545454'}
+                                buttonStyle={styles.allPostsButton}
                                 onPress={() => {
                                     this.props.navigator.push({
                                         screen: 'seminar.PostsScreen',
+                                        title: 'Анонсы',
                                         passProps: {
                                             type: 'announce'
                                         }
                                     })
                                 }}/>
                     </View>
+                    <PostList posts={this.state.posts} onPress={this.onItemPress} type={'announce'}/>
 
-                    <Text h4 style={styles.listHeader}>Новости</Text>
-                    <PostList posts={this.state.posts} onPress={this.onItemPress} type={'news'}/>
                     <View style={styles.buttonContainer}>
-                        <Button title={'Все новости'} icon={{name: 'web', type: 'evil-icons'}}
-                                backgroundColor={'#000'}
+                        <Text h4 style={styles.listHeader}>Новости</Text>
+                        <Button title={'Все новости'} icon={{name: 'web', type: 'evil-icons', color: '#545454'}}
+                                backgroundColor={'transparent'}
+                                color={'#545454'}
                                 buttonStyle={styles.allPostsButton}
                                 onPress={() => {
                                     this.props.navigator.push({
                                         screen: 'seminar.PostsScreen',
+                                        title: 'Новости',
                                         passProps: {
                                             type: 'news'
                                         }
                                     })
                                 }}/>
                     </View>
+                    <PostList posts={this.state.posts} onPress={this.onItemPress} type={'news'}/>
 
                     <Text h4 style={styles.listHeader}>Связаться с нами</Text>
                     <View style={styles.feedbackContainer}>
-                        <Button title={'Позвонить'} buttonStyle={styles.feedbackButton} backgroundColor={'#57d648'}
+                        <Button title={'Позвонить'} buttonStyle={styles.feedbackButton} backgroundColor={'#3d9733'}
                                 icon={{name: 'phone'}}
                                 onPress={() => {
                                     Communication.phonecall(feedbackPhone, false);
                                 }}/>
-                        <Button title={'Написать'} buttonStyle={styles.feedbackButton} backgroundColor={'#0265bd'}
+                        <Button title={'Написать'} buttonStyle={styles.feedbackButton} backgroundColor={'#47698b'}
                                 icon={{name: 'email'}}
                                 onPress={() => {
                                     Communication.email([feedbackEmail], null, null, feedbackSubject, null);
@@ -143,11 +148,12 @@ const styles = StyleSheet.create({
     },
     allPostsButton: {
         width: 180,
-        borderRadius: 5
+        borderRadius: 5,
     },
     buttonContainer: {
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
     feedbackContainer: {
         flex: 1,
@@ -155,6 +161,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     feedbackButton: {
+        paddingLeft: 20,
+        paddingRight: 20,
         borderRadius: 5
     }
 });

@@ -11,13 +11,20 @@ export default class SinglePostScreen extends Component {
         if (this.props.type === 'announce') {
             voteButtons = (
                 <View style={styles.buttonContainer}>
+                    {/*Пойду*/}
                     <TouchableOpacity>
                         <Icon name={'thumb-up'} color={'#fff'}
-                              containerStyle={[styles.button, {backgroundColor: 'green'}]}/>
+                              containerStyle={[styles.button, {backgroundColor: '#3d9733'}]}/>
                     </TouchableOpacity>
+                    {/*Счет*/}
+                    <TouchableOpacity>
+                        <Icon name={'ios-cash'} color={'#fff'} type={'ionicon'}
+                              containerStyle={[styles.button, {backgroundColor: '#47698b'}]}/>
+                    </TouchableOpacity>
+                    {/*Не пойду*/}
                     <TouchableOpacity>
                         <Icon name={'thumb-down'} color={'#fff'}
-                              containerStyle={[styles.button, {backgroundColor: 'red'}]}/>
+                              containerStyle={[styles.button, {backgroundColor: '#d40030'}]}/>
                     </TouchableOpacity>
                 </View>
             );
@@ -48,10 +55,10 @@ const styles = StyleSheet.create({
     },
     button: {
         margin: 10,
-        width: 40,
-        height: 40,
+        width: 50,
+        height: 50,
         backgroundColor: '#000',
-        borderRadius: 20
+        borderRadius: 25
     },
     browser: {
         marginTop: 10
