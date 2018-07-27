@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import Communication from 'react-native-communications';
+import firebase from 'react-native-firebase';
 
 import PostList from '../components/SummaryPostList';
 import {feedbackPhone, feedbackEmail, feedbackSubject} from '../../config';
@@ -75,6 +76,36 @@ export default class MainScreen extends Component {
 
     componentDidMount() {
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+        // Register device on FCM
+        firebase.messaging().getToken()
+            .then(fcmToken => {
+                if (fcmToken) {
+                    // user has a device token
+                    console.log(fcmToken);
+                } else {
+                    // user doesn't have a device token yet
+                    console.log('Has no token');
+                }
+            });
+        // Check permissions
+        firebase.messaging().hasPermission()
+            .then(enabled => {
+                if (enabled) {
+                    // user has permissions
+                    console.log('[Info]: Has permissions to send notifications');
+                } else {
+                    // user doesn't have permission
+                    firebase.messaging().requestPermission()
+                        .then(() => {
+                            // User has authorised
+                            console.log('[Info]: User grant permission');
+                        })
+                        .catch(error => {
+                            // User has rejected permissions
+                            console.log('[Info]: User rejected');
+                        });
+                }
+            });
     }
 
     render() {
