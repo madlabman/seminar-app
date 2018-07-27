@@ -1,0 +1,42 @@
+{
+  "is_signedUp": false,
+  "user": {
+    "name": "Name",
+    "email": "email@domain.tld"
+  },
+  "announces": [
+    {
+      "key": "1", // id
+      "date": "27-01-2018 15:00",
+      "thumbnail": {
+        "uri": "https://example.com/announce.jpg"
+      },
+      "title": "Заголовок анонса",
+      "excerpt": "Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому...",
+      "permalink": {
+        "uri": "https://example.com/link-to-announce"
+      },
+      "is_user_accept": false
+    }
+  ],
+  "recent_announces": [
+    // идентично announces
+  ],
+  "news": [
+    {
+      "key": "1", // id
+      "date": "27-01-2018 15:00",
+      "thumbnail": {
+        "uri": "https://example.com/news.jpg"
+      },
+      "title": "Заголовок новости",
+      "permalink": {
+        "uri": "https://example.com/link-to-news-post"
+      },
+      "excerpt": "Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому..."
+    }
+  ],
+  "recent_news": [
+    // идентично news
+  ]
+}
