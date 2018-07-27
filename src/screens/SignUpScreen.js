@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {StyleSheet, ScrollView, View} from 'react-native';
 import {Button, FormLabel, FormInput, FormValidationMessage, Text} from 'react-native-elements';
+
 import MaskedFormInput from '../components/MaskedFormInput';
-import {Navigation} from 'react-native-navigation';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import startMainApp from './helpers/startMainApp';
 
 export default class SignUpScreen extends Component {
 
@@ -74,29 +74,7 @@ export default class SignUpScreen extends Component {
     };
 
     submitButtonPress = () => {
-        Icon.getImageSource('bars', 30)
-            .then(icon => {
-                Navigation.startSingleScreenApp({
-                    screen: {
-                        screen: 'seminar.MainScreen',
-                        title: 'Главная',
-                        navigatorButtons: {
-                            leftButtons: [
-                                {
-                                    buttonColor: '#000',
-                                    id: 'menu-toggle',
-                                    icon,
-                                }
-                            ]
-                        }
-                    },
-                    drawer: {
-                        left: {
-                            screen: 'seminar.MenuScreen'
-                        }
-                    }
-                })
-            });
+        startMainApp();
     };
 
     render() {
