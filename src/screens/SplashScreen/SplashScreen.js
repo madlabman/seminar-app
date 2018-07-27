@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {ActivityIndicator, Image, StyleSheet, View} from 'react-native';
 
-import logo from '../../assets/img/logo-seminar.png';
-import startMainApp from './helpers/startMainApp';
+import logo from '../../../assets/img/logo-seminar.png';
+import startMainApp from '../helpers/startMainApp';
 
 export default class SplashScreen extends Component {
 

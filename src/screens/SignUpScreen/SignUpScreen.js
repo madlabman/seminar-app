@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {StyleSheet, ScrollView, View} from 'react-native';
 import {Button, FormLabel, FormInput, FormValidationMessage, Text} from 'react-native-elements';
 
-import MaskedFormInput from '../components/MaskedFormInput';
-import startMainApp from './helpers/startMainApp';
+import MaskedFormInput from '../../components/MaskedFormInput';
+import startMainApp from '../helpers/startMainApp';
 
 export default class SignUpScreen extends Component {
 

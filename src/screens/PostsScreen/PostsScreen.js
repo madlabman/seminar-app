@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
-import PostList from '../components/SummaryPostList';
+import PostList from '../../components/SummaryPostList';
 import {Text} from 'react-native-elements';
 
 export default class PostsScreen extends Component {

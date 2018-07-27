@@ -1,11 +1,11 @@
 import {Navigation} from 'react-native-navigation';
 
-import SplashScreen from './SplashScreen';
-import SignUpScreen from './SignUpScreen';
-import MainScreen from './MainScreen';
-import SinglePostScreen from './SinglePostScreen';
-import PostsScreen from './PostsScreen';
-import MenuScreen from './MenuScreen';
+import SplashScreen from './SplashScreen/SplashScreen';
+import SignUpScreen from './SignUpScreen/SignUpScreen';
+import MainScreen from './MainScreen/MainScreen';
+import SinglePostScreen from './SinglePostScreen/SinglePostScreen';
+import PostsScreen from './PostsScreen/PostsScreen';
+import MenuScreen from './MenuScreen/MenuScreen';
 
 export function registerScreens() {
     Navigation.registerComponent('seminar.SplashScreen', () => SplashScreen);

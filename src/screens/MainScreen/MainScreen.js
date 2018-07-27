@@ -4,8 +4,8 @@ import {Button, Text} from 'react-native-elements';
 import Communication from 'react-native-communications';
 import firebase from 'react-native-firebase';
 
-import PostList from '../components/SummaryPostList';
-import {feedbackPhone, feedbackEmail, feedbackSubject} from '../../config';
+import PostList from '../../components/SummaryPostList';
+import {feedbackPhone, feedbackEmail, feedbackSubject} from '../../../config/index';
 
 export default class MainScreen extends Component {
 
