@@ -1,5 +1,5 @@
 import {createStore, combineReducers, compose, applyMiddleware} from 'redux';
-import {persistStore, persistReducer, autoRehydrate} from 'redux-persist';
+import {persistStore, persistReducer} from 'redux-persist';
 import {AsyncStorage} from 'react-native';
 import {apiMiddleware} from 'redux-api-middleware';
 
@@ -11,6 +11,12 @@ const rootReducer = combineReducers({
     cities: citiesReducer
 });
 
+const persistConfig = {
+    key: 'root',
+    storage: AsyncStorage,
+};
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 let composeEnhancers = compose;
 
 if (__DEV__) {
@@ -18,10 +24,8 @@ if (__DEV__) {
 }
 
 const configureStore = () => {
-    let store = createStore(rootReducer, composeEnhancers(applyMiddleware(apiMiddleware), autoRehydrate()));
-    persistStore(store, {
-        storage: AsyncStorage
-    });
+    let store = createStore(persistedReducer, composeEnhancers(applyMiddleware(apiMiddleware)));
+    let persistenceUnit = persistStore(store);
     return store;
 };
 

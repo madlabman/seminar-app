@@ -1,3 +1,5 @@
+import { REHYDRATE } from 'redux-persist';
+
 const initialState = {
     items: [],
     fetched: 0
@@ -5,8 +7,7 @@ const initialState = {
 
 export default citiesReducer = (citiesState = initialState, action) => {
     switch (action.type) {
-        case 'persist/REHYDRATE':
-            console.warn(action);
+        case REHYDRATE:
             return {
                 ...citiesState,
                 items: action.payload.cities.items,
