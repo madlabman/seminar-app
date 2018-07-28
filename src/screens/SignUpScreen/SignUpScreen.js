@@ -4,7 +4,8 @@ import {Button, FormLabel, FormInput, FormValidationMessage, Text} from 'react-n
 import {connect} from 'react-redux';
 
 import configureStore from '../../store/store';
-import {uiStartLoading, uiStopLoading} from '../../store/actions';
+import {uiStartLoading, uiStopLoading, fetchCities} from '../../store/actions';
+
 
 import MaskedFormInput from '../../components/MaskedFormInput';
 import openUserDefinitions from '../helpers/openUserDefinitions';
@@ -71,10 +72,14 @@ class SignUpScreen extends Component {
 
     submitButtonPress = () => {
         this.props.startLoading();
-        setTimeout(() => {
-            //this.props.stopLoading();
-        }, 2000)
     };
+
+    componentDidMount() {
+        this.props.fetchCities();
+        // setTimeout(() => {
+        //     this.props.stopLoading();
+        // }, 2000)
+    }
 
     render() {
 
@@ -118,6 +123,8 @@ class SignUpScreen extends Component {
                     <Text style={styles.spacer}/>
 
                     {submitBlock}
+
+                    <Text style={{textAlign: 'center', marginTop: 20}}>Обновлений: {this.props.cities.fetched}</Text>
                 </ScrollView>
 
             </View>
@@ -140,7 +147,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        isLoading: state.ui.isLoading
+        isLoading: state.ui.isLoading,
+        cities: state.cities
     }
 };
 
@@ -148,6 +156,7 @@ const mapDispatchToProps = dispatch => {
     return {
         startLoading: () => dispatch(uiStartLoading()),
         stopLoading: () => dispatch(uiStopLoading()),
+        fetchCities: () => dispatch(fetchCities()),
     }
 };
 
