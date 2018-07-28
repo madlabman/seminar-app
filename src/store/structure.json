@@ -40,20 +40,24 @@
   "recent_news": [
     // идентично news
   ],
-  "cities": [
-    {
-      "key": "1",
-      "title": "Москва",
-      "slug": "moscow"
-    }
-  ],
-  "subjects": [
-    {
-      "key": "1",
-      "title": "Мародерство",
-      "slug": "pillage"
-    }
-  ],
+  "cities": {
+    "items": [
+      {
+        "key": "1",
+        "title": "Москва",
+        "slug": "moscow"
+      }
+    ]
+  },
+  "subjects": {
+    "items": [
+      {
+        "key": "1",
+        "title": "Мародерство",
+        "slug": "pillage"
+      }
+    ]
+  },
   "ui": {
     "isLoading": false
   }
