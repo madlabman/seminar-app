@@ -1,4 +1,6 @@
 import {createStore, combineReducers, compose, applyMiddleware} from 'redux';
+import {persistStore, persistReducer, autoRehydrate} from 'redux-persist';
+import {AsyncStorage} from 'react-native';
 
 import uiReducer from './reducers/ui';
 
@@ -13,7 +15,11 @@ if (__DEV__) {
 }
 
 const configureStore = () => {
-    return createStore(rootReducer, composeEnhancers());
+    let store = createStore(rootReducer, composeEnhancers(applyMiddleware(), autoRehydrate()));
+    persistStore(store, {
+        storage: AsyncStorage
+    });
+    return store;
 };
 
 export default configureStore;

@@ -3,6 +3,7 @@ import {ActivityIndicator, StyleSheet, ScrollView, View} from 'react-native';
 import {Button, FormLabel, FormInput, FormValidationMessage, Text} from 'react-native-elements';
 import {connect} from 'react-redux';
 
+import configureStore from '../../store/store';
 import {uiStartLoading, uiStopLoading} from '../../store/actions';
 
 import MaskedFormInput from '../../components/MaskedFormInput';
@@ -71,7 +72,7 @@ class SignUpScreen extends Component {
     submitButtonPress = () => {
         this.props.startLoading();
         setTimeout(() => {
-            this.props.stopLoading();
+            //this.props.stopLoading();
         }, 2000)
     };
 

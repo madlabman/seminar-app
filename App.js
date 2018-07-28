@@ -1,7 +1,8 @@
 import {Provider} from 'react-redux';
+import {persistStore} from 'redux-persist';
 
 import startFromSignUp from './src/screens/helpers/openSignUp';
-import startFromSplashScreen from './src/screens/helpers/openSplashScreen';
+import openSplashScreen from './src/screens/helpers/openSplashScreen';
 import {registerScreens} from './src/screens';
 import configureStore from './src/store/store';
 
@@ -10,6 +11,6 @@ export default class App {
         const store = configureStore();
         registerScreens(store, Provider);
         // Start app
-        startFromSplashScreen();
+        openSplashScreen();
     }
 }
