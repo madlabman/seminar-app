@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
-import {StyleSheet, ScrollView, View} from 'react-native';
+import {ActivityIndicator, StyleSheet, ScrollView, View} from 'react-native';
 import {Button, FormLabel, FormInput, FormValidationMessage, Text} from 'react-native-elements';
+import {connect} from 'react-redux';
+
+import {uiStartLoading, uiStopLoading} from '../../store/actions';
 
 import MaskedFormInput from '../../components/MaskedFormInput';
 import openUserDefinitions from '../helpers/openUserDefinitions';
 
-export default class SignUpScreen extends Component {
+class SignUpScreen extends Component {
 
     state = {
         inputs: {
@@ -17,7 +20,7 @@ export default class SignUpScreen extends Component {
             name: null,
             email: null,
             phone: null,
-        }
+        },
     };
 
     input = {};
@@ -66,10 +69,22 @@ export default class SignUpScreen extends Component {
     };
 
     submitButtonPress = () => {
-        openUserDefinitions();
+        this.props.startLoading();
+        setTimeout(() => {
+            this.props.stopLoading();
+        }, 2000)
     };
 
     render() {
+
+        let submitBlock = !this.props.isLoading ?
+            (
+                <Button title={'Зарегистрироваться'} backgroundColor={'#000'} onPress={this.submitButtonPress}/>
+            ) :
+            (
+                <ActivityIndicator color={'#000'}/>
+            );
+
         return (
             <View style={styles.container}>
 
@@ -78,13 +93,15 @@ export default class SignUpScreen extends Component {
                 <ScrollView>
                     <FormLabel>Имя</FormLabel>
                     <FormInput placeholder={'Введите ваше имя'}
-                               onChangeText={value => this.changeInput('name', value)}/>
+                               onChangeText={value => this.changeInput('name', value)}
+                               value={this.state.inputs.name}/>
                     <FormValidationMessage>{this.state.errors.name}</FormValidationMessage>
 
                     <FormLabel>Email</FormLabel>
                     <FormInput placeholder={'Введите ваш почтовый адрес'} keyboardType={'email-address'}
                                onChangeText={value => this.changeInput('email', value)}
-                               autoCapitalize={'none'}/>
+                               autoCapitalize={'none'}
+                               value={this.state.email}/>
                     <FormValidationMessage>{this.state.errors.email}</FormValidationMessage>
 
                     <FormLabel>Номер телефона</FormLabel>
@@ -97,9 +114,9 @@ export default class SignUpScreen extends Component {
                         mask={"+7 ([000]) [000] [00] [00]"}/>
                     <FormValidationMessage>{this.state.errors.phone}</FormValidationMessage>
 
-                    <Text style={styles.spacer}></Text>
+                    <Text style={styles.spacer}/>
 
-                    <Button title={'Зарегистрироваться'} backgroundColor={'#000'} onPress={this.submitButtonPress}/>
+                    {submitBlock}
                 </ScrollView>
 
             </View>
@@ -119,3 +136,18 @@ const styles = StyleSheet.create({
         marginTop: 10
     }
 });
+
+const mapStateToProps = state => {
+    return {
+        isLoading: state.ui.isLoading
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        startLoading: () => dispatch(uiStartLoading()),
+        stopLoading: () => dispatch(uiStopLoading()),
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen);
