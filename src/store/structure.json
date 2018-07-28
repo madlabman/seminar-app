@@ -1,9 +1,9 @@
 {
-  "is_signedUp": false,
-  "installation_id": null,
   "user": {
     "name": "Name",
-    "email": "email@domain.tld"
+    "email": "email@domain.tld",
+    "is_signedUp": false,
+    "installation_id": null
   },
   "announces": [
     {
@@ -53,5 +53,8 @@
       "title": "Мародерство",
       "slug": "pillage"
     }
-  ]
+  ],
+  "ui": {
+    "isLoading": false
+  }
 }
