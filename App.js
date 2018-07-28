@@ -1,5 +1,5 @@
-import startFromSignUp from './src/screens/helpers/startFromSignUp';
-import startFromSplashScreen from './src/screens/helpers/startFromSplashScreen';
+import startFromSignUp from './src/screens/helpers/openSignUp';
+import startFromSplashScreen from './src/screens/helpers/openSplashScreen';
 import {registerScreens} from './src/screens';
 
 export default class App {

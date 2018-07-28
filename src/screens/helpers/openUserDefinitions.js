@@ -1,9 +1,9 @@
 import {Navigation} from 'react-native-navigation';
 
-export default function startFromSignUp() {
+export default function openUserDefinitions() {
     Navigation.startSingleScreenApp({
         screen: {
-            screen: 'seminar.SignUpScreen',
+            screen: 'seminar.UserDefinitionsScreen',
             title: 'Семинар-ПРО',
         }
     });

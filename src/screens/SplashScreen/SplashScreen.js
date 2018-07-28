@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import {ActivityIndicator, Image, StyleSheet, View} from 'react-native';
 
 import logo from '../../../assets/img/logo-seminar.png';
-import startMainApp from '../helpers/startMainApp';
+import startMainApp from '../helpers/openMainApp';
+import openSignUp from '../helpers/openSignUp';
 
 export default class SplashScreen extends Component {
 
     componentDidMount() {
         console.log('Starting loading application...');
-        startMainApp();
+        openSignUp();
     }
 
     render() {

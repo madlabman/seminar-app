@@ -3,7 +3,7 @@ import {StyleSheet, ScrollView, View} from 'react-native';
 import {Button, FormLabel, FormInput, FormValidationMessage, Text} from 'react-native-elements';
 
 import MaskedFormInput from '../../components/MaskedFormInput';
-import startMainApp from '../helpers/startMainApp';
+import openUserDefinitions from '../helpers/openUserDefinitions';
 
 export default class SignUpScreen extends Component {
 
@@ -34,23 +34,15 @@ export default class SignUpScreen extends Component {
         });
 
         // Validate data
-
         // All fields required
         if (value.trim() === '') this.setError(key, 'Поле обязательно для заполнения!');
         else this.setError(key, null);
 
         switch (key) {
-            case 'name':
-                this.validateUsername(value);
-                break;
             case 'email':
                 this.validateEmail(value);
                 break;
         }
-    };
-
-    validateUsername = value => {
-
     };
 
     validateEmail = value => {
@@ -74,7 +66,7 @@ export default class SignUpScreen extends Component {
     };
 
     submitButtonPress = () => {
-        startMainApp();
+        openUserDefinitions();
     };
 
     render() {

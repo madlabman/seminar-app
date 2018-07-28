@@ -1,7 +1,7 @@
 import {Navigation} from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function startMainApp() {
+export default function openMainApp() {
     Icon.getImageSource('bars', 30)
         .then(icon => {
             Navigation.startSingleScreenApp({
