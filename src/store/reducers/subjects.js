@@ -1,4 +1,4 @@
-import {RECEIVE_CITIES, REQUEST_CITIES} from '../actions/actionTypes';
+import {RECEIVE_SUBJECTS, REQUEST_SUBJECTS} from '../actions/actionTypes';
 
 const initialState = {
     items: [],
@@ -6,16 +6,16 @@ const initialState = {
     isLoading: false
 };
 
-export const citiesReducer = (citiesState = initialState, action) => {
+export const subjectsReducer = (subjectsState = initialState, action) => {
     switch (action.type) {
-        case REQUEST_CITIES:
+        case REQUEST_SUBJECTS:
             return {
-                ...citiesState,
+                ...subjectsState,
                 isLoading: true
             };
-        case RECEIVE_CITIES:
+        case RECEIVE_SUBJECTS:
             return {
-                ...citiesState,
+                ...subjectsState,
                 items: action.payload.map(item => {
                     return {
                         key: item.id,
@@ -23,9 +23,8 @@ export const citiesReducer = (citiesState = initialState, action) => {
                         name: item.name
                     }
                 }),
-                updatedAt: Date.now(),
-                isLoading: false
+                updatedAt: Date.now()
             };
-        default: return citiesState;
+        default: return subjectsState;
     }
 };

@@ -8,6 +8,7 @@ const initialState = {
     email: null,
     installation_id: null,
     isSignedUp: false,
+    isSetupCompleted: false,
     isProcessRequest: false,
     errors: []
 };

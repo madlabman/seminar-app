@@ -4,13 +4,20 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import {AsyncStorage} from 'react-native';
 import {apiMiddleware} from 'redux-api-middleware';
 
-import {uiReducer, citiesReducer, userReducer, debugReducer} from './reducers';
+import {
+    uiReducer,
+    citiesReducer,
+    subjectsReducer,
+    userReducer,
+    debugReducer
+} from './reducers';
 
 const rootReducer = combineReducers({
     debug: debugReducer,
     ui: uiReducer,
     user: userReducer,
-    cities: citiesReducer
+    cities: citiesReducer,
+    subjects: subjectsReducer,
 });
 
 const persistConfig = {
@@ -30,5 +37,5 @@ if (__DEV__) {
 export default () => {
     let store = createStore(persistedReducer, composeEnhancers(applyMiddleware(apiMiddleware)));
     let persistor = persistStore(store);
-    return { store, persistor }
+    return {store, persistor}
 }

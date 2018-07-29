@@ -7,6 +7,11 @@ export const REQUEST_CITIES = 'REQUEST_CITIES';
 export const RECEIVE_CITIES = 'RECEIVE_CITIES';
 export const FAIL_GET_CITIES = 'FAIL_GET_CITIES';
 
+// Subjects
+export const REQUEST_SUBJECTS = 'REQUEST_SUBJECTS';
+export const RECEIVE_SUBJECTS = 'RECEIVE_SUBJECTS';
+export const FAIL_GET_SUBJECTS = 'FAIL_GET_SUBJECTS';
+
 // Users
 export const REQUEST_USER = 'REQUEST_USER';
 export const RECEIVE_USER = 'RECEIVE_USER';

@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Button, CheckBox, Text} from 'react-native-elements';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {Button, CheckBox, Divider, Text} from 'react-native-elements';
+import {connect} from 'react-redux';
 
 import openMainApp from '../helpers/openMainApp';
 
-export default class UserDefinitionsScreen extends Component {
+class UserDefinitionsScreen extends Component {
 
     state = {
         checked: false
@@ -24,37 +25,57 @@ export default class UserDefinitionsScreen extends Component {
     };
 
     render() {
+
+        let cities = this.props.isCitiesLoading ?
+            (
+                <ActivityIndicator color={'#000'} />
+            ) :
+            (
+                <View>
+                    <CheckBox
+                        title='Астрахань'
+                        checked={this.state.checked}
+                        onPress={this.handleCheckboxPress}
+                    />
+                    <CheckBox
+                        title='Москва'
+                        checked={this.state.checked}
+                        onPress={this.handleCheckboxPress}
+                    />
+                </View>
+            );
+
+        let subjects = this.props.isSubjectsLoading ?
+            (
+                <ActivityIndicator color={'#000'} />
+            ) :
+            (
+                <View>
+                    <CheckBox
+                        title='Рыбная ловля'
+                        checked={this.state.checked}
+                        onPress={this.handleCheckboxPress}
+                    />
+                    <CheckBox
+                        title='Карпы'
+                        checked={this.state.checked}
+                        onPress={this.handleCheckboxPress}
+                    />
+                </View>
+            );
+
         return (
             <View>
 
                 <Text style={styles.title}>Выберите интересующие вас города и тематики</Text>
 
                 <Text style={styles.sectionTitle}>Города</Text>
-
-                <CheckBox
-                    title='Астрахань'
-                    checked={this.state.checked}
-                    onPress={this.handleCheckboxPress}
-                />
-                <CheckBox
-                    title='Москва'
-                    checked={this.state.checked}
-                    onPress={this.handleCheckboxPress}
-                />
+                {cities}
 
                 <View style={styles.spacer}/>
 
                 <Text style={styles.sectionTitle}>Тематики</Text>
-                <CheckBox
-                    title='Рыбная ловля'
-                    checked={this.state.checked}
-                    onPress={this.handleCheckboxPress}
-                />
-                <CheckBox
-                    title='Карпы'
-                    checked={this.state.checked}
-                    onPress={this.handleCheckboxPress}
-                />
+                {subjects}
 
                 <Button title={'Продолжить'} backgroundColor={'transparent'} textStyle={{color: '#000'}}
                         onPress={this.handleSubmitButton}/>
@@ -78,3 +99,12 @@ const styles = StyleSheet.create({
         height: 10
     }
 });
+
+const mapStateToProps = state => {
+    return {
+        isCitiesLoading: state.cities.isLoading,
+        isSubjectsLoading: state.subjects.isLoading
+    }
+};
+
+export default connect(mapStateToProps)(UserDefinitionsScreen);

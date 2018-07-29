@@ -68,8 +68,17 @@ class SignUpScreen extends Component {
     };
 
     submitButtonPress = () => {
-        this.props.signUp(this.state.inputs);
+        let hasError = false;
+        Object.keys(this.state.errors).forEach(key => {
+            if (this.state.errors[key] !== null) hasError = true;
+        });
+        if (!hasError) this.props.signUp(this.state.inputs);
     };
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.isSignedUp) openUserDefinitions();
+        return state;
+    }
 
     render() {
 
@@ -141,7 +150,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        isLoading: state.user.is_process_request,
+        isSignedUp: state.user.isSignedUp,
+        isLoading: state.user.isProcessRequest,
         errors: state.user.errors
     }
 };
