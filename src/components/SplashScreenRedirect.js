@@ -21,7 +21,8 @@ class SplashScreenRedirect extends Component {
 
 const mapStateToProps = state => {
     return {
-        isSignedUp: state.user.isSignedUp
+        isSignedUp: state.user.isSignedUp,
+        isSetupCompleted: state.user.isSetupCompleted
     }
 };
 
