@@ -26,6 +26,7 @@ export const citiesReducer = (citiesState = initialState, action) => {
                 updatedAt: Date.now(),
                 isLoading: false
             };
-        default: return citiesState;
+        default:
+            return citiesState;
     }
 };

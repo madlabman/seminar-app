@@ -23,7 +23,8 @@ export const subjectsReducer = (subjectsState = initialState, action) => {
                         name: item.name
                     }
                 }),
-                updatedAt: Date.now()
+                updatedAt: Date.now(),
+                isLoading: false
             };
         default: return subjectsState;
     }

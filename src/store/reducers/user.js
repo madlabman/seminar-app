@@ -1,12 +1,19 @@
 import {persistReducer} from 'redux-persist';
 import {AsyncStorage} from 'react-native';
 
-import {RECEIVE_SIGN_UP, RECEIVE_USER, REQUEST_SIGN_UP, REQUEST_USER} from '../actions/actionTypes';
+import {
+    RECEIVE_SIGN_UP,
+    RECEIVE_USER,
+    RECEIVE_USER_UPDATE,
+    REQUEST_SIGN_UP,
+    REQUEST_USER,
+    REQUEST_USER_UPDATE
+} from '../actions/actionTypes';
 
 const initialState = {
     name: null,
     email: null,
-    installation_id: null,
+    installationId: null,
     isSignedUp: false,
     isSetupCompleted: false,
     isProcessRequest: false,
@@ -17,6 +24,7 @@ const userReducer = (userState = initialState, action) => {
     switch (action.type) {
         case REQUEST_USER:
         case REQUEST_SIGN_UP:
+        case REQUEST_USER_UPDATE:
             return {
                 ...userState,
                 isProcessRequest: true
@@ -29,16 +37,37 @@ const userReducer = (userState = initialState, action) => {
             };
         case RECEIVE_SIGN_UP: {
             let returnState = {
-                installation_id: userState.installation_id,
-                isSignedUp: false,
+                ...userState,
                 errors: []
             };
-
             if (action.payload) {
                 if (action.payload.success === true) {
-                    returnState.installation_id = action.payload.data.installation_id;
+                    returnState.installationId = action.payload.data.installation_id;
                     returnState.isSignedUp = true;
-                } else {
+                } else if (action.payload.data !== undefined) {
+                    Object.keys(action.payload.data).forEach((key) => {
+                        returnState.errors.push(action.payload.data[key]);
+                    })
+                }
+            } else {
+                returnState.errors = ['Ошибка сервера, повторите позднее!'];
+            }
+
+            return {
+                ...userState,
+                ...returnState,
+                isProcessRequest: false
+            };
+        }
+        case RECEIVE_USER_UPDATE: {
+            let returnState = {
+                ...userState,
+                errors: []
+            };
+            if (action.payload) {
+                if (action.payload.success === true) {
+                    returnState.isSetupCompleted = true;
+                } else if (action.payload.data !== undefined) {
                     Object.keys(action.payload.data).forEach((key) => {
                         returnState.errors.push(action.payload.data[key]);
                     })

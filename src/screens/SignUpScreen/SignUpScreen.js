@@ -75,6 +75,7 @@ class SignUpScreen extends Component {
         if (!hasError) this.props.signUp(this.state.inputs);
     };
 
+    // TODO: change behavior
     static getDerivedStateFromProps(props, state) {
         if (props.isSignedUp) openUserDefinitions();
         return state;
@@ -82,9 +83,9 @@ class SignUpScreen extends Component {
 
     render() {
 
-        let errors = this.props.errors.map(item => {
+        let errors = this.props.errors.map((item, index) => {
             return (
-                <FormValidationMessage>{item}</FormValidationMessage>
+                <FormValidationMessage key={index}>{item}</FormValidationMessage>
             )
         });
 
@@ -124,8 +125,10 @@ class SignUpScreen extends Component {
 
                     <Button title={'Зарегистрироваться'}
                             backgroundColor={'#000'}
+                            disabledStyle={{backgroundColor: '#888'}}
                             onPress={this.submitButtonPress}
                             loading={this.props.isLoading}
+                            disabled={this.props.isLoading}
                     />
 
                 </ScrollView>
