@@ -4,7 +4,7 @@ const initialState = {
     isLoading: false
 };
 
-export default uiReducer = (uiState = initialState, action) => {
+export const uiReducer = (uiState = initialState, action) => {
     switch (action.type) {
         case UI_IS_LOADING:
             return {
@@ -19,4 +19,4 @@ export default uiReducer = (uiState = initialState, action) => {
         default:
             return uiState;
     }
-}
+};

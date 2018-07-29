@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, StyleSheet, ScrollView, View} from 'react-native';
+import {StyleSheet, ScrollView, View} from 'react-native';
 import {Button, FormLabel, FormInput, FormValidationMessage, Text} from 'react-native-elements';
 import {connect} from 'react-redux';
 
-import configureStore from '../../store/store';
-import {uiStartLoading, uiStopLoading, fetchCities} from '../../store/actions';
+import {signUp} from '../../store/actions';
 
 
 import MaskedFormInput from '../../components/MaskedFormInput';
@@ -14,18 +13,16 @@ class SignUpScreen extends Component {
 
     state = {
         inputs: {
-            name: '',
+            first_name: '',
             email: '',
             phone: '',
         },
         errors: {
-            name: null,
+            first_name: null,
             email: null,
             phone: null,
         },
     };
-
-    input = {};
 
     changeInput = (key, value) => {
         this.setState(prevState => {
@@ -71,25 +68,16 @@ class SignUpScreen extends Component {
     };
 
     submitButtonPress = () => {
-        this.props.startLoading();
+        this.props.signUp(this.state.inputs);
     };
-
-    componentDidMount() {
-        this.props.fetchCities();
-        // setTimeout(() => {
-        //     this.props.stopLoading();
-        // }, 2000)
-    }
 
     render() {
 
-        let submitBlock = !this.props.isLoading ?
-            (
-                <Button title={'Зарегистрироваться'} backgroundColor={'#000'} onPress={this.submitButtonPress}/>
-            ) :
-            (
-                <ActivityIndicator color={'#000'}/>
-            );
+        let errors = this.props.errors.map(item => {
+            return (
+                <FormValidationMessage>{item}</FormValidationMessage>
+            )
+        });
 
         return (
             <View style={styles.container}>
@@ -97,11 +85,14 @@ class SignUpScreen extends Component {
                 <Text h4 style={styles.header}>Введите данные, чтобы продолжить</Text>
 
                 <ScrollView>
+
+                    {errors}
+
                     <FormLabel>Имя</FormLabel>
                     <FormInput placeholder={'Введите ваше имя'}
-                               onChangeText={value => this.changeInput('name', value)}
-                               value={this.state.inputs.name}/>
-                    <FormValidationMessage>{this.state.errors.name}</FormValidationMessage>
+                               onChangeText={value => this.changeInput('first_name', value)}
+                               value={this.state.inputs.first_name}/>
+                    <FormValidationMessage>{this.state.errors.first_name}</FormValidationMessage>
 
                     <FormLabel>Email</FormLabel>
                     <FormInput placeholder={'Введите ваш почтовый адрес'} keyboardType={'email-address'}
@@ -122,9 +113,12 @@ class SignUpScreen extends Component {
 
                     <Text style={styles.spacer}/>
 
-                    {submitBlock}
+                    <Button title={'Зарегистрироваться'}
+                            backgroundColor={'#000'}
+                            onPress={this.submitButtonPress}
+                            loading={this.props.isLoading}
+                    />
 
-                    <Text style={{textAlign: 'center', marginTop: 20}}>Обновлений: {this.props.cities.fetched}</Text>
                 </ScrollView>
 
             </View>
@@ -147,16 +141,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        isLoading: state.ui.isLoading,
-        cities: state.cities
+        isLoading: state.user.is_process_request,
+        errors: state.user.errors
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        startLoading: () => dispatch(uiStartLoading()),
-        stopLoading: () => dispatch(uiStopLoading()),
-        fetchCities: () => dispatch(fetchCities()),
+        signUp: data => dispatch(signUp(data)),
     }
 };
 

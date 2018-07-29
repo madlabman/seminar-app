@@ -1,19 +1,13 @@
-import { REHYDRATE } from 'redux-persist';
+import {RECEIVE_CITIES} from '../actions/actionTypes';
 
 const initialState = {
     items: [],
-    fetched: 0
+    updated_at: null
 };
 
-export default citiesReducer = (citiesState = initialState, action) => {
+export const citiesReducer = (citiesState = initialState, action) => {
     switch (action.type) {
-        case REHYDRATE:
-            return {
-                ...citiesState,
-                items: action.payload.cities.items,
-                fetched: action.payload.cities.fetched
-            };
-        case 'RECEIVE_CITIES':
+        case RECEIVE_CITIES:
             return {
                 ...citiesState,
                 items: action.payload.map(item => {
@@ -23,11 +17,8 @@ export default citiesReducer = (citiesState = initialState, action) => {
                         name: item.name
                     }
                 }),
-                fetched: citiesState.fetched + 1
+                updated_at: Date.now()
             };
-        default:
-            return {
-                ...citiesState
-            }
+        default: return citiesState;
     }
-}
+};

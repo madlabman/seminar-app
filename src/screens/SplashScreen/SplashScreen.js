@@ -1,36 +1,18 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, Image, StyleSheet, View} from 'react-native';
+import {PersistGate} from 'redux-persist/integration/react';
+import {Provider} from 'react-redux';
 
-import logo from '../../../assets/img/logo-seminar.png';
-import startMainApp from '../helpers/openMainApp';
-import openSignUp from '../helpers/openSignUp';
+import AppLoading from '../../components/AppLoading';
+import SplashScreenRedirect from '../../components/SplashScreenRedirect';
 
 export default class SplashScreen extends Component {
-
-    componentDidMount() {
-        console.log('Starting loading application...');
-        openSignUp();
-    }
-
     render() {
         return (
-            <View style={styles.container}>
-                <Image source={logo} style={styles.logo}/>
-                <ActivityIndicator size='small' color='#545454' />
-            </View>
+            <PersistGate loading={<AppLoading/>} persistor={this.props.persistor}>
+                <Provider store={this.props.store}>
+                    <SplashScreenRedirect />
+                </Provider>
+            </PersistGate>
         )
     }
 }
-
-const styles = StyleSheet.create({
-    logo: {
-        width: 146,
-        height: 24,
-        marginBottom: 20
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-});
