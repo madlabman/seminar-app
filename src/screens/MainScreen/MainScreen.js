@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     container: {
-        marginBottom: 30
+        //
     },
     allPostsButton: {
         width: 180,
@@ -189,7 +189,8 @@ const styles = StyleSheet.create({
     feedbackContainer: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        paddingBottom: 30
     },
     feedbackButton: {
         paddingLeft: 20,
