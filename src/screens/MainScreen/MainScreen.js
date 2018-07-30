@@ -5,6 +5,7 @@ import Communication from 'react-native-communications';
 import firebase from 'react-native-firebase';
 
 import PostList from '../../components/SummaryPostList';
+import MainSlider from '../../components/MainSlider/MainSlider';
 import {feedbackPhone, feedbackEmail, feedbackSubject} from '../../../config/index';
 
 export default class MainScreen extends Component {
@@ -54,6 +55,20 @@ export default class MainScreen extends Component {
                 title: 'Заголовок 4',
                 excerpt: 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому...'
             },
+        ],
+        slides: [
+            {
+                title: 'Скриншот из игры. Описание по ссылке.',
+                image: {
+                    uri: 'https://images.alphacoders.com/109/109601.jpg'
+                }
+            },
+            {
+                title: 'А это скриншот из одноименного фильма.',
+                image: {
+                    uri: 'https://www.slantmagazine.com/images/made/assets/film/alienvspredatorrequiem_1130_430_90_s_c1.jpg'
+                }
+            }
         ]
     };
 
@@ -112,6 +127,8 @@ export default class MainScreen extends Component {
         return (
             <View>
                 <ScrollView style={styles.container}>
+
+                    <MainSlider slides={this.state.slides}/>
 
                     <View style={styles.buttonContainer}>
                         <Text h4 style={styles.listHeader}>Анонсы</Text>

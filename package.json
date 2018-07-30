@@ -16,6 +16,7 @@
     "react-native-elements": "^0.19.1",
     "react-native-firebase": "^4.3.8",
     "react-native-navigation": "^1.1.478",
+    "react-native-snap-carousel": "^3.7.2",
     "react-native-text-input-mask": "^0.7.0",
     "react-native-vector-icons": "^4.6.0",
     "react-redux": "^5.0.7",
