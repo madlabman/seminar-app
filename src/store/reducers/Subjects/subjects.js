@@ -1,4 +1,4 @@
-import {RECEIVE_SUBJECTS, REQUEST_SUBJECTS} from '../actions/actionTypes';
+import {RECEIVE_SUBJECTS, REQUEST_SUBJECTS} from '../../actions/actionTypes';
 
 const initialState = {
     items: [],
