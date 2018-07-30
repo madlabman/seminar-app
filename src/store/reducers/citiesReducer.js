@@ -1,4 +1,4 @@
-import {RECEIVE_CITIES, REQUEST_CITIES} from '../../actions/actionTypes';
+import {RECEIVE_CITIES, REQUEST_CITIES} from '../actions/actionTypes';
 
 const initialState = {
     items: [],

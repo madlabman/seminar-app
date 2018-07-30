@@ -3,12 +3,14 @@ import {ScrollView, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import Communication from 'react-native-communications';
 import firebase from 'react-native-firebase';
+import {connect} from 'react-redux';
 
 import PostList from '../../components/SummaryPostList';
 import MainSlider from '../../components/MainSlider/MainSlider';
-import {feedbackPhone, feedbackEmail, feedbackSubject} from '../../../config/index';
+import {FEEDBACK_PHONE, FEEDBACK_EMAIL, FEEDBACK_SUBJECT} from '../../../config/index';
+import {setCurrentAnnounce} from '../../store/actions';
 
-export default class MainScreen extends Component {
+class MainScreen extends Component {
 
     static navigatorStyle = {
         navBarTitleTextCentered: true,
@@ -16,46 +18,6 @@ export default class MainScreen extends Component {
     };
 
     state = {
-        posts: [
-            {
-                key: '1',
-                thumbnail: {
-                    uri: 'https://images.pexels.com/photos/34950/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
-                },
-                title: 'Охрана труда – 2018: что изменилось и что еще ждет впереди',
-                excerpt: 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому...',
-                permalink: {
-                    uri: 'http://seminar-pro.ru/announces/volgograd-2-avgusta-2018-goda-seminar-po-oxrane-truda-oxrana-truda-2018-chto-izmenilos-i-chto-eshhe-zhdet-vperedi/',
-                }
-            },
-            {
-                key: '2',
-                thumbnail: {
-                    uri: 'https://images.pexels.com/photos/217114/pexels-photo-217114.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
-                },
-                title: 'Заголовок 2',
-                excerpt: 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому...',
-                permalink: {
-                    uri: 'http://seminar-pro.ru/archive/28-maya-2018-goda-v-gorode-volgograd-sostoyalsya-buxgalterskij-seminar-nalogovyj-kontrol-v-2018-godu-novye-trendy-sposoby-zashhity-interesov-nalogoplatelshhika-2/',
-                }
-            },
-            {
-                key: '3',
-                thumbnail: {
-                    uri: 'https://images.pexels.com/photos/36985/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
-                },
-                title: 'Заголовок 3',
-                excerpt: 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому...'
-            },
-            {
-                key: '4',
-                thumbnail: {
-                    uri: 'https://images.pexels.com/photos/108792/pexels-photo-108792.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
-                },
-                title: 'Заголовок 4',
-                excerpt: 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому...'
-            },
-        ],
         slides: [
             {
                 title: 'Скриншот из игры. Описание по ссылке.',
@@ -125,7 +87,7 @@ export default class MainScreen extends Component {
 
     render() {
         return (
-            <View>
+            <View style={styles.page}>
                 <ScrollView style={styles.container}>
 
                     <MainSlider slides={this.state.slides}/>
@@ -141,12 +103,13 @@ export default class MainScreen extends Component {
                                         screen: 'seminar.PostsScreen',
                                         title: 'Анонсы',
                                         passProps: {
-                                            type: 'announce'
+                                            type: 'announce',
+                                            posts: this.props.announces
                                         }
                                     })
                                 }}/>
                     </View>
-                    <PostList posts={this.state.posts} onPress={this.onItemPress} type={'announce'}/>
+                    <PostList posts={this.props.announces} onPress={this.onItemPress} type={'announce'}/>
 
                     <View style={styles.buttonContainer}>
                         <Text h4 style={styles.listHeader}>Новости</Text>
@@ -159,24 +122,25 @@ export default class MainScreen extends Component {
                                         screen: 'seminar.PostsScreen',
                                         title: 'Новости',
                                         passProps: {
-                                            type: 'news'
+                                            type: 'news',
+                                            posts: this.props.news
                                         }
                                     })
                                 }}/>
                     </View>
-                    <PostList posts={this.state.posts} onPress={this.onItemPress} type={'news'}/>
+                    <PostList posts={this.props.news} onPress={this.onItemPress} type={'news'}/>
 
                     <Text h4 style={styles.listHeader}>Связаться с нами</Text>
                     <View style={styles.feedbackContainer}>
                         <Button title={'Позвонить'} buttonStyle={styles.feedbackButton} backgroundColor={'#3d9733'}
                                 icon={{name: 'phone'}}
                                 onPress={() => {
-                                    Communication.phonecall(feedbackPhone, false);
+                                    Communication.phonecall(FEEDBACK_PHONE, false);
                                 }}/>
                         <Button title={'Написать'} buttonStyle={styles.feedbackButton} backgroundColor={'#47698b'}
                                 icon={{name: 'email'}}
                                 onPress={() => {
-                                    Communication.email([feedbackEmail], null, null, feedbackSubject, null);
+                                    Communication.email([FEEDBACK_EMAIL], null, null, FEEDBACK_SUBJECT, null);
                                 }}/>
                     </View>
 
@@ -190,6 +154,9 @@ const styles = StyleSheet.create({
     listHeader: {
         margin: 15,
         textAlign: 'center'
+    },
+    page: {
+        flex: 1
     },
     container: {
         marginBottom: 30
@@ -214,3 +181,18 @@ const styles = StyleSheet.create({
         borderRadius: 5
     }
 });
+
+const mapStateToProps = state => {
+    return {
+        announces: state.announces.recentItems,
+        news: state.announces.recentItems
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setCurrentAnnounce: post => setCurrentAnnounce(post)
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);

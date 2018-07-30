@@ -9,7 +9,9 @@ import {
     citiesReducer,
     subjectsReducer,
     userReducer,
-    debugReducer
+    debugReducer,
+    announcesReducer,
+    newsReducer
 } from './reducers';
 
 const rootReducer = combineReducers({
@@ -18,6 +20,8 @@ const rootReducer = combineReducers({
     user: userReducer,
     cities: citiesReducer,
     subjects: subjectsReducer,
+    announces: announcesReducer,
+    news: newsReducer
 });
 
 const persistConfig = {

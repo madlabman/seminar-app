@@ -1,6 +1,8 @@
-export {uiReducer} from './UI/ui';
-export {citiesReducer} from './Cities/cities';
-export {subjectsReducer} from './Subjects/subjects';
-export userReducer from './User/user';
+export {uiReducer} from './uiReducer';
+export {citiesReducer} from './citiesReducer';
+export {subjectsReducer} from './subjectsReducer';
+export userReducer from './userReducer';
+export {announcesReducer} from './announcesReducer';
+export {newsReducer} from './newsReducer';
 
-export {debugReducer} from './Debug/debug';
+export {debugReducer} from './debugReducer';

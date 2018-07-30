@@ -11,8 +11,8 @@ import UserDefinitionsScreen from './UserDefinitionsScreen/UserDefinitionsScreen
 export function registerScreens(store, provider) {
     Navigation.registerComponent('seminar.SplashScreen', () => SplashScreen);
     Navigation.registerComponent('seminar.SignUpScreen', () => SignUpScreen, store, provider);
-    Navigation.registerComponent('seminar.MainScreen', () => MainScreen);
-    Navigation.registerComponent('seminar.SinglePostScreen', () => SinglePostScreen);
+    Navigation.registerComponent('seminar.MainScreen', () => MainScreen, store, provider);
+    Navigation.registerComponent('seminar.SinglePostScreen', () => SinglePostScreen, store, provider);
     Navigation.registerComponent('seminar.PostsScreen', () => PostsScreen);
     Navigation.registerComponent('seminar.MenuScreen', () => MenuScreen);
     Navigation.registerComponent('seminar.UserDefinitionsScreen', () => UserDefinitionsScreen, store, provider);

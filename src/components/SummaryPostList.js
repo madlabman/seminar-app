@@ -5,8 +5,9 @@ import {Icon, Text} from 'react-native-elements';
 
 export default class SummaryPostList extends Component {
     render() {
-        return (
-            <View>
+
+        const postList = this.props.posts.length ?
+            (
                 <FlatList
                     data={this.props.posts}
                     renderItem={
@@ -30,7 +31,13 @@ export default class SummaryPostList extends Component {
                     }
                     {...this.props}
                 />
-            </View>
+            ) :
+            (
+                <Text style={styles.infoText}>Нет записей!</Text>
+            );
+
+        return (
+            <View>{postList}</View>
         );
     }
 }
@@ -67,5 +74,8 @@ const styles = StyleSheet.create({
     dateContainer: {
         flexDirection: 'row',
         alignItems: 'center'
+    },
+    infoText: {
+        textAlign: 'center'
     }
 });

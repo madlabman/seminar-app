@@ -1,4 +1,4 @@
-import {DEBUG_INCREMENT} from '../../actions/actionTypes';
+import {DEBUG_INCREMENT} from '../actions/actionTypes';
 
 const initialState = {
     open_count: 0

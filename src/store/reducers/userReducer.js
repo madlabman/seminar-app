@@ -8,7 +8,7 @@ import {
     REQUEST_SIGN_UP,
     REQUEST_USER,
     REQUEST_USER_UPDATE
-} from '../../actions/actionTypes';
+} from '../actions/actionTypes';
 
 const initialState = {
     name: null,

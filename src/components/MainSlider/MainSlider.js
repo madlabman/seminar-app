@@ -41,7 +41,7 @@ export default class MainSlider extends Component {
                 <Pagination
                     dotsLength={this.props.slides.length}
                     activeDotIndex={this.state.activeSlide}
-                    containerStyle={{ backgroundColor: 'transparent', paddingVertical: 0 }}
+                    containerStyle={styles.pagination}
                     dotStyle={{
                         width: 10,
                         height: 10,
@@ -72,5 +72,10 @@ const styles = StyleSheet.create({
     image: {
         width: Dimensions.get('window').width,
         height: 200
+    },
+    pagination: {
+        backgroundColor: 'transparent',
+        paddingVertical: 0,
+        marginBottom: 20
     }
 });

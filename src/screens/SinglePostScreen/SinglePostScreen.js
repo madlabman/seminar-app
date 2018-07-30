@@ -1,9 +1,20 @@
 import React, {Component} from 'react';
-import {StyleSheet, TouchableOpacity, View, WebView} from 'react-native';
+import {StyleSheet, View, WebView} from 'react-native';
 import {CachedImage} from 'react-native-cached-image';
-import {Icon, Text} from 'react-native-elements';
+import {Text} from 'react-native-elements';
+import {connect} from 'react-redux';
 
-export default class SinglePostScreen extends Component {
+import TouchableIcon from '../../components/TouchableIcon/TouchableIcon';
+
+class SinglePostScreen extends Component {
+
+    state = {
+        relation: null
+    };
+
+    handlePressIcon = relation => {
+
+    };
 
     render() {
 
@@ -12,27 +23,43 @@ export default class SinglePostScreen extends Component {
             voteButtons = (
                 <View style={styles.buttonContainer}>
                     {/*Пойду*/}
-                    <TouchableOpacity>
-                        <Icon name={'thumb-up'} color={'#fff'}
-                              containerStyle={[styles.button, {backgroundColor: '#3d9733'}]}/>
-                    </TouchableOpacity>
+                    <TouchableIcon
+                        name={'thumb-up'}
+                        color={'#000'}
+                        active={this.props.currentAnnounce.relation === 'yes'}
+                        activeColor={'#fff'}
+                        activeStyle={{backgroundColor: '#3d9733'}}
+                        onPress={() => this.handlePressIcon('yes')}
+                        isLoading={this.props.isLoading}
+                    />
                     {/*Счет*/}
-                    <TouchableOpacity>
-                        <Icon name={'ios-cash'} color={'#fff'} type={'ionicon'}
-                              containerStyle={[styles.button, {backgroundColor: '#47698b'}]}/>
-                    </TouchableOpacity>
+                    <TouchableIcon
+                        name={'ios-cash'}
+                        type={'ionicon'}
+                        color={'#000'}
+                        active={false}
+                        activeColor={'#fff'}
+                        activeStyle={{backgroundColor: '#47698b'}}
+                        onPress={() => console.warn('checkout')}
+                        isLoading={this.props.isLoading}
+                    />
                     {/*Не пойду*/}
-                    <TouchableOpacity>
-                        <Icon name={'thumb-down'} color={'#fff'}
-                              containerStyle={[styles.button, {backgroundColor: '#d40030'}]}/>
-                    </TouchableOpacity>
+                    <TouchableIcon
+                        name={'thumb-down'}
+                        color={'#000'}
+                        active={this.props.currentAnnounce.relation === 'no'}
+                        activeColor={'#fff'}
+                        activeStyle={{backgroundColor: '#d40030'}}
+                        onPress={() => this.handlePressIcon('yes')}
+                        isLoading={this.props.isLoading}
+                    />
                 </View>
             );
         }
 
         return (
             <View style={styles.container}>
-                <Text h4 style={styles.title}>{this.props.item.title}</Text>
+                <Text style={styles.title}>{this.props.item.title}</Text>
                 {voteButtons}
                 <WebView source={this.props.item.permalink} style={styles.browser}/>
             </View>
@@ -43,7 +70,8 @@ export default class SinglePostScreen extends Component {
 
 const styles = StyleSheet.create({
     title: {
-        marginTop: 20,
+        margin: 20,
+        fontSize: 16,
         textAlign: 'center'
     },
     container: {
@@ -53,14 +81,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center'
     },
-    button: {
-        margin: 10,
-        width: 50,
-        height: 50,
-        backgroundColor: '#000',
-        borderRadius: 25
-    },
     browser: {
         marginTop: 10
     }
 });
+
+const mapStateToProps = state => {
+    return {
+        isLoading: state.user.isLoading,
+        currentAnnounce: state.announces.currentPost,
+        currentNewsPost: state.news.currentPost,
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+
+    }
+};
+
+export default connect(mapStateToProps)(SinglePostScreen)
