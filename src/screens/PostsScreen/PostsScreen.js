@@ -21,8 +21,7 @@ export default class PostsScreen extends Component {
     render() {
         return (
             <View>
-                <PostList posts={this.props.posts} onPress={this.onAnnouncePress} refreshing={this.state.refreshing}/>
-                <Text>Здесь будет происходить вывод записей, сохраненных в сторе с запросом обновлений при каждом открытии</Text>
+                <PostList posts={this.props.posts} onPress={this.onAnnouncePress} isLoading={this.state.refreshing}/>
             </View>
         );
     }

@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import PostList from '../../components/SummaryPostList';
 import MainSlider from '../../components/MainSlider/MainSlider';
 import {FEEDBACK_PHONE, FEEDBACK_EMAIL, FEEDBACK_SUBJECT} from '../../../config/index';
-import {setCurrentAnnounce} from '../../store/actions';
+import {setCurrentAnnounce, fetchAnnounces} from '../../store/actions';
 
 class MainScreen extends Component {
 
@@ -53,6 +53,7 @@ class MainScreen extends Component {
 
     componentDidMount() {
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+
         // Register device on FCM
         firebase.messaging().getToken()
             .then(fcmToken => {
@@ -64,6 +65,7 @@ class MainScreen extends Component {
                     console.log('Has no token');
                 }
             });
+
         // Check permissions
         firebase.messaging().hasPermission()
             .then(enabled => {
@@ -83,6 +85,11 @@ class MainScreen extends Component {
                         });
                 }
             });
+
+        // Fetch announces
+        this.props.fetchAnnounces(
+            this.props.announces.updatedAt === null // fetch old announces
+        );
     }
 
     render() {
@@ -109,7 +116,12 @@ class MainScreen extends Component {
                                     })
                                 }}/>
                     </View>
-                    <PostList posts={this.props.announces} onPress={this.onItemPress} type={'announce'}/>
+                    <PostList
+                        posts={this.props.announces}
+                        onPress={this.onItemPress}
+                        type={'announce'}
+                        isLoading={this.props.announcesIsLoading}
+                    />
 
                     <View style={styles.buttonContainer}>
                         <Text h4 style={styles.listHeader}>Новости</Text>
@@ -128,7 +140,11 @@ class MainScreen extends Component {
                                     })
                                 }}/>
                     </View>
-                    <PostList posts={this.props.news} onPress={this.onItemPress} type={'news'}/>
+                    <PostList
+                        posts={this.props.news}
+                        onPress={this.onItemPress}
+                        type={'news'}
+                    />
 
                     <Text h4 style={styles.listHeader}>Связаться с нами</Text>
                     <View style={styles.feedbackContainer}>
@@ -185,13 +201,16 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return {
         announces: state.announces.recentItems,
-        news: state.announces.recentItems
+        announcesIsLoading: state.announces.isLoading,
+        news: state.news.recentItems,
+        newsIsLoading: state.news.isLoading
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        setCurrentAnnounce: post => setCurrentAnnounce(post)
+        setCurrentAnnounce: post => dispatch(setCurrentAnnounce(post)),
+        fetchAnnounces: needFetchOld => dispatch(fetchAnnounces(needFetchOld)),
     }
 };
 

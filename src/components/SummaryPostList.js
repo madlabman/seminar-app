@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {CachedImage} from 'react-native-cached-image';
 import {Icon, Text} from 'react-native-elements';
 
@@ -17,7 +17,7 @@ export default class SummaryPostList extends Component {
                                     <View>
                                         <View style={styles.dateContainer}>
                                             <Icon name={'md-calendar'} type='ionicon'/>
-                                            <Text style={styles.date}>27.07.2018</Text>
+                                            <Text style={styles.date}>{item.date}</Text>
                                         </View>
                                         <CachedImage source={item.thumbnail} style={styles.thumbnail}/>
                                     </View>
@@ -36,8 +36,13 @@ export default class SummaryPostList extends Component {
                 <Text style={styles.infoText}>Нет записей!</Text>
             );
 
+        const activityIndicator = this.props.isLoading ? (<ActivityIndicator style={styles.activityIndicator}/>) : null;
+
         return (
-            <View>{postList}</View>
+            <View>
+                {activityIndicator}
+                {postList}
+            </View>
         );
     }
 }
@@ -77,5 +82,8 @@ const styles = StyleSheet.create({
     },
     infoText: {
         textAlign: 'center'
+    },
+    activityIndicator: {
+        marginBottom: 20
     }
 });
