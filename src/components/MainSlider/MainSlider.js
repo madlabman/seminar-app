@@ -62,7 +62,7 @@ export default class MainSlider extends Component {
 
 const styles = StyleSheet.create({
     slide: {
-        //
+        alignItems: 'center'
     },
     title: {
         marginVertical: 10,
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: Dimensions.get('window').width,
-        height: 200
+        height: Dimensions.get('window').width / 16 * 9
     },
     pagination: {
         backgroundColor: 'transparent',

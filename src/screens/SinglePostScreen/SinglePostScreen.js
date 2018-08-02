@@ -3,6 +3,7 @@ import {StyleSheet, View, WebView} from 'react-native';
 import {CachedImage} from 'react-native-cached-image';
 import {Text} from 'react-native-elements';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
 import TouchableIcon from '../../components/TouchableIcon/TouchableIcon';
 
@@ -19,14 +20,14 @@ class SinglePostScreen extends Component {
     render() {
 
         let voteButtons = null;
-        if (this.props.type === 'announce') {
+        if (this.props.isAnnounce) {
             voteButtons = (
                 <View style={styles.buttonContainer}>
                     {/*Пойду*/}
                     <TouchableIcon
                         name={'thumb-up'}
                         color={'#000'}
-                        active={this.props.currentAnnounce.relation === 'yes'}
+                        //active={this.props.currentAnnounce.relation === 'yes'}
                         activeColor={'#fff'}
                         activeStyle={{backgroundColor: '#3d9733'}}
                         onPress={() => this.handlePressIcon('yes')}
@@ -47,7 +48,7 @@ class SinglePostScreen extends Component {
                     <TouchableIcon
                         name={'thumb-down'}
                         color={'#000'}
-                        active={this.props.currentAnnounce.relation === 'no'}
+                        //active={this.props.currentAnnounce.relation === 'no'}
                         activeColor={'#fff'}
                         activeStyle={{backgroundColor: '#d40030'}}
                         onPress={() => this.handlePressIcon('yes')}
@@ -88,9 +89,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        isLoading: state.user.isLoading,
-        currentAnnounce: state.announces.currentPost,
-        currentNewsPost: state.news.currentPost,
+
     }
 };
 
@@ -98,6 +97,11 @@ const mapDispatchToProps = dispatch => {
     return {
 
     }
+};
+
+SinglePostScreen.propTypes = {
+    item: PropTypes.object.isRequired,
+    isAnnounce: PropTypes.bool
 };
 
 export default connect(mapStateToProps)(SinglePostScreen)

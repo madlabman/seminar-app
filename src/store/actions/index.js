@@ -10,8 +10,8 @@ export {fetchSubjects} from './subjects';
 // User
 export {fetchUser, signUp, setUserDefinitions} from './user';
 
-// Announces
-export {setCurrentAnnounce, fetchAnnounces} from './announces';
+// Posts
+export {fetchAnnounces, fetchNews} from './posts';
 
 // Debug
 export {incrementDebugOpenCounter} from './debug';

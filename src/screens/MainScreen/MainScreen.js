@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {Alert, ScrollView, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import Communication from 'react-native-communications';
 import firebase from 'react-native-firebase';
@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import PostList from '../../components/SummaryPostList';
 import MainSlider from '../../components/MainSlider/MainSlider';
 import {FEEDBACK_PHONE, FEEDBACK_EMAIL, FEEDBACK_SUBJECT} from '../../../config/index';
-import {setCurrentAnnounce, fetchAnnounces} from '../../store/actions';
+import {fetchAnnounces, fetchNews} from '../../store/actions';
 
 class MainScreen extends Component {
 
@@ -34,12 +34,12 @@ class MainScreen extends Component {
         ]
     };
 
-    onItemPress = (item, type) => {
+    handlePostPress = (item, isAnnounce) => {
         this.props.navigator.push({
             screen: 'seminar.SinglePostScreen',
             passProps: {
                 item,
-                type
+                isAnnounce
             },
         })
     };
@@ -49,6 +49,17 @@ class MainScreen extends Component {
             && event.id === 'menu-toggle') {
             this.props.navigator.toggleDrawer();
         }
+    };
+
+    showPosts = isAnnounce => {
+        this.props.navigator.push({
+            screen: 'seminar.PostsScreen',
+            title: isAnnounce ? 'Семинары' : 'Новости',
+            passProps: {
+                type,
+                posts: isAnnounce ? this.props.announces : this.props.news
+            }
+        })
     };
 
     componentDidMount() {
@@ -64,6 +75,10 @@ class MainScreen extends Component {
                     // user doesn't have a device token yet
                     console.log('Has no token');
                 }
+            })
+            .catch(error => {
+                console.log('Cannot get FCM token');
+                console.log(error);
             });
 
         // Check permissions
@@ -82,14 +97,15 @@ class MainScreen extends Component {
                         .catch(error => {
                             // User has rejected permissions
                             console.log('[Info]: User rejected');
+                            Alert.alert('Внимание', 'Вы отказались от приема важных уведомлений')
                         });
                 }
             });
 
         // Fetch announces
-        this.props.fetchAnnounces(
-            this.props.announces.updatedAt === null // fetch old announces
-        );
+        this.props.fetchAnnounces();
+        // Fetch news
+        this.props.fetchNews();
     }
 
     render() {
@@ -105,45 +121,26 @@ class MainScreen extends Component {
                                 backgroundColor={'transparent'}
                                 color={'#545454'}
                                 buttonStyle={styles.allPostsButton}
-                                onPress={() => {
-                                    this.props.navigator.push({
-                                        screen: 'seminar.PostsScreen',
-                                        title: 'Анонсы',
-                                        passProps: {
-                                            type: 'announce',
-                                            posts: this.props.announces
-                                        }
-                                    })
-                                }}/>
+                                onPress={() => this.showPosts(true)}/>
                     </View>
                     <PostList
                         posts={this.props.announces}
-                        onPress={this.onItemPress}
-                        type={'announce'}
-                        isLoading={this.props.announcesIsLoading}
+                        onPress={this.handlePostPress}
+                        isAnnounce={true}
                     />
 
                     <View style={styles.buttonContainer}>
                         <Text h4 style={styles.listHeader}>Новости</Text>
-                        <Button title={'Все новости'} icon={{name: 'web', type: 'evil-icons', color: '#545454'}}
+                        <Button title={'Все новости'}
+                                icon={{name: 'web', type: 'evil-icons', color: '#545454'}}
                                 backgroundColor={'transparent'}
                                 color={'#545454'}
                                 buttonStyle={styles.allPostsButton}
-                                onPress={() => {
-                                    this.props.navigator.push({
-                                        screen: 'seminar.PostsScreen',
-                                        title: 'Новости',
-                                        passProps: {
-                                            type: 'news',
-                                            posts: this.props.news
-                                        }
-                                    })
-                                }}/>
+                                onPress={() => this.showPosts()}/>
                     </View>
                     <PostList
                         posts={this.props.news}
-                        onPress={this.onItemPress}
-                        type={'news'}
+                        onPress={this.handlePostPress}
                     />
 
                     <Text h4 style={styles.listHeader}>Связаться с нами</Text>
@@ -201,17 +198,17 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        announces: state.announces.recentItems,
-        announcesIsLoading: state.announces.isLoading,
-        news: state.news.recentItems,
-        newsIsLoading: state.news.isLoading
+        announces: state.posts.announces.recentItems,
+        announcesIsLoading: state.posts.announces.isLoading,
+        news: state.posts.news.recentItems,
+        newsIsLoading: state.posts.news.isLoading,
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        setCurrentAnnounce: post => dispatch(setCurrentAnnounce(post)),
-        fetchAnnounces: needFetchOld => dispatch(fetchAnnounces(needFetchOld)),
+        fetchAnnounces: () => dispatch(fetchAnnounces()),
+        fetchNews: () => dispatch(fetchNews()),
     }
 };
 

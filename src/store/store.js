@@ -3,6 +3,7 @@ import {persistStore, persistReducer} from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import {AsyncStorage} from 'react-native';
 import {apiMiddleware} from 'redux-api-middleware';
+import logger from 'redux-logger'
 
 import {
     uiReducer,
@@ -10,8 +11,7 @@ import {
     subjectsReducer,
     userReducer,
     debugReducer,
-    announcesReducer,
-    newsReducer
+    postsReducer
 } from './reducers';
 
 const rootReducer = combineReducers({
@@ -20,8 +20,7 @@ const rootReducer = combineReducers({
     user: userReducer,
     cities: citiesReducer,
     subjects: subjectsReducer,
-    announces: announcesReducer,
-    news: newsReducer
+    posts: postsReducer
 });
 
 const persistConfig = {
@@ -39,7 +38,7 @@ if (__DEV__) {
 }
 
 export default () => {
-    let store = createStore(persistedReducer, composeEnhancers(applyMiddleware(apiMiddleware)));
+    let store = createStore(persistedReducer, composeEnhancers(applyMiddleware(apiMiddleware, logger)));
     let persistor = persistStore(store);
     return {store, persistor}
 }

@@ -1,35 +1,43 @@
 import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
 import PostList from '../../components/SummaryPostList';
-import {Text} from 'react-native-elements';
+import PropTypes from 'prop-types';
 
 export default class PostsScreen extends Component {
-
-    state = {
-        refreshing: false,
-    };
-
-    onAnnouncePress = item => {
+    handlePostPress = item => {
         this.props.navigator.push({
             screen: 'seminar.SinglePostScreen',
             passProps: {
-                item
+                item,
+                isAnnounce: this.props.isAnnounce
             },
         })
     };
 
     render() {
         return (
-            <View>
-                <PostList posts={this.props.posts} onPress={this.onAnnouncePress} isLoading={this.state.refreshing}/>
+            <View style={styles.container}>
+                <PostList
+                    posts={this.props.posts}
+                    onPress={this.handlePostPress}
+                    isLoading={this.props.isLoading}/>
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingVertical: 20
+    },
     title: {
         margin: 15,
         textAlign: 'center'
     }
 });
+
+PostsScreen.propTypes = {
+    posts: PropTypes.array.isRequired,
+    isAnnounce: PropTypes.bool
+};
