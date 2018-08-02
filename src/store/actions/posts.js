@@ -3,9 +3,9 @@ import buildUrl from 'build-url';
 import moment from 'moment';
 
 import {
-    FAIL_GET_ANNOUNCES, FAIL_GET_NEWS,
-    RECEIVE_ANNOUNCES, RECEIVE_NEWS,
-    REQUEST_ANNOUNCES, REQUEST_NEWS,
+    FAIL_GET_ANNOUNCES, FAIL_GET_NEWS, FAIL_UPD_RELATION,
+    RECEIVE_ANNOUNCES, RECEIVE_NEWS, RECEIVE_UPD_RELATION,
+    REQUEST_ANNOUNCES, REQUEST_NEWS, REQUEST_UPD_RELATION,
 } from './actionTypes';
 import {API_BASE} from '../../../config';
 import createStore from '../store';
@@ -87,6 +87,46 @@ export const fetchNews = () => {
                 REQUEST_NEWS,
                 RECEIVE_NEWS,
                 FAIL_GET_NEWS
+            ]
+        }
+    }
+};
+
+export const updRelation = (announceId, relation) => {
+
+    const {store} = createStore();
+
+    let queryParams = {};
+    if (__DEV__) {
+        queryParams = {
+            ...queryParams,
+            XDEBUG_SESSION_START: 'PHPSTORM'
+        }
+    }
+
+    const endpoint = buildUrl(
+        API_BASE,
+        {
+            path: `add_relation/${store.getState().user.installationId}`,
+            queryParams
+        }
+    );
+
+    return {
+        [RSAA]: {
+            endpoint,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                seminar_id: announceId,
+                relation
+            }),
+            types: [
+                REQUEST_UPD_RELATION,
+                RECEIVE_UPD_RELATION,
+                FAIL_UPD_RELATION
             ]
         }
     }

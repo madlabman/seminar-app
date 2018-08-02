@@ -11,7 +11,7 @@ export {fetchSubjects} from './subjects';
 export {fetchUser, signUp, setUserDefinitions} from './user';
 
 // Posts
-export {fetchAnnounces, fetchNews} from './posts';
+export {fetchAnnounces, fetchNews, updRelation} from './posts';
 
 // Debug
 export {incrementDebugOpenCounter} from './debug';

@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import TouchableIcon from '../../components/TouchableIcon/TouchableIcon';
+import {updRelation} from '../../store/actions';
 
 class SinglePostScreen extends Component {
 
@@ -14,7 +15,13 @@ class SinglePostScreen extends Component {
     };
 
     handlePressIcon = relation => {
-
+        this.props.updRelation(
+            this.props.item.id,
+            relation
+        );
+        this.setState({
+            relation
+        });
     };
 
     render() {
@@ -27,7 +34,7 @@ class SinglePostScreen extends Component {
                     <TouchableIcon
                         name={'thumb-up'}
                         color={'#000'}
-                        //active={this.props.currentAnnounce.relation === 'yes'}
+                        active={this.state.relation === 'yes'}
                         activeColor={'#fff'}
                         activeStyle={{backgroundColor: '#3d9733'}}
                         onPress={() => this.handlePressIcon('yes')}
@@ -48,10 +55,10 @@ class SinglePostScreen extends Component {
                     <TouchableIcon
                         name={'thumb-down'}
                         color={'#000'}
-                        //active={this.props.currentAnnounce.relation === 'no'}
+                        active={this.state.relation === 'no'}
                         activeColor={'#fff'}
                         activeStyle={{backgroundColor: '#d40030'}}
-                        onPress={() => this.handlePressIcon('yes')}
+                        onPress={() => this.handlePressIcon('no')}
                         isLoading={this.props.isLoading}
                     />
                 </View>
@@ -89,13 +96,13 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-
+        isLoading: state.ui.isLoading
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-
+        updRelation: (announceId, relation) => dispatch(updRelation(announceId, relation))
     }
 };
 
@@ -104,4 +111,4 @@ SinglePostScreen.propTypes = {
     isAnnounce: PropTypes.bool
 };
 
-export default connect(mapStateToProps)(SinglePostScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(SinglePostScreen)
