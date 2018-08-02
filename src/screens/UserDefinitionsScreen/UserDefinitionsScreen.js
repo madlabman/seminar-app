@@ -16,7 +16,6 @@ class UserDefinitionsScreen extends Component {
 
     handleSubmitButton = () => {
         this.props.setUserDefinitions(
-            this.props.user.installationId,
             {
                 cities: this.state.selectedCities,
                 subjects: this.state.selectedSubjects
@@ -146,7 +145,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchCities: () => dispatch(fetchCities()),
         fetchSubjects: () => dispatch(fetchSubjects()),
-        setUserDefinitions: (installation_id, data) => dispatch(setUserDefinitions(installation_id, data))
+        setUserDefinitions: data => dispatch(setUserDefinitions(data))
     }
 };
 

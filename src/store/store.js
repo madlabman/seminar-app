@@ -3,6 +3,7 @@ import {persistStore, persistReducer} from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import {AsyncStorage} from 'react-native';
 import {apiMiddleware} from 'redux-api-middleware';
+import thunk from 'redux-thunk';
 import logger from 'redux-logger'
 
 import {
@@ -38,7 +39,7 @@ if (__DEV__) {
 }
 
 export default () => {
-    let store = createStore(persistedReducer, composeEnhancers(applyMiddleware(apiMiddleware, logger)));
+    let store = createStore(persistedReducer, composeEnhancers(applyMiddleware(apiMiddleware, thunk, logger)));
     let persistor = persistStore(store);
     return {store, persistor}
 }

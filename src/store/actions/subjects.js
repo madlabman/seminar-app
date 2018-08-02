@@ -1,12 +1,29 @@
 import {RSAA} from 'redux-api-middleware';
+import buildUrl from 'build-url';
 
 import {REQUEST_SUBJECTS, RECEIVE_SUBJECTS, FAIL_GET_SUBJECTS} from './actionTypes';
-import {API_BASE, DEBUG_PARAM} from '../../../config';
+import {API_BASE} from '../../../config';
 
 export const fetchSubjects = () => {
+    let queryParams = {};
+    if (__DEV__) {
+        queryParams = {
+            ...queryParams,
+            XDEBUG_SESSION_START: 'PHPSTORM'
+        }
+    }
+
+    const endpoint = buildUrl(
+        API_BASE,
+        {
+            path: `subjects`,
+            queryParams
+        }
+    );
+
     return {
         [RSAA]: {
-            endpoint: `${API_BASE}/subjects${DEBUG_PARAM}`,
+            endpoint,
             method: 'GET',
             types: [
                 REQUEST_SUBJECTS,

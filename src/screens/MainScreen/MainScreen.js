@@ -56,7 +56,7 @@ class MainScreen extends Component {
             screen: 'seminar.PostsScreen',
             title: isAnnounce ? 'Семинары' : 'Новости',
             passProps: {
-                type,
+                isAnnounce,
                 posts: isAnnounce ? this.props.announces : this.props.news
             }
         })

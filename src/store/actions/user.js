@@ -1,19 +1,13 @@
 import {RSAA} from 'redux-api-middleware';
+import buildUrl from 'build-url';
 
 import {
-    REQUEST_USER,
-    RECEIVE_USER,
-    FAIL_GET_USER,
-    REQUEST_SIGN_UP,
-    RECEIVE_SIGN_UP,
-    FAIL_SIGN_UP,
-    FAIL_API_REQUEST,
-    REQUEST_USER_UPDATE,
-    RECEIVE_USER_UPDATE,
-    FAIL_USER_UPDATE
+    REQUEST_USER, REQUEST_SIGN_UP, REQUEST_USER_UPDATE,
+    RECEIVE_USER, RECEIVE_SIGN_UP, RECEIVE_USER_UPDATE,
+    FAIL_GET_USER, FAIL_SIGN_UP, FAIL_USER_UPDATE
 } from './actionTypes';
 
-import {API_BASE, DEBUG_PARAM} from '../../../config';
+import {API_BASE} from '../../../config';
 
 export const fetchUser = installation_id => {
     return {
@@ -30,9 +24,25 @@ export const fetchUser = installation_id => {
 };
 
 export const signUp = data => {
+    let queryParams = {};
+    if (__DEV__) {
+        queryParams = {
+            ...queryParams,
+            XDEBUG_SESSION_START: 'PHPSTORM'
+        }
+    }
+
+    const endpoint = buildUrl(
+        API_BASE,
+        {
+            path: `create_mobile_user`,
+            queryParams
+        }
+    );
+
     return {
         [RSAA]: {
-            endpoint: `${API_BASE}/create_mobile_user${DEBUG_PARAM}`,
+            endpoint,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -47,23 +57,41 @@ export const signUp = data => {
     }
 };
 
-export const setUserDefinitions = (installation_id, data) => {
-    return {
-        [RSAA]: {
-            endpoint: `${API_BASE}/mobile_user/${installation_id}${DEBUG_PARAM}`,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                cities: Object.keys(data.cities),
-                subjects: Object.keys(data.subjects)
-            }),
-            types: [
-                REQUEST_USER_UPDATE,
-                RECEIVE_USER_UPDATE,
-                FAIL_USER_UPDATE
-            ]
+export const setUserDefinitions = data => {
+    return (dispatch, getState) => {
+        let queryParams = {};
+        if (__DEV__) {
+            queryParams = {
+                ...queryParams,
+                XDEBUG_SESSION_START: 'PHPSTORM'
+            }
         }
+
+        const endpoint = buildUrl(
+            API_BASE,
+            {
+                path: `mobile_user/${getState().user.installationId}`,
+                queryParams
+            }
+        );
+
+        return dispatch({
+            [RSAA]: {
+                endpoint,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    cities: Object.keys(data.cities),
+                    subjects: Object.keys(data.subjects)
+                }),
+                types: [
+                    REQUEST_USER_UPDATE,
+                    RECEIVE_USER_UPDATE,
+                    FAIL_USER_UPDATE
+                ]
+            }
+        });
     }
 };
