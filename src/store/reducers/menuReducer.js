@@ -24,7 +24,7 @@ export const menuReducer = (menuState = initialState, action) => {
                         return {
                             key: item.ID.toString(),
                             title: item.title,
-                            link: item.guid
+                            link: item.url
                         }
                     }),
                     updatedAt: Date.now(),
