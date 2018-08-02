@@ -13,5 +13,8 @@ export {fetchUser, signUp, setUserDefinitions} from './user';
 // Posts
 export {fetchAnnounces, fetchNews, updRelation} from './posts';
 
+// Menu
+export {fetchMenu} from './menu';
+
 // Debug
 export {incrementDebugOpenCounter} from './debug';

@@ -12,7 +12,8 @@ import {
     subjectsReducer,
     userReducer,
     debugReducer,
-    postsReducer
+    postsReducer,
+    menuReducer
 } from './reducers';
 
 const rootReducer = combineReducers({
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
     user: userReducer,
     cities: citiesReducer,
     subjects: subjectsReducer,
-    posts: postsReducer
+    posts: postsReducer,
+    menu: menuReducer
 });
 
 const persistConfig = {

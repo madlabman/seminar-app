@@ -14,6 +14,6 @@ export function registerScreens(store, provider) {
     Navigation.registerComponent('seminar.MainScreen', () => MainScreen, store, provider);
     Navigation.registerComponent('seminar.SinglePostScreen', () => SinglePostScreen, store, provider);
     Navigation.registerComponent('seminar.PostsScreen', () => PostsScreen);
-    Navigation.registerComponent('seminar.MenuScreen', () => MenuScreen);
+    Navigation.registerComponent('seminar.MenuScreen', () => MenuScreen, store, provider);
     Navigation.registerComponent('seminar.UserDefinitionsScreen', () => UserDefinitionsScreen, store, provider);
 }

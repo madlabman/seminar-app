@@ -36,5 +36,10 @@ export const REQUEST_NEWS = 'REQUEST_NEWS';
 export const RECEIVE_NEWS = 'RECEIVE_NEWS';
 export const FAIL_GET_NEWS = 'FAIL_GET_NEWS';
 
+// Menu
+export const REQUEST_MENU = 'REQUEST_MENU';
+export const RECEIVE_MENU = 'RECEIVE_MENU';
+export const FAIL_GET_MENU = 'FAIL_GET_MENU';
+
 // Debug
 export const DEBUG_INCREMENT = 'DEBUG_INCREMENT';
