@@ -7,7 +7,8 @@ import {
     RECEIVE_USER_UPDATE,
     REQUEST_SIGN_UP,
     REQUEST_USER,
-    REQUEST_USER_UPDATE
+    REQUEST_USER_UPDATE,
+    UPDATE_FCM_TOKEN
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
     isSignedUp: false,
     isSetupCompleted: false,
     isProcessRequest: false,
+    fcmToken: null,
     errors: []
 };
 
@@ -82,8 +84,14 @@ const userReducer = (userState = initialState, action) => {
                 isProcessRequest: false
             };
         }
+        case UPDATE_FCM_TOKEN:
+            return {
+                ...userState,
+                fcmToken: action.token
+            };
         default:
-            return userState;
+            return {...userState, fcmToken: null};
+
     }
 };
 

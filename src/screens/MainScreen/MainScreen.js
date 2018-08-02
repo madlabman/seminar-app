@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import PostList from '../../components/SummaryPostList';
 import MainSlider from '../../components/MainSlider/MainSlider';
 import {FEEDBACK_PHONE, FEEDBACK_EMAIL, FEEDBACK_SUBJECT} from '../../../config/index';
-import {fetchAnnounces, fetchNews} from '../../store/actions';
+import {fetchAnnounces, fetchNews, updateFCM} from '../../store/actions';
 
 class MainScreen extends Component {
 
@@ -69,8 +69,8 @@ class MainScreen extends Component {
         firebase.messaging().getToken()
             .then(fcmToken => {
                 if (fcmToken) {
-                    // user has a device token
-                    console.log(fcmToken);
+                    // User has a device token
+                    this.props.updateFCM(fcmToken);
                 } else {
                     // user doesn't have a device token yet
                     console.log('Has no token');
@@ -102,10 +102,18 @@ class MainScreen extends Component {
                 }
             });
 
+        this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
+            this.props.updateFCM(fcmToken);
+        });
+
         // Fetch announces
         this.props.fetchAnnounces();
         // Fetch news
         this.props.fetchNews();
+    }
+
+    componentWillUnmount() {
+        this.onTokenRefreshListener();
     }
 
     render() {
@@ -209,6 +217,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchAnnounces: () => dispatch(fetchAnnounces()),
         fetchNews: () => dispatch(fetchNews()),
+        updateFCM: token => dispatch(updateFCM(token))
     }
 };
 

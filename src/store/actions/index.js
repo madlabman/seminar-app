@@ -8,7 +8,7 @@ export {fetchCities} from './cities';
 export {fetchSubjects} from './subjects';
 
 // User
-export {fetchUser, signUp, setUserDefinitions} from './user';
+export {fetchUser, signUp, setUserDefinitions, updateFCM} from './user';
 
 // Posts
 export {fetchAnnounces, fetchNews, updRelation} from './posts';

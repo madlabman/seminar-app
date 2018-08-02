@@ -2,12 +2,33 @@ import {RSAA} from 'redux-api-middleware';
 import buildUrl from 'build-url';
 
 import {
-    REQUEST_USER, REQUEST_SIGN_UP, REQUEST_USER_UPDATE,
-    RECEIVE_USER, RECEIVE_SIGN_UP, RECEIVE_USER_UPDATE,
-    FAIL_GET_USER, FAIL_SIGN_UP, FAIL_USER_UPDATE
+    REQUEST_USER,
+    REQUEST_SIGN_UP,
+    REQUEST_USER_UPDATE,
+    RECEIVE_USER,
+    RECEIVE_SIGN_UP,
+    RECEIVE_USER_UPDATE,
+    FAIL_GET_USER,
+    FAIL_SIGN_UP,
+    FAIL_USER_UPDATE,
+    UPDATE_FCM_TOKEN,
+    REQUEST_FCM_ADD,
+    RECEIVE_FCM_ADD,
+    FAIL_FCM_ADD,
+    REQUEST_FCM_UPDATE,
+    RECEIVE_FCM_UPDATE,
+    FAIL_FCM_UPDATE
 } from './actionTypes';
 
 import {API_BASE} from '../../../config';
+
+let queryParams = {};
+if (__DEV__) {
+    queryParams = {
+        ...queryParams,
+        XDEBUG_SESSION_START: 'PHPSTORM'
+    }
+}
 
 export const fetchUser = installation_id => {
     return {
@@ -24,14 +45,6 @@ export const fetchUser = installation_id => {
 };
 
 export const signUp = data => {
-    let queryParams = {};
-    if (__DEV__) {
-        queryParams = {
-            ...queryParams,
-            XDEBUG_SESSION_START: 'PHPSTORM'
-        }
-    }
-
     const endpoint = buildUrl(
         API_BASE,
         {
@@ -59,14 +72,6 @@ export const signUp = data => {
 
 export const setUserDefinitions = data => {
     return (dispatch, getState) => {
-        let queryParams = {};
-        if (__DEV__) {
-            queryParams = {
-                ...queryParams,
-                XDEBUG_SESSION_START: 'PHPSTORM'
-            }
-        }
-
         const endpoint = buildUrl(
             API_BASE,
             {
@@ -93,5 +98,86 @@ export const setUserDefinitions = data => {
                 ]
             }
         });
+    }
+};
+
+export const updateFCM = token => {
+    return (dispatch, getState) => {
+        const storedToken = getState().user.fcmToken;
+        if (storedToken === null) {
+            // Add newly created token
+            dispatch(addFCMToken(token));
+        } else if (storedToken !== token) {
+            // Update token on server with old value
+            dispatch(updateFCMToken(storedToken, token));
+        }
+        // Save in store
+        return dispatch(updateFCMTokenInStore(token))
+    }
+};
+
+export const addFCMToken = token => {
+    return (dispatch, getState) => {
+        const endpoint = buildUrl(
+            API_BASE,
+            {
+                path: `add_fcm_token/${getState().user.installationId}`,
+                queryParams
+            }
+        );
+
+        return dispatch({
+            [RSAA]: {
+                endpoint,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    token
+                }),
+                types: [
+                    REQUEST_FCM_ADD,
+                    RECEIVE_FCM_ADD,
+                    FAIL_FCM_ADD
+                ]
+            }
+        });
+    }
+};
+
+export const updateFCMToken = (oldToken, newToken) => {
+    const endpoint = buildUrl(
+        API_BASE,
+        {
+            path: `replace_fcm_token/${getState().user.installationId}`,
+            queryParams
+        }
+    );
+
+    return {
+        [RSAA]: {
+            endpoint,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                old_token: oldToken,
+                new_token: newToken
+            }),
+            types: [
+                REQUEST_FCM_UPDATE,
+                RECEIVE_FCM_UPDATE,
+                FAIL_FCM_UPDATE
+            ]
+        }
+    }
+};
+
+export const updateFCMTokenInStore = token => {
+    return {
+        type: UPDATE_FCM_TOKEN,
+        token
     }
 };
