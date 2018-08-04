@@ -41,12 +41,6 @@ class UserDefinitionsScreen extends Component {
         ))
     };
 
-    // TODO: change behavior
-    static getDerivedStateFromProps(props, state) {
-        if (props.user.isSetupCompleted) openMainApp();
-        return state;
-    }
-
     componentDidMount() {
         this.props.fetchCities();
         this.props.fetchSubjects();

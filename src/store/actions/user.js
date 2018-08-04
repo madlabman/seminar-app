@@ -21,6 +21,8 @@ import {
 } from './actionTypes';
 
 import {API_BASE} from '../../../config';
+import openUserDefinitions from '../../screens/helpers/openUserDefinitions';
+import openMainApp from '../../screens/helpers/openMainApp';
 
 let queryParams = {};
 if (__DEV__) {
@@ -45,29 +47,36 @@ export const fetchUser = installation_id => {
 };
 
 export const signUp = data => {
-    const endpoint = buildUrl(
-        API_BASE,
-        {
-            path: `create_mobile_user`,
-            queryParams
-        }
-    );
+    return (dispatch, getState) => {
+        const endpoint = buildUrl(
+            API_BASE,
+            {
+                path: `create_mobile_user`,
+                queryParams
+            }
+        );
 
-    return {
-        [RSAA]: {
-            endpoint,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data),
-            types: [
-                REQUEST_SIGN_UP,
-                RECEIVE_SIGN_UP,
-                FAIL_SIGN_UP
-            ]
-        }
-    }
+        return dispatch({
+            [RSAA]: {
+                endpoint,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+                types: [
+                    REQUEST_SIGN_UP,
+                    RECEIVE_SIGN_UP,
+                    FAIL_SIGN_UP
+                ]
+            }
+        })
+            .then(() => {
+                // Check state
+                if (getState().user.isSignedUp)
+                    openUserDefinitions();
+            });
+    };
 };
 
 export const setUserDefinitions = data => {
@@ -97,7 +106,12 @@ export const setUserDefinitions = data => {
                     FAIL_USER_UPDATE
                 ]
             }
-        });
+        })
+            .then(() => {
+                // Check state
+                if (getState().user.isSetupCompleted)
+                    openMainApp();
+            });
     }
 };
 

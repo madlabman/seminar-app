@@ -75,12 +75,6 @@ class SignUpScreen extends Component {
         if (!hasError) this.props.signUp(this.state.inputs);
     };
 
-    // TODO: change behavior
-    static getDerivedStateFromProps(props, state) {
-        if (props.isSignedUp) openUserDefinitions();
-        return state;
-    }
-
     render() {
 
         let errors = this.props.errors.map((item, index) => {
@@ -108,7 +102,7 @@ class SignUpScreen extends Component {
                     <FormInput placeholder={'Введите ваш почтовый адрес'} keyboardType={'email-address'}
                                onChangeText={value => this.changeInput('email', value)}
                                autoCapitalize={'none'}
-                               value={this.state.email}/>
+                               value={this.state.inputs.email}/>
                     <FormValidationMessage>{this.state.errors.email}</FormValidationMessage>
 
                     <FormLabel>Номер телефона</FormLabel>
@@ -118,7 +112,9 @@ class SignUpScreen extends Component {
                         onChangeText={(formatted, extracted) => {
                             this.changeInput('phone', extracted)
                         }}
-                        mask={"+7 ([000]) [000] [00] [00]"}/>
+                        mask={"+7 ([000]) [000] [00] [00]"}
+                        value={this.state.inputs.phone}
+                    />
                     <FormValidationMessage>{this.state.errors.phone}</FormValidationMessage>
 
                     <Text style={styles.spacer}/>

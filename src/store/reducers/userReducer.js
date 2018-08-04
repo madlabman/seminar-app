@@ -90,8 +90,7 @@ const userReducer = (userState = initialState, action) => {
                 fcmToken: action.token
             };
         default:
-            return {...userState, fcmToken: null};
-
+            return userState;
     }
 };
 
