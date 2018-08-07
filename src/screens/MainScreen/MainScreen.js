@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Alert, ScrollView, StyleSheet, View} from 'react-native';
+import {Alert, Platform, ScrollView, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import Communication from 'react-native-communications';
 import firebase from 'react-native-firebase';
@@ -20,15 +20,11 @@ class MainScreen extends Component {
     state = {
         slides: [
             {
-                title: 'Скриншот из игры. Описание по ссылке.',
                 image: {
-                    uri: 'https://images.alphacoders.com/109/109601.jpg'
-                }
-            },
-            {
-                title: 'А это скриншот из одноименного фильма.',
-                image: {
-                    uri: 'https://www.slantmagazine.com/images/made/assets/film/alienvspredatorrequiem_1130_430_90_s_c1.jpg'
+                    uri: 'http://hosthub.ru:8080/wp-content/uploads/2017/12/Отзывы2_Вотум_исправ.png'
+                },
+                link: {
+                    uri: 'http://seminar-pro.ru/reviews/otzyvy-ot-uchastnikov-posetivshix-nashi-seminary-vo-vtorom-polugodii-2017-goda/'
                 }
             }
         ]
@@ -41,6 +37,7 @@ class MainScreen extends Component {
                 item,
                 isAnnounce
             },
+            animationType: Platform.OS === 'android' ? 'slide-horizontal' : ''
         })
     };
 
@@ -58,7 +55,18 @@ class MainScreen extends Component {
             passProps: {
                 isAnnounce,
                 posts: isAnnounce ? this.props.announces : this.props.news
-            }
+            },
+            animationType: Platform.OS === 'android' ? 'slide-horizontal' : ''
+        })
+    };
+
+    showBrowser = item => {
+        this.props.navigator.showModal({
+            screen: 'seminar.BrowserScreen',
+            title: 'Браузер',
+            passProps: {
+                uri: item.link.uri
+            },
         })
     };
 
@@ -121,7 +129,10 @@ class MainScreen extends Component {
             <View style={styles.page}>
                 <ScrollView style={styles.container}>
 
-                    <MainSlider slides={this.state.slides}/>
+                    <MainSlider
+                        slides={this.state.slides}
+                        onSlidePress={this.showBrowser}
+                    />
 
                     <View style={styles.buttonContainer}>
                         <Text h4 style={styles.listHeader}>Анонсы</Text>

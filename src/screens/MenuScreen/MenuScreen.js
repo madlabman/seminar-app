@@ -21,6 +21,7 @@ class MenuScreen extends Component {
                 />
                 <MainMenu
                     items={this.props.items}
+                    navigator={this.props.navigator}
                 />
             </View>
         )

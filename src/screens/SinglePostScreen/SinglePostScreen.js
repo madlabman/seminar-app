@@ -83,7 +83,8 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#fff'
     },
     buttonContainer: {
         flexDirection: 'row',

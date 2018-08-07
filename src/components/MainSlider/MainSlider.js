@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {CachedImage} from 'react-native-cached-image';
-import {Dimensions, StyleSheet, View} from 'react-native';
+import {Dimensions, StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
 import {Text} from 'react-native-elements';
 
 export default class MainSlider extends Component {
@@ -10,17 +10,10 @@ export default class MainSlider extends Component {
         activeSlide: 0
     };
 
-    _renderItem({item, index}) {
-        return (
-            <View style={styles.slide}>
-                <CachedImage
-                    source={item.image}
-                    style={styles.image}
-                />
-                <Text style={styles.title}>{item.title}</Text>
-            </View>
-        );
-    }
+    handleSlidePress = item => {
+        //this.props.onSlidePress(item);
+        console.warn(item)
+    };
 
     _carousel = null;
 
@@ -33,7 +26,20 @@ export default class MainSlider extends Component {
                 <Carousel
                     ref={c => { this._carousel = c }}
                     data={this.props.slides}
-                    renderItem={this._renderItem}
+                    renderItem={({item}) =>
+                        (
+                            <View style={styles.slide}>
+                                <TouchableWithoutFeedback onPress={() => {
+                                    this.props.onSlidePress(item)
+                                }}>
+                                    <CachedImage
+                                        source={item.image}
+                                        style={styles.image}
+                                    />
+                                </TouchableWithoutFeedback>
+                            </View>
+                        )
+                    }
                     sliderWidth={sliderWidth}
                     itemWidth={itemWidth}
                     onSnapToItem={(index) => this.setState({ activeSlide: index }) }
