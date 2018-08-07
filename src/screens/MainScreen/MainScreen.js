@@ -21,10 +21,34 @@ class MainScreen extends Component {
         slides: [
             {
                 image: {
-                    uri: 'http://hosthub.ru:8080/wp-content/uploads/2017/12/Отзывы2_Вотум_исправ.png'
+                    uri: 'http://seminar-pro.ru/wp-content/uploads/2018/06/АСТ-Вариант-1.png'
+                },
+                link: {
+                    uri: 'http://seminar-pro.ru/announces/astraxan-13-avgusta-2018-goda-seminar-po-oxrane-truda-oxrana-truda-2018-chto-izmenilos-i-chto-eshhe-zhdet-vperedi/'
+                }
+            },
+            {
+                image: {
+                    uri: 'http://seminar-pro.ru/wp-content/uploads/2018/07/Отзывы.png'
                 },
                 link: {
                     uri: 'http://seminar-pro.ru/reviews/otzyvy-ot-uchastnikov-posetivshix-nashi-seminary-vo-vtorom-polugodii-2017-goda/'
+                }
+            },
+            {
+                image: {
+                    uri: 'http://seminar-pro.ru/wp-content/uploads/2018/06/Вариант-3.png'
+                },
+                link: {
+                    uri: 'http://seminar-pro.ru/archive/'
+                }
+            },
+            {
+                image: {
+                    uri: 'http://seminar-pro.ru/wp-content/uploads/2018/07/650x400-600x400.png'
+                },
+                link: {
+                    uri: 'https://partner.tochka.com/partnership/?referer1=34mrpseminarpro'
                 }
             }
         ]
@@ -63,7 +87,6 @@ class MainScreen extends Component {
     showBrowser = item => {
         this.props.navigator.showModal({
             screen: 'seminar.BrowserScreen',
-            title: 'Браузер',
             passProps: {
                 uri: item.link.uri
             },

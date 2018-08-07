@@ -10,11 +10,6 @@ export default class MainSlider extends Component {
         activeSlide: 0
     };
 
-    handleSlidePress = item => {
-        //this.props.onSlidePress(item);
-        console.warn(item)
-    };
-
     _carousel = null;
 
     render() {
@@ -53,6 +48,7 @@ export default class MainSlider extends Component {
                         height: 10,
                         borderRadius: 5,
                         marginHorizontal: 8,
+                        marginTop: 15,
                         backgroundColor: '#000'
                     }}
                     inactiveDotStyle={{

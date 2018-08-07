@@ -6,11 +6,9 @@ import PropTypes from 'prop-types';
 export default class MainMenu extends Component {
     handlePressLink = link => {
         // Toggle menu
-        //this.props.navigator.toggleDrawer();
         // Push to link
         this.props.navigator.showModal({
             screen: 'seminar.BrowserScreen',
-            title: 'Браузер',
             passProps: {
                 uri: link
             },
