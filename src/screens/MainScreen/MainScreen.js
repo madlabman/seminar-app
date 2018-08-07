@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Alert, ScrollView, StyleSheet, View} from 'react-native';
+import {Alert, Platform, ScrollView, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import Communication from 'react-native-communications';
 import firebase from 'react-native-firebase';
@@ -37,6 +37,7 @@ class MainScreen extends Component {
                 item,
                 isAnnounce
             },
+            animationType: Platform.OS === 'android' ? 'slide-horizontal' : ''
         })
     };
 
@@ -54,16 +55,18 @@ class MainScreen extends Component {
             passProps: {
                 isAnnounce,
                 posts: isAnnounce ? this.props.announces : this.props.news
-            }
+            },
+            animationType: Platform.OS === 'android' ? 'slide-horizontal' : ''
         })
     };
 
     showBrowser = item => {
-        this.props.navigator.push({
+        this.props.navigator.showModal({
             screen: 'seminar.BrowserScreen',
+            title: 'Браузер',
             passProps: {
                 uri: item.link.uri
-            }
+            },
         })
     };
 
