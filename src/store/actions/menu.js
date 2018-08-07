@@ -16,7 +16,7 @@ export const fetchMenu = () => {
     const endpoint = buildUrl(
         'http://hosthub.ru:8080/wp-json',
         {
-            path: `menus/v1/menus/primary-menu`,
+            path: `menus/v1/menus/side-menu`,
             queryParams
         }
     );
