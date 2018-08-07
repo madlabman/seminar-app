@@ -16,7 +16,7 @@ export default openMainApp = () => {
                                 icon,
                             }
                         ]
-                    }
+                    },
                 },
                 drawer: {
                     left: {
