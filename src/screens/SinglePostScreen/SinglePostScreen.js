@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 
 import TouchableIcon from '../../components/TouchableIcon/TouchableIcon';
 import {updRelation, getRelation} from '../../store/actions';
+import injectedJS from '../helpers/hideMenuBarInWebView';
 
 class SinglePostScreen extends Component {
 
@@ -69,7 +70,11 @@ class SinglePostScreen extends Component {
             <View style={styles.container}>
                 <Text style={styles.title}>{this.props.item.title}</Text>
                 {voteButtons}
-                <WebView source={this.props.item.permalink} style={styles.browser}/>
+                <WebView
+                    source={this.props.item.permalink}
+                    style={styles.browser}
+                    injectedJavaScript={injectedJS()}
+                />
             </View>
         )
     }

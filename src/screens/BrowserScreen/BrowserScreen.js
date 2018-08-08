@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {WebView} from 'react-native';
 import PropTypes from 'prop-types';
 
+import injectedJS from '../helpers/hideMenuBarInWebView';
+
 export default class BrowserScreen extends Component {
     static propTypes = {
         uri: PropTypes.string.isRequired
@@ -32,6 +34,7 @@ export default class BrowserScreen extends Component {
         return (
             <WebView
                 source={{uri: this.props.uri}}
+                injectedJavaScript={injectedJS()}
             />
         )
     }
