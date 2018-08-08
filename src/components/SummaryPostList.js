@@ -7,7 +7,7 @@ import moment from 'moment';
 export default class SummaryPostList extends Component {
     render() {
 
-        const postList = this.props.posts.length ?
+        const postList = this.props.posts && this.props.posts.length ?
             (
                 <FlatList
                     data={this.props.posts}

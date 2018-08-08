@@ -3,9 +3,9 @@ import buildUrl from 'build-url';
 import moment from 'moment';
 
 import {
-    FAIL_GET_ANNOUNCES, FAIL_GET_NEWS, FAIL_UPD_RELATION,
-    RECEIVE_ANNOUNCES, RECEIVE_NEWS, RECEIVE_UPD_RELATION,
-    REQUEST_ANNOUNCES, REQUEST_NEWS, REQUEST_UPD_RELATION,
+    FAIL_GET_ANNOUNCES, FAIL_GET_NEWS, FAIL_GET_RELATION, FAIL_UPD_RELATION,
+    RECEIVE_ANNOUNCES, RECEIVE_GET_RELATION, RECEIVE_NEWS, RECEIVE_UPD_RELATION,
+    REQUEST_ANNOUNCES, REQUEST_GET_RELATION, REQUEST_NEWS, REQUEST_UPD_RELATION,
 } from './actionTypes';
 import {API_BASE} from '../../../config';
 
@@ -120,8 +120,54 @@ export const updRelation = (announceId, relation) => {
                 }),
                 types: [
                     REQUEST_UPD_RELATION,
-                    RECEIVE_UPD_RELATION,
+                    {
+                        type: RECEIVE_UPD_RELATION,
+                        meta: {
+                            announceId,
+                            relation
+                        }
+                    },
                     FAIL_UPD_RELATION
+                ]
+            }
+        });
+    }
+};
+
+export const getRelation = announceId => {
+    return (dispatch, getState) => {
+        let queryParams = {
+            seminar_id: announceId
+        };
+
+        if (__DEV__) {
+            queryParams = {
+                ...queryParams,
+                XDEBUG_SESSION_START: 'PHPSTORM'
+            }
+        }
+
+        const endpoint = buildUrl(
+            API_BASE,
+            {
+                path: `relation/${getState().user.installationId}`,
+                queryParams
+            }
+        );
+
+        return dispatch({
+            [RSAA]: {
+                endpoint,
+                method: 'GET',
+                types: [
+                    REQUEST_GET_RELATION,
+                    {
+                        type: RECEIVE_GET_RELATION,
+                        meta: {
+                            announceId
+                        }
+                    },
+                    FAIL_GET_RELATION
                 ]
             }
         });

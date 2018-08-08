@@ -6,25 +6,25 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import TouchableIcon from '../../components/TouchableIcon/TouchableIcon';
-import {updRelation} from '../../store/actions';
+import {updRelation, getRelation} from '../../store/actions';
 
 class SinglePostScreen extends Component {
-
-    state = {
-        relation: null
-    };
 
     handlePressIcon = relation => {
         this.props.updRelation(
             this.props.item.id,
             relation
         );
-        this.setState({
-            relation
-        });
     };
 
+    componentDidMount() {
+        this.props.getRelation(this.props.item.id);
+    }
+
     render() {
+
+        let relation = this.props.isAnnounce ?
+            this.props.announces[this.props.item.id].relation : null;
 
         let voteButtons = null;
         if (this.props.isAnnounce) {
@@ -34,7 +34,7 @@ class SinglePostScreen extends Component {
                     <TouchableIcon
                         name={'thumb-up'}
                         color={'#000'}
-                        active={this.state.relation === 'yes'}
+                        active={relation === 'yes'}
                         activeColor={'#fff'}
                         activeStyle={{backgroundColor: '#3d9733'}}
                         onPress={() => this.handlePressIcon('yes')}
@@ -55,7 +55,7 @@ class SinglePostScreen extends Component {
                     <TouchableIcon
                         name={'thumb-down'}
                         color={'#000'}
-                        active={this.state.relation === 'no'}
+                        active={relation === 'no'}
                         activeColor={'#fff'}
                         activeStyle={{backgroundColor: '#d40030'}}
                         onPress={() => this.handlePressIcon('no')}
@@ -97,13 +97,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        isLoading: state.ui.isLoading
+        isLoading: state.ui.isLoading,
+        announces: state.posts.announces.items
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        updRelation: (announceId, relation) => dispatch(updRelation(announceId, relation))
+        updRelation: (announceId, relation) => dispatch(updRelation(announceId, relation)),
+        getRelation: announceId => dispatch(getRelation(announceId))
     }
 };
 
