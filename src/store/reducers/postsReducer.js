@@ -62,24 +62,33 @@ export const postsReducer = (postsState = initialState, action) => {
             ) {
                 // Concat new items
                 action.payload.data.forEach(item => {
-                    let date = moment(item.post_date).format('DD.MM.YYYY');
+                    let postDate = null;
+                    let permalink = item.guid;
+
+                    if (storeKey === 'news') {
+                        postDate = moment(item.post_date);
+                    } else {
+                        postDate = moment.unix(item.seminar_date_time);
+                        if (item.association_post) permalink = item.association_post;
+                    }
+
                     tempItems[item.ID] = {
                         key: item.post_name,
-                        date: date,
+                        date: postDate,
                         thumbnail: {
                             uri: item.post_thumbnail
                         },
                         title: item.post_title,
                         excerpt: item.post_excerpt,
                         permalink: {
-                            uri: item.guid
+                            uri: permalink
                         }
                     }
                 });
-                // Sort items by date
-                const sortedKeys = Object.keys(tempItems).sort((a, b) => moment.max(
-                    [moment(a.date), moment(b.date)]
-                ));
+                // Sort items by date desc
+                const sortedKeys = Object.keys(tempItems).sort((a, b) =>
+                    -moment(tempItems[a].date)
+                        .diff(moment(tempItems[b].date)));
                 sortedKeys.forEach(key => {
                     sortedItems.push({
                         ...tempItems[key],
@@ -93,12 +102,12 @@ export const postsReducer = (postsState = initialState, action) => {
 
             return {
                 ...postsState,
-                [storeKey] : {
+                [storeKey]: {
                     ...postsState[storeKey],
                     items: tempItems,
                     sortedItems,
                     recentItems,
-                    updatedAt: Date.now(),
+                    //updatedAt: Date.now(),
                     isLoading: false
                 }
             };

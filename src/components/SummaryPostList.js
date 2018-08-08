@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {ActivityIndicator, FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {CachedImage} from 'react-native-cached-image';
 import {Icon, Text} from 'react-native-elements';
+import moment from 'moment';
 
 export default class SummaryPostList extends Component {
     render() {
@@ -17,7 +18,7 @@ export default class SummaryPostList extends Component {
                                     <View>
                                         <View style={styles.dateContainer}>
                                             <Icon name={'md-calendar'} type='ionicon'/>
-                                            <Text style={styles.date}>{item.date}</Text>
+                                            <Text style={styles.date}>{moment(item.date).format('DD.MM.YYYY')}</Text>
                                         </View>
                                         <CachedImage source={item.thumbnail} style={styles.thumbnail}/>
                                     </View>
