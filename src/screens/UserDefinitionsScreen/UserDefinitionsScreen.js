@@ -9,6 +9,12 @@ import SelectList from '../../components/SelectList';
 
 class UserDefinitionsScreen extends Component {
 
+    static navigatorStyle = {
+        navBarTitleTextCentered: true,
+        navBarButtonColor: '#000',
+        navBarCustomView: 'seminar.TopBar'
+    };
+
     state = {
         selectedCities: [],
         selectedSubjects: [],

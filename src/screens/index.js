@@ -8,6 +8,7 @@ import PostsScreen from './PostsScreen/PostsScreen';
 import MenuScreen from './MenuScreen/MenuScreen';
 import UserDefinitionsScreen from './UserDefinitionsScreen/UserDefinitionsScreen';
 import BrowserScreen from './BrowserScreen/BrowserScreen';
+import TopBar from './TopBar/TopBar';
 
 export function registerScreens(store, provider) {
     Navigation.registerComponent('seminar.SplashScreen', () => SplashScreen);
@@ -18,4 +19,5 @@ export function registerScreens(store, provider) {
     Navigation.registerComponent('seminar.MenuScreen', () => MenuScreen, store, provider);
     Navigation.registerComponent('seminar.UserDefinitionsScreen', () => UserDefinitionsScreen, store, provider);
     Navigation.registerComponent('seminar.BrowserScreen', () => BrowserScreen);
+    Navigation.registerComponent('seminar.TopBar', () => TopBar);
 }

@@ -15,6 +15,7 @@ class MainScreen extends Component {
     static navigatorStyle = {
         navBarTitleTextCentered: true,
         navBarButtonColor: '#000',
+        navBarCustomView: 'seminar.TopBar'
     };
 
     state = {
