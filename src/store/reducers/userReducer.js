@@ -2,9 +2,11 @@ import {persistReducer} from 'redux-persist';
 import {AsyncStorage} from 'react-native';
 
 import {
+    RECEIVE_SIGN_IN,
     RECEIVE_SIGN_UP,
     RECEIVE_USER,
     RECEIVE_USER_UPDATE,
+    REQUEST_SIGN_IN,
     REQUEST_SIGN_UP,
     REQUEST_USER,
     REQUEST_USER_UPDATE,
@@ -26,6 +28,7 @@ const userReducer = (userState = initialState, action) => {
     switch (action.type) {
         case REQUEST_USER:
         case REQUEST_SIGN_UP:
+        case REQUEST_SIGN_IN:
         case REQUEST_USER_UPDATE:
             return {
                 ...userState,
@@ -53,6 +56,32 @@ const userReducer = (userState = initialState, action) => {
                 }
             } else {
                 returnState.errors = ['Ошибка сервера, повторите позднее!'];
+            }
+
+            return {
+                ...userState,
+                ...returnState,
+                isProcessRequest: false
+            };
+        }
+        case RECEIVE_SIGN_IN: {
+            let returnState = {
+                ...userState,
+                errors: []
+            };
+            if (action.payload) {
+                if (
+                    action.payload.success === true
+                    && action.payload.data
+                ) {
+                    returnState.installationId = action.payload.data.installation_id;
+                    returnState.email = action.payload.data.email;
+                    returnState.isSignedUp = true;
+                } else  {
+                    returnState.errors = ['Неверное имя пользователя или пароль!'];
+                }
+            } else {
+                returnState.errors = ['Пользователь не найден!'];
             }
 
             return {

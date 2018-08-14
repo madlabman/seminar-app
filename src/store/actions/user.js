@@ -17,7 +17,10 @@ import {
     FAIL_FCM_ADD,
     REQUEST_FCM_UPDATE,
     RECEIVE_FCM_UPDATE,
-    FAIL_FCM_UPDATE
+    FAIL_FCM_UPDATE,
+    REQUEST_SIGN_IN,
+    RECEIVE_SIGN_IN,
+    FAIL_SIGN_IN
 } from './actionTypes';
 
 import {API_BASE} from '../../../config';
@@ -68,6 +71,39 @@ export const signUp = data => {
                     REQUEST_SIGN_UP,
                     RECEIVE_SIGN_UP,
                     FAIL_SIGN_UP
+                ]
+            }
+        })
+            .then(() => {
+                // Check state
+                if (getState().user.isSignedUp)
+                    openUserDefinitions();
+            });
+    };
+};
+
+export const signIn = data => {
+    return (dispatch, getState) => {
+        const endpoint = buildUrl(
+            API_BASE,
+            {
+                path: `mobile_user_log_in`,
+                queryParams
+            }
+        );
+
+        return dispatch({
+            [RSAA]: {
+                endpoint,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+                types: [
+                    REQUEST_SIGN_IN,
+                    RECEIVE_SIGN_IN,
+                    FAIL_SIGN_IN
                 ]
             }
         })

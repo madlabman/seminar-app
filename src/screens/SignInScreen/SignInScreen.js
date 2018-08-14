@@ -1,52 +1,34 @@
 import React, {Component} from 'react';
-import {StyleSheet, ScrollView, TouchableWithoutFeedback, View} from 'react-native';
-import {Button, CheckBox, FormLabel, FormInput, FormValidationMessage, Text} from 'react-native-elements';
 import {connect} from 'react-redux';
+import {Button, FormInput, FormLabel, FormValidationMessage, Text} from 'react-native-elements';
+import {ScrollView, StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
 
-import {signUp} from '../../store/actions';
-import MaskedFormInput from '../../components/MaskedFormInput';
-import {MAIN_COLOR, PDN_RULES_LINK} from '../../../config';
+import {MAIN_COLOR} from '../../../config';
+import {signIn} from '../../store/actions';
 import validateEmail from '../helpers/validateEmail';
 
-class SignUpScreen extends Component {
-
+class SignInScreen extends Component {
     state = {
         inputs: {
-            first_name: {
-                value: '',
-                containerStyle: {},
-            },
             email: {
                 value: '',
-                containerStyle: {},
+                containerStyle: {}
             },
             password: {
                 value: '',
-                containerStyle: {},
-            },
-            phone: {
-                value: '',
-                containerStyle: {},
-            },
+                containerStyle: {}
+            }
         },
         errors: {
-            first_name: null,
             email: null,
-            phone: null,
-            confirmation: null,
-        },
-        confirmation: false
+            password: null
+        }
     };
 
     formModel = {
-        first_name: {
-            label: 'Ваше имя',
-            placeholder: 'Введите ваше имя',
-            attrs: {}
-        },
         email: {
             label: 'Email',
-            placeholder: 'Введите ваш почтовый адрес',
+            placeholder: 'Введите ваш email',
             attrs: {
                 autoCapitalize: 'none',
                 autoCorrect: false
@@ -59,14 +41,6 @@ class SignUpScreen extends Component {
                 secureTextEntry: true
             }
         },
-        phone: {
-            label: 'Номер телефона',
-            placeholder: '8 (123) 456-78-90',
-            attrs: {
-                keyboardType: 'phone-pad',
-                mask: '8 ([000]) [000]-[00]-[00]'
-            }
-        }
     };
 
     changeInput = (key, value) => {
@@ -113,26 +87,6 @@ class SignUpScreen extends Component {
         })
     };
 
-    submitButtonPress = () => {
-        let hasError = false;
-        if (!this.state.confirmation) {
-            this.setErrorState('confirmation', 'Согласие обязательно!');
-        }
-        else {
-            this.setErrorState('confirmation', null, () => {
-                Object.keys(this.state.errors).forEach(key => {
-                    if (this.state.errors[key] !== null) hasError = true;
-                });
-                if (!hasError) this.props.signUp({
-                    first_name: this.state.inputs.first_name.value,
-                    email: this.state.inputs.email.value,
-                    mobile_password: this.state.inputs.password.value,
-                    phone_number: this.state.inputs.phone.value,
-                });
-            });
-        }
-    };
-
     onInputFocus = key => {
         this.setInputState(key, {
             containerStyle: styles.activeTextInputContainerStyle
@@ -145,17 +99,18 @@ class SignUpScreen extends Component {
         })
     };
 
-    handleLinkPress = () => {
-        this.props.navigator.showModal({
-            screen: 'seminar.BrowserScreen',
-            passProps: {
-                uri: PDN_RULES_LINK
-            },
-        })
+    submitButtonPress = () => {
+        let hasError = false;
+        Object.keys(this.state.errors).forEach(key => {
+            if (this.state.errors[key] !== null) hasError = true;
+        });
+        if (!hasError) this.props.signIn({
+            email: this.state.inputs.email.value,
+            mobile_password: this.state.inputs.password.value,
+        });
     };
 
     render() {
-
         const errors = this.props.errors.map((item, index) => {
             return (
                 <FormValidationMessage key={index}>{item}</FormValidationMessage>
@@ -183,9 +138,7 @@ class SignUpScreen extends Component {
                 ...this.formModel[key].attrs,
             };
             // Form
-            const inputElem = key === 'phone' ? (
-                <MaskedFormInput {...inputAttrs} />
-            ) : (
+            const inputElem = (
                 <FormInput {...inputAttrs} />
             );
 
@@ -207,27 +160,9 @@ class SignUpScreen extends Component {
 
                     {[errors, formInputs]}
 
-                    <CheckBox
-                        title={'Подтверждаю согласие на обработку персональных данных'}
-                        containerStyle={styles.checkboxStyle}
-                        checked={this.state.confirmation}
-                        onPress={() => this.setState(prevState => {
-                            return {
-                                ...prevState,
-                                confirmation: !prevState.confirmation
-                            }
-                        })}
-                    />
-                    <FormValidationMessage>{this.state.errors.confirmation}</FormValidationMessage>
-
                     <Text style={styles.spacer}/>
 
-                    <TouchableWithoutFeedback onPress={() => this.handleLinkPress()}>
-                        <Text style={styles.ruleLink}>Политика обработки персональных данных</Text>
-                    </TouchableWithoutFeedback>
-
-
-                    <Button title={'Зарегистрироваться'}
+                    <Button title={'Войти'}
                             backgroundColor={MAIN_COLOR}
                             disabledStyle={{backgroundColor: '#888'}}
                             containerViewStyle={{marginBottom: 30}}
@@ -281,7 +216,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        isSignedUp: state.user.isSignedUp,
         isLoading: state.user.isProcessRequest,
         errors: state.user.errors
     }
@@ -289,8 +223,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        signUp: data => dispatch(signUp(data)),
+        signIn: data => dispatch(signIn(data)),
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen);
