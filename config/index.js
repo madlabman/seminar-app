@@ -6,3 +6,5 @@ export const API_BASE = 'http://10.0.0.10/wp-json/wp/v2';
 export const DEBUG_PARAM = __DEV__ ? '?XDEBUG_SESSION_START=PHPSTORM' : '';
 
 export const MAIN_COLOR = '#c73800';
+
+export const PDN_RULES_LINK = 'http://www.gazprom.ru/about/legal/policy-personal-data/';

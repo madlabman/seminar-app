@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, WebView} from 'react-native';
-import {CachedImage} from 'react-native-cached-image';
-import {Text} from 'react-native-elements';
+import {Button, Text} from 'react-native-elements';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import TouchableIcon from '../../components/TouchableIcon/TouchableIcon';
 import {updRelation, getRelation} from '../../store/actions';
 import injectedJS from '../helpers/hideMenuBarInWebView';
+import {MAIN_COLOR} from "../../../config";
 
 class SinglePostScreen extends Component {
 
@@ -30,37 +30,36 @@ class SinglePostScreen extends Component {
         let voteButtons = null;
         if (this.props.isAnnounce) {
             voteButtons = (
-                <View style={styles.buttonContainer}>
-                    {/*Пойду*/}
-                    <TouchableIcon
-                        name={'thumb-up'}
-                        color={'#000'}
-                        active={relation === 'yes'}
-                        activeColor={'#fff'}
-                        activeStyle={{backgroundColor: '#3d9733'}}
-                        onPress={() => this.handlePressIcon('yes')}
-                        isLoading={this.props.isLoading}
-                    />
-                    {/*Счет*/}
-                    <TouchableIcon
-                        name={'ios-cash'}
-                        type={'ionicon'}
-                        color={'#000'}
-                        active={false}
-                        activeColor={'#fff'}
-                        activeStyle={{backgroundColor: '#47698b'}}
-                        onPress={() => console.warn('checkout')}
-                        isLoading={this.props.isLoading}
-                    />
-                    {/*Не пойду*/}
-                    <TouchableIcon
-                        name={'thumb-down'}
-                        color={'#000'}
-                        active={relation === 'no'}
-                        activeColor={'#fff'}
-                        activeStyle={{backgroundColor: '#d40030'}}
-                        onPress={() => this.handlePressIcon('no')}
-                        isLoading={this.props.isLoading}
+                <View style={styles.voteContainer}>
+                    <Text style={styles.callText}>Вас интересует мероприятие?</Text>
+
+                    <View style={styles.buttonContainer}>
+                        {/*Пойду*/}
+                        <TouchableIcon
+                            name={'thumb-up'}
+                            color={'#000'}
+                            active={relation === 'yes'}
+                            activeColor={'#fff'}
+                            activeStyle={{backgroundColor: '#3d9733'}}
+                            onPress={() => this.handlePressIcon('yes')}
+                            isLoading={this.props.isLoading}
+                        />
+                        {/*Не пойду*/}
+                        <TouchableIcon
+                            name={'thumb-down'}
+                            color={'#000'}
+                            active={relation === 'no'}
+                            activeColor={'#fff'}
+                            activeStyle={{backgroundColor: MAIN_COLOR}}
+                            onPress={() => this.handlePressIcon('no')}
+                            isLoading={this.props.isLoading}
+                        />
+                    </View>
+
+                    <Button
+                        title={'Высылайте счет'}
+                        onPress={() => console.log('checkout')}
+                        backgroundColor={MAIN_COLOR}
                     />
                 </View>
             );
@@ -68,7 +67,6 @@ class SinglePostScreen extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>{this.props.item.title}</Text>
                 {voteButtons}
                 <WebView
                     source={this.props.item.permalink}
@@ -95,9 +93,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center'
     },
+    voteContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        paddingTop: 10
+    },
     browser: {
         marginTop: 10
-    }
+    },
+    callText: {},
 });
 
 const mapStateToProps = state => {

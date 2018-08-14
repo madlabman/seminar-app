@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 
 import PostList from '../../components/SummaryPostList';
 import MainSlider from '../../components/MainSlider/MainSlider';
-import {FEEDBACK_PHONE, FEEDBACK_EMAIL, FEEDBACK_SUBJECT} from '../../../config/index';
+import {FEEDBACK_PHONE, FEEDBACK_EMAIL, FEEDBACK_SUBJECT, MAIN_COLOR} from '../../../config/index';
 import {fetchAnnounces, fetchNews, updateFCM} from '../../store/actions';
 
 class MainScreen extends Component {
@@ -209,7 +209,8 @@ class MainScreen extends Component {
 const styles = StyleSheet.create({
     listHeader: {
         margin: 15,
-        textAlign: 'center'
+        textAlign: 'center',
+        color: MAIN_COLOR
     },
     page: {
         flex: 1
