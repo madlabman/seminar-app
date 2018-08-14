@@ -3,6 +3,7 @@ import {ActivityIndicator, FlatList, StyleSheet, TouchableOpacity, View} from 'r
 import {CachedImage} from 'react-native-cached-image';
 import {Icon, Text} from 'react-native-elements';
 import moment from 'moment';
+import {MAIN_COLOR} from "../../config";
 
 export default class SummaryPostList extends Component {
     render() {
@@ -16,16 +17,21 @@ export default class SummaryPostList extends Component {
                             <TouchableOpacity onPress={() => this.props.onPress(item, this.props.isAnnounce)}>
                                 <View style={styles.container}>
                                     <View>
+                                        <CachedImage source={item.thumbnail} style={styles.thumbnail}/>
+                                    </View>
+                                    <View style={styles.innerContainer}>
                                         <View style={styles.dateContainer}>
                                             <Icon name={'md-calendar'} type='ionicon'/>
                                             <Text style={styles.date}>{moment(item.date).format('DD.MM.YYYY')}</Text>
                                         </View>
-                                        <CachedImage source={item.thumbnail} style={styles.thumbnail}/>
+                                        <Text style={styles.title} numberOfLines={3}>{item.title}</Text>
                                     </View>
-                                    <View style={styles.innerContainer}>
-                                        <Text style={styles.title} numberOfLines={1}>{item.title}</Text>
-                                        <Text style={styles.excerpt} numberOfLines={4}>{item.excerpt}</Text>
-                                    </View>
+                                </View>
+                                <View style={styles.excerptContainer}>
+                                    <Text style={styles.excerpt} numberOfLines={4}>{item.excerpt}</Text>
+                                </View>
+                                <View style={styles.learnMoreContainer}>
+                                    <Text style={styles.learnMore}>Читать подробнее</Text>
                                 </View>
                             </TouchableOpacity>
                         )
@@ -58,12 +64,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
-        marginLeft: 10,
-        marginRight: 10,
+        marginHorizontal: 10
     },
     innerContainer: {
         flex: 1,
-        marginLeft: 10,
+        marginHorizontal: 10
+    },
+    excerptContainer: {
+        paddingHorizontal: 15
+    },
+    learnMoreContainer: {
+        alignItems: 'flex-end',
+        paddingRight: 20,
+        paddingTop: 8
+    },
+    learnMore: {
+        paddingBottom: 8,
+        color: MAIN_COLOR
     },
     title: {
         fontSize: 16,

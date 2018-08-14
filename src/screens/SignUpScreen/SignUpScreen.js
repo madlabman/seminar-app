@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import {signUp} from '../../store/actions';
 import MaskedFormInput from '../../components/MaskedFormInput';
-import {MAIN_COLOR} from '../../../config';
+import {MAIN_COLOR, PDN_RULES_LINK} from '../../../config';
 
 class SignUpScreen extends Component {
 
@@ -18,40 +18,20 @@ class SignUpScreen extends Component {
     state = {
         inputs: {
             first_name: {
-                label: 'Ваше имя',
-                placeholder: 'Введите ваше имя',
                 value: '',
                 containerStyle: {},
-                attrs: {}
             },
             email: {
-                label: 'Email',
-                placeholder: 'Введите ваш почтовый адрес',
                 value: '',
                 containerStyle: {},
-                attrs: {
-                    autoCapitalize: 'none',
-                    autoCorrect: false
-                }
             },
             password: {
-                label: 'Пароль',
-                placeholder: 'Введите пароль',
                 value: '',
                 containerStyle: {},
-                attrs: {
-                    secureTextEntry: true
-                }
             },
             phone: {
-                label: 'Номер телефона',
-                placeholder: 'Введите номер телефона',
                 value: '',
                 containerStyle: {},
-                attrs: {
-                    keyboardType: 'phone-pad',
-                    mask: '+7 ([000]) [000] [00] [00]'
-                }
             },
         },
         errors: {
@@ -61,6 +41,37 @@ class SignUpScreen extends Component {
             confirmation: null,
         },
         confirmation: false
+    };
+
+    formModel = {
+        first_name: {
+            label: 'Ваше имя',
+            placeholder: 'Введите ваше имя',
+            attrs: {}
+        },
+        email: {
+            label: 'Email',
+            placeholder: 'Введите ваш почтовый адрес',
+            attrs: {
+                autoCapitalize: 'none',
+                autoCorrect: false
+            }
+        },
+        password: {
+            label: 'Пароль',
+            placeholder: 'Введите пароль',
+            attrs: {
+                secureTextEntry: true
+            }
+        },
+        phone: {
+            label: 'Номер телефона',
+            placeholder: '8 (123) 456-78-90',
+            attrs: {
+                keyboardType: 'phone-pad',
+                mask: '8 ([000]) [000]-[00]-[00]'
+            }
+        }
     };
 
     changeInput = (key, value) => {
@@ -121,14 +132,16 @@ class SignUpScreen extends Component {
             this.setErrorState('confirmation', 'Согласие обязательно!');
         }
         else {
-            Object.keys(this.state.errors).forEach(key => {
-                if (this.state.errors[key] !== null) hasError = true;
-            });
-            if (!hasError) this.props.signUp({
-                first_name: this.state.inputs.first_name.value,
-                email: this.state.inputs.email.value,
-                password: this.state.inputs.password.value,
-                phone: this.state.inputs.phone.value,
+            this.setErrorState('confirmation', null, () => {
+                Object.keys(this.state.errors).forEach(key => {
+                    if (this.state.errors[key] !== null) hasError = true;
+                });
+                if (!hasError) this.props.signUp({
+                    first_name: this.state.inputs.first_name.value,
+                    email: this.state.inputs.email.value,
+                    mobile_password: this.state.inputs.password.value,
+                    phone_number: this.state.inputs.phone.value,
+                });
             });
         }
     };
@@ -149,7 +162,7 @@ class SignUpScreen extends Component {
         this.props.navigator.showModal({
             screen: 'seminar.BrowserScreen',
             passProps: {
-                uri: 'http://www.gazprom.ru/about/legal/policy-personal-data/'
+                uri: PDN_RULES_LINK
             },
         })
     };
@@ -162,10 +175,10 @@ class SignUpScreen extends Component {
             )
         });
 
-        const formInputs = Object.keys(this.state.inputs).map(key => {
+        const formInputs = Object.keys(this.formModel).map(key => {
             // Label
             const label = (
-                <FormLabel labelStyle={styles.labelStyle}>{this.state.inputs[key].label}</FormLabel>
+                <FormLabel labelStyle={styles.labelStyle}>{this.formModel[key].label}</FormLabel>
             );
             // Validation error
             const errorMessage = (
@@ -173,14 +186,14 @@ class SignUpScreen extends Component {
             );
             // Attributes
             const inputAttrs = {
-                placeholder: this.state.inputs[key].placeholder,
+                placeholder: this.formModel[key].placeholder,
                 onFocus: () => this.onInputFocus(key),
                 onBlur: () => this.onInputBlur(key),
                 onChangeText: value => this.changeInput(key, value),
                 value: this.state.inputs[key].value,
                 inputStyle: styles.textInput,
                 containerStyle: [this.state.inputs[key].containerStyle, styles.textInputContainerStyle],
-                ...this.state.inputs[key].attrs,
+                ...this.formModel[key].attrs,
             };
             // Form
             const inputElem = key === 'phone' ? (
@@ -223,7 +236,7 @@ class SignUpScreen extends Component {
                     <Text style={styles.spacer}/>
 
                     <TouchableWithoutFeedback onPress={() => this.handleLinkPress()}>
-                        <Text style={styles.ruleLink}>Политика обработки</Text>
+                        <Text style={styles.ruleLink}>Политика обработки персональных данных</Text>
                     </TouchableWithoutFeedback>
 
 
