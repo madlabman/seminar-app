@@ -41,7 +41,7 @@ if (__DEV__) {
 }
 
 export default () => {
-    let store = createStore(persistedReducer, composeEnhancers(applyMiddleware(apiMiddleware, thunk, logger)));
+    let store = createStore(persistedReducer, composeEnhancers(applyMiddleware(apiMiddleware, thunk)));
     let persistor = persistStore(store);
     return {store, persistor}
 }
