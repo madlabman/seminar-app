@@ -8,7 +8,6 @@ export default class SelectList extends Component {
         items: {}
     };
 
-    // I don't know why it works with or without this lines of code :(
     componentDidMount() {
         // Init items
         if (this.props.selected) {

@@ -28,6 +28,7 @@ import {
 import {API_BASE} from '../../../config';
 import openUserDefinitions from '../../screens/helpers/openUserDefinitions';
 import openMainApp from '../../screens/helpers/openMainApp';
+import {fetchAnnounces} from './index';
 
 let queryParams = {};
 if (__DEV__) {
@@ -156,8 +157,11 @@ export const setUserDefinitions = data => {
         })
             .then(() => {
                 // Check state
-                if (getState().user.isSetupCompleted)
+                if (getState().user.isSetupCompleted) {
+                    dispatch(fetchAnnounces(true))
                     openMainApp();
+                }
+
             });
     }
 };

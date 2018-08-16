@@ -9,10 +9,10 @@ import {
 } from './actionTypes';
 import {API_BASE} from '../../../config';
 
-export const fetchAnnounces = () => {
+export const fetchAnnounces = (force = false) => {
     return (dispatch, getState) => {
         const updatedAt = getState().posts.announces.updatedAt;
-        const updatedAtMoment = updatedAt === null ?
+        const updatedAtMoment = (updatedAt === null || force) ?
             moment().subtract(1, 'y') :
             moment(updatedAt);
 
