@@ -9,6 +9,7 @@ import PostList from '../../components/SummaryPostList';
 import MainSlider from '../../components/MainSlider/MainSlider';
 import {FEEDBACK_PHONE, FEEDBACK_EMAIL, FEEDBACK_SUBJECT, MAIN_COLOR} from '../../../config/index';
 import {fetchAnnounces, fetchNews, updateFCM} from '../../store/actions';
+import openUserDefinitions from '../helpers/openUserDefinitions';
 
 class MainScreen extends Component {
 
@@ -67,10 +68,15 @@ class MainScreen extends Component {
     };
 
     onNavigatorEvent = event => {
-        if (event.type === 'NavBarButtonPress'
-            && event.id === 'menu-toggle') {
-            this.props.navigator.toggleDrawer();
-        }
+        if (event.type === 'NavBarButtonPress')
+            switch (event.id) {
+                case 'menu-toggle':
+                    this.props.navigator.toggleDrawer();
+                    break;
+                case 'account':
+                    openUserDefinitions();
+                    break;
+            }
     };
 
     showPosts = isAnnounce => {

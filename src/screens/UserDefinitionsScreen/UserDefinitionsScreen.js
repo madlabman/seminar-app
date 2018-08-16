@@ -80,6 +80,9 @@ class UserDefinitionsScreen extends Component {
             <ScrollView>
 
                 <View style={styles.container}>
+
+                    <Text style={styles.userEmail}>{this.props.user.email}</Text>
+
                     <Text style={styles.title}>Выберите интересующие вас города и тематики</Text>
 
                     <Text style={styles.sectionTitle}>Города</Text>
@@ -128,6 +131,11 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 10,
+    },
+    userEmail: {
+        marginTop: 10,
+        textAlign: 'center',
+        color: '#0099ff'
     }
 });
 

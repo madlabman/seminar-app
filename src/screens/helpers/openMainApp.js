@@ -2,8 +2,11 @@ import {Navigation} from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default openMainApp = () => {
-    Icon.getImageSource('bars', 24)
-        .then(icon => {
+    Promise.all([
+        Icon.getImageSource('bars', 24),
+        Icon.getImageSource('user-circle', 24)
+    ])
+        .then(icons => {
             Navigation.startSingleScreenApp({
                 screen: {
                     screen: 'seminar.MainScreen',
@@ -13,7 +16,14 @@ export default openMainApp = () => {
                             {
                                 buttonColor: '#000',
                                 id: 'menu-toggle',
-                                icon,
+                                icon: icons[0],
+                            }
+                        ],
+                        rightButtons: [
+                            {
+                                buttonColor: '#000',
+                                id: 'account',
+                                icon: icons[1],
                             }
                         ]
                     },
@@ -24,5 +34,5 @@ export default openMainApp = () => {
                     }
                 }
             })
-        });
+        })
 }
