@@ -103,8 +103,8 @@ class UserDefinitionsScreen extends Component {
                             textStyle={{color: '#fff'}}
                             disabledStyle={{backgroundColor: '#888'}}
                             onPress={this.handleSubmitButton}
-                            loading={this.props.user.isLoading}
-                            disabled={this.props.user.isLoading || this.props.isCitiesLoading || this.props.isSubjectsLoading}
+                            loading={this.props.user.isProcessRequest}
+                            disabled={this.props.user.isProcessRequest || this.props.isCitiesLoading || this.props.isSubjectsLoading}
                     />
                 </View>
 
