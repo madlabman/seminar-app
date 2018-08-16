@@ -29,7 +29,8 @@ export default class PostsScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingVertical: 20
+        paddingVertical: 20,
+        backgroundColor: '#fff'
     },
     title: {
         margin: 15,

@@ -60,6 +60,7 @@ class SinglePostScreen extends Component {
                         title={'Высылайте счет'}
                         onPress={() => console.log('checkout')}
                         backgroundColor={MAIN_COLOR}
+                        textStyle={styles.button}
                     />
                 </View>
             );
@@ -101,7 +102,12 @@ const styles = StyleSheet.create({
     browser: {
         marginTop: 10
     },
-    callText: {},
+    callText: {
+        color: '#000'
+    },
+    button: {
+        fontSize: 14
+    }
 });
 
 const mapStateToProps = state => {

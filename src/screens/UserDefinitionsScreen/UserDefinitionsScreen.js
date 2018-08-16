@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, StyleSheet, ScrollView, View} from 'react-native';
+import {ActivityIndicator, Alert, StyleSheet, ScrollView, View} from 'react-native';
 import {Button, FormValidationMessage, Text} from 'react-native-elements';
 import {connect} from 'react-redux';
 
@@ -23,12 +23,20 @@ class UserDefinitionsScreen extends Component {
     };
 
     handleSubmitButton = () => {
-        this.props.setUserDefinitions(
-            {
-                cities: this.props.user.cities,
-                subjects: this.props.user.subjects
-            }
-        );
+        // Simple validation
+        if (!this.props.user.cities || !this.props.user.subjects) {
+            Alert.alert(
+                'Ошибка!',
+                'Выберите хотя бы один город и интересующую тематику'
+            )
+        } else {
+            this.props.setUserDefinitions(
+                {
+                    cities: this.props.user.cities,
+                    subjects: this.props.user.subjects
+                }
+            );
+        }
     };
 
     onCitiesListChange = selected => {
@@ -70,7 +78,7 @@ class UserDefinitionsScreen extends Component {
         });
 
         return (
-            <ScrollView>
+            <ScrollView style={styles.scrollContainer}>
 
                 <View style={styles.container}>
 
@@ -109,6 +117,9 @@ const styles = StyleSheet.create({
     container: {
         marginHorizontal: 5
     },
+    scrollContainer: {
+        backgroundColor: '#fff'
+    },
     title: {
         marginVertical: 15,
         marginHorizontal: 50,
@@ -124,6 +135,7 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 10,
+        marginBottom: 20
     },
     userEmail: {
         marginTop: 10,

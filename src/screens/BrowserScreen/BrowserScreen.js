@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {WebView} from 'react-native';
+import {StyleSheet, View, WebView} from 'react-native';
 import PropTypes from 'prop-types';
 
 export default class BrowserScreen extends Component {
@@ -30,9 +30,18 @@ export default class BrowserScreen extends Component {
 
     render() {
         return (
-            <WebView
-                source={{uri: this.props.uri}}
-            />
+            <View style={styles.container}>
+                <WebView
+                    source={{uri: this.props.uri}}
+                />
+            </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff'
+    }
+});
