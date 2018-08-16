@@ -1,6 +1,7 @@
 import {
-    FAIL_GET_RELATION,
-    RECEIVE_GET_RELATION, RECEIVE_UPD_RELATION,
+    FAIL_GET_FEEDBACK,
+    FAIL_GET_RELATION, RECEIVE_FEEDBACK,
+    RECEIVE_GET_RELATION, RECEIVE_UPD_RELATION, REQUEST_FEEDBACK,
     REQUEST_GET_RELATION, REQUEST_UPD_RELATION,
     UI_IS_LOADING, UI_STOP_LOADING
 } from '../actions/actionTypes';
@@ -14,6 +15,7 @@ export const uiReducer = (uiState = initialState, action) => {
         case UI_IS_LOADING:
         case REQUEST_UPD_RELATION:
         case REQUEST_GET_RELATION:
+        case REQUEST_FEEDBACK:
             return {
                 ...uiState,
                 isLoading: true
@@ -21,6 +23,8 @@ export const uiReducer = (uiState = initialState, action) => {
         case UI_STOP_LOADING:
         case RECEIVE_GET_RELATION:
         case FAIL_GET_RELATION:
+        case RECEIVE_FEEDBACK:
+        case FAIL_GET_FEEDBACK:
             return {
                 ...uiState,
                 isLoading: false

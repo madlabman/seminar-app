@@ -144,6 +144,12 @@ class MainScreen extends Component {
         this.props.fetchNews();
     }
 
+    handleMailButtonPress = () => {
+        this.props.navigator.showModal({
+            screen: 'seminar.QuestionFormScreen'
+        });
+    };
+
     componentWillUnmount() {
         this.onTokenRefreshListener();
     }
@@ -195,9 +201,7 @@ class MainScreen extends Component {
                                 }}/>
                         <Button title={'Написать'} buttonStyle={styles.feedbackButton} backgroundColor={'#47698b'}
                                 icon={{name: 'email'}}
-                                onPress={() => {
-                                    Communication.email([FEEDBACK_EMAIL], null, null, FEEDBACK_SUBJECT, null);
-                                }}/>
+                                onPress={this.handleMailButtonPress}/>
                     </View>
 
                 </ScrollView>

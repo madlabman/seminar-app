@@ -10,6 +10,7 @@ import MenuScreen from './MenuScreen/MenuScreen';
 import UserDefinitionsScreen from './UserDefinitionsScreen/UserDefinitionsScreen';
 import BrowserScreen from './BrowserScreen/BrowserScreen';
 import TopBar from './TopBar/TopBar';
+import QuestionFormScreen from './QuestionFormScreen/QuestionFormScreen';
 
 export function registerScreens(store, provider) {
     Navigation.registerComponent('seminar.TopBar', () => TopBar);
@@ -22,4 +23,5 @@ export function registerScreens(store, provider) {
     Navigation.registerComponent('seminar.MenuScreen', () => MenuScreen, store, provider);
     Navigation.registerComponent('seminar.UserDefinitionsScreen', () => UserDefinitionsScreen, store, provider);
     Navigation.registerComponent('seminar.BrowserScreen', () => BrowserScreen);
+    Navigation.registerComponent('seminar.QuestionFormScreen', () => QuestionFormScreen, store, provider);
 }

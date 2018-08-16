@@ -16,5 +16,8 @@ export {fetchAnnounces, fetchNews, updRelation, getRelation} from './posts';
 // Menu
 export {fetchMenu} from './menu';
 
+// Feedback
+export {sendFeedback} from './feedback';
+
 // Debug
 export {incrementDebugOpenCounter} from './debug';
