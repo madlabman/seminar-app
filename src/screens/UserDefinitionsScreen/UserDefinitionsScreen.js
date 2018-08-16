@@ -13,6 +13,7 @@ import {
     updateUserSubjects
 } from '../../store/actions';
 import SelectList from '../../components/SelectList';
+import {MAIN_COLOR} from '../../../config';
 
 class UserDefinitionsScreen extends Component {
 
@@ -98,7 +99,7 @@ class UserDefinitionsScreen extends Component {
                 <View style={styles.buttonContainer}>
                     {errors}
                     <Button title={'Продолжить'}
-                            backgroundColor={'#000'}
+                            backgroundColor={MAIN_COLOR}
                             buttonStyle={styles.button}
                             textStyle={{color: '#fff'}}
                             disabledStyle={{backgroundColor: '#888'}}
