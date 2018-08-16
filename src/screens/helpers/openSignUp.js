@@ -5,8 +5,7 @@ import {MAIN_COLOR} from '../../../config';
 
 const navigatorStyle = {
     navBarTitleTextCentered: true,
-    navBarButtonColor: '#000',
-    navBarCustomView: 'seminar.TopBar'
+    navBarButtonColor: '#000'
 };
 
 const openSignUp = () => {

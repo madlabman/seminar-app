@@ -23,8 +23,7 @@ class MainScreen extends Component {
 
     static navigatorStyle = {
         navBarTitleTextCentered: true,
-        navBarButtonColor: '#000',
-        navBarCustomView: 'seminar.TopBar'
+        navBarButtonColor: '#000'
     };
 
     state = {
@@ -112,6 +111,7 @@ class MainScreen extends Component {
     };
 
     componentDidMount() {
+        this.props.navigator.setStyle({ navBarCustomView: 'seminar.TopBar' });
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
 
         // Register device on FCM

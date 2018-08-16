@@ -20,7 +20,11 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center'
+        width: '100%',
+        backgroundColor: 'transparent',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 999
     }
 });
