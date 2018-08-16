@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Button, FormInput, FormLabel, FormValidationMessage, Text} from 'react-native-elements';
 import {ScrollView, StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
+import Communication from 'react-native-communications';
 
-import {MAIN_COLOR} from '../../../config';
+import {FEEDBACK_PHONE, MAIN_COLOR} from '../../../config';
 import {signIn} from '../../store/actions';
 import validateEmail from '../helpers/validateEmail';
 
@@ -110,6 +111,12 @@ class SignInScreen extends Component {
         });
     };
 
+    handleHelpPress = () => {
+        Communication.phonecall(FEEDBACK_PHONE, false);
+    };
+
+    handleForgotPress = () => {};
+
     render() {
         const errors = this.props.errors.map((item, index) => {
             return (
@@ -162,6 +169,15 @@ class SignInScreen extends Component {
 
                     <Text style={styles.spacer}/>
 
+                    <TouchableWithoutFeedback onPress={() => this.handleForgotPress()}>
+                        <Text style={styles.lostPassword}>Забыли пароль?</Text>
+                    </TouchableWithoutFeedback>
+
+                    <TouchableWithoutFeedback onPress={() => this.handleHelpPress()}>
+                        <Text style={styles.needHelp}>Нужна помощь!</Text>
+                    </TouchableWithoutFeedback>
+
+
                     <Button title={'Войти'}
                             backgroundColor={MAIN_COLOR}
                             disabledStyle={{backgroundColor: '#888'}}
@@ -203,14 +219,19 @@ const styles = StyleSheet.create({
         borderBottomColor: MAIN_COLOR,
         borderBottomWidth: 2
     },
-    ruleLink: {
+    checkboxStyle: {
+        borderWidth: 0,
+        margin: 0,
+    },
+    lostPassword: {
         textAlign: 'center',
         marginBottom: 20,
         color: '#0099ff'
     },
-    checkboxStyle: {
-        borderWidth: 0,
-        margin: 0,
+    needHelp: {
+        textAlign: 'center',
+        marginBottom: 30,
+        color: MAIN_COLOR
     }
 });
 
