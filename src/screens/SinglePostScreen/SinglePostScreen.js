@@ -36,7 +36,7 @@ class SinglePostScreen extends Component {
                     <View style={styles.buttonContainer}>
                         {/*Пойду*/}
                         <TouchableIcon
-                            name={'thumb-up'}
+                            text={'Да'}
                             color={'#000'}
                             active={relation === 'yes'}
                             activeColor={'#fff'}
@@ -46,7 +46,7 @@ class SinglePostScreen extends Component {
                         />
                         {/*Не пойду*/}
                         <TouchableIcon
-                            name={'thumb-down'}
+                            text={'Нет'}
                             color={'#000'}
                             active={relation === 'no'}
                             activeColor={'#fff'}

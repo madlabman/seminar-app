@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Icon} from 'react-native-elements';
-import {ActivityIndicator, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text} from 'react-native-elements';
+import {ActivityIndicator, StyleSheet, TouchableOpacity, View} from 'react-native';
 
 export default class TouchableIcon extends Component {
     render() {
@@ -16,25 +16,31 @@ export default class TouchableIcon extends Component {
                 />
             ) :
             (
-                <Icon
-                    {...this.props}
-                    color={this.props.active ? this.props.activeColor : this.props.color}
-                    containerStyle={iconStyles}
-                />
+                <View style={iconStyles}>
+                    <Text
+                        style={{
+                            color: this.props.active ? this.props.activeColor : this.props.color
+                        }}
+                    >
+                        {this.props.text}
+                    </Text>
+                </View>
             );
 
         return (
-            <TouchableOpacity>{icon}</TouchableOpacity>
+            <TouchableOpacity onPress={this.props.onPress}>{icon}</TouchableOpacity>
         )
     }
 }
 
 const styles = StyleSheet.create({
     button: {
+        alignItems: 'center',
+        justifyContent: 'center',
         margin: 10,
         width: 50,
         height: 50,
         backgroundColor: 'transparent',
-        borderRadius: 25
-    },
+        borderRadius: 25,
+    }
 });
