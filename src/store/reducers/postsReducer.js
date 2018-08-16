@@ -4,6 +4,8 @@ import {
     REQUEST_ANNOUNCES, REQUEST_NEWS
 } from '../actions/actionTypes';
 import moment from "moment";
+import buildUrl from "build-url";
+import {ONLY_CONTENT_PARAM} from "../../../config";
 
 const initialState = {
     announces: {
@@ -81,7 +83,14 @@ export const postsReducer = (postsState = initialState, action) => {
                         title: item.post_title,
                         excerpt: item.post_excerpt,
                         permalink: {
-                            uri: permalink
+                            uri: buildUrl(
+                                permalink,
+                                {
+                                    queryParams: {
+                                        [ONLY_CONTENT_PARAM]: true
+                                    }
+                                }
+                            )
                         },
                         relation: 'none'
                     }

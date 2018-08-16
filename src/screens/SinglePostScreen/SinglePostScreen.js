@@ -71,7 +71,7 @@ class SinglePostScreen extends Component {
                 <WebView
                     source={this.props.item.permalink}
                     style={styles.browser}
-                    injectedJavaScript={injectedJS()}
+                    // injectedJavaScript={injectedJS()}
                 />
             </View>
         )

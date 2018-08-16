@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {FlatList, Linking, StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import PropTypes from 'prop-types';
+import buildUrl from 'build-url';
+
+import {ONLY_CONTENT_PARAM} from '../../../config';
 
 export default class MainMenu extends Component {
     handlePressLink = link => {
@@ -10,7 +13,14 @@ export default class MainMenu extends Component {
         this.props.navigator.showModal({
             screen: 'seminar.BrowserScreen',
             passProps: {
-                uri: link
+                uri: buildUrl(
+                    link,
+                    {
+                        queryParams: {
+                            [ONLY_CONTENT_PARAM]: true
+                        }
+                    }
+                )
             },
         });
     };
