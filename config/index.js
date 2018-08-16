@@ -9,3 +9,4 @@ export const ONLY_CONTENT_PARAM = 'only_content';
 export const MAIN_COLOR = '#c73800';
 
 export const PDN_RULES_LINK = 'http://www.gazprom.ru/about/legal/policy-personal-data/';
+export const ARCHIVE_LINK = 'http://hosthub.ru:8080/archive';

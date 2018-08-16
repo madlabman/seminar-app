@@ -4,10 +4,18 @@ import {Button, Text} from 'react-native-elements';
 import Communication from 'react-native-communications';
 import firebase from 'react-native-firebase';
 import {connect} from 'react-redux';
+import buildUrl from 'build-url';
 
 import PostList from '../../components/SummaryPostList';
 import MainSlider from '../../components/MainSlider/MainSlider';
-import {FEEDBACK_PHONE, FEEDBACK_EMAIL, FEEDBACK_SUBJECT, MAIN_COLOR} from '../../../config/index';
+import {
+    FEEDBACK_PHONE,
+    FEEDBACK_EMAIL,
+    FEEDBACK_SUBJECT,
+    MAIN_COLOR,
+    ARCHIVE_LINK,
+    ONLY_CONTENT_PARAM
+} from '../../../config';
 import {fetchAnnounces, fetchNews, updateFCM} from '../../store/actions';
 import openUserDefinitions from '../helpers/openUserDefinitions';
 
@@ -74,7 +82,10 @@ class MainScreen extends Component {
                     this.props.navigator.toggleDrawer();
                     break;
                 case 'account':
-                    openUserDefinitions();
+                    this.props.navigator.push({
+                        screen: 'seminar.UserDefinitionsScreen',
+                        animationType: Platform.OS === 'android' ? 'slide-horizontal' : ''
+                    });
                     break;
             }
     };
@@ -156,6 +167,43 @@ class MainScreen extends Component {
         });
     };
 
+    handleArchiveButtonPress = () => {
+        this.props.navigator.showModal({
+            screen: 'seminar.BrowserScreen',
+            passProps: {
+                uri: buildUrl(
+                    ARCHIVE_LINK,
+                    {
+                        queryParams: {
+                            [ONLY_CONTENT_PARAM]: true
+                        }
+                    }
+                )
+            },
+        })
+    };
+
+    handleCallback = () => {
+        Alert.alert(
+            'Связаться с нами',
+            'Вы можете связаться с нами следующими способами',
+            [
+                {
+                    text: 'Позвонить',
+                    onPress: () => { Communication.phonecall(FEEDBACK_PHONE, false); }
+                },
+                {
+                    text: 'Написать',
+                    onPress: this.handleMailButtonPress
+                },
+                {
+                    text: 'Закрыть',
+                    style: 'cancel'
+                }
+            ],
+        )
+    };
+
     componentWillUnmount() {
         this.onTokenRefreshListener();
     }
@@ -170,45 +218,29 @@ class MainScreen extends Component {
                         onSlidePress={this.showBrowser}
                     />
 
-                    <View style={styles.buttonContainer}>
-                        <Text h4 style={styles.listHeader}>Анонсы</Text>
-                        <Button title={'Все анонсы'} icon={{name: 'bullhorn', type: 'font-awesome', color: '#545454'}}
-                                backgroundColor={'transparent'}
-                                color={'#545454'}
-                                buttonStyle={styles.allPostsButton}
-                                onPress={() => this.showPosts(true)}/>
-                    </View>
-                    <PostList
-                        posts={this.props.announces}
-                        onPress={this.handlePostPress}
-                        isAnnounce={true}
+                    <Button
+                        title={'Анонсы'}
+                        backgroundColor={MAIN_COLOR}
+                        color={'#fff'}
+                        buttonStyle={styles.mainButton}
+                        onPress={() => this.showPosts(true)}
                     />
 
-                    <View style={styles.buttonContainer}>
-                        <Text h4 style={styles.listHeader}>Новости</Text>
-                        <Button title={'Все новости'}
-                                icon={{name: 'web', type: 'evil-icons', color: '#545454'}}
-                                backgroundColor={'transparent'}
-                                color={'#545454'}
-                                buttonStyle={styles.allPostsButton}
-                                onPress={() => this.showPosts()}/>
-                    </View>
-                    <PostList
-                        posts={this.props.news}
-                        onPress={this.handlePostPress}
+                    <Button
+                        title={'Прошедшие семинары'}
+                        backgroundColor={MAIN_COLOR}
+                        color={'#fff'}
+                        buttonStyle={styles.mainButton}
+                        onPress={this.handleArchiveButtonPress}
                     />
 
-                    <Text h4 style={styles.listHeader}>Связаться с нами</Text>
-                    <View style={styles.feedbackContainer}>
-                        <Button title={'Позвонить'} buttonStyle={styles.feedbackButton} backgroundColor={'#3d9733'}
-                                icon={{name: 'phone'}}
-                                onPress={() => {
-                                    Communication.phonecall(FEEDBACK_PHONE, false);
-                                }}/>
-                        <Button title={'Написать'} buttonStyle={styles.feedbackButton} backgroundColor={'#47698b'}
-                                icon={{name: 'email'}}
-                                onPress={this.handleMailButtonPress}/>
-                    </View>
+                    <Button
+                        title={'Связаться с нами'}
+                        backgroundColor={MAIN_COLOR}
+                        color={'#fff'}
+                        buttonStyle={styles.mainButton}
+                        onPress={this.handleCallback}
+                    />
 
                 </ScrollView>
             </View>
@@ -228,9 +260,9 @@ const styles = StyleSheet.create({
     container: {
         //
     },
-    allPostsButton: {
-        width: 180,
-        borderRadius: 5,
+    mainButton: {
+        marginVertical: 10,
+        paddingVertical: 20
     },
     buttonContainer: {
         flexDirection: 'row',
