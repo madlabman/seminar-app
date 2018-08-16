@@ -4,7 +4,8 @@ import {Button, CheckBox, FormLabel, FormInput, FormValidationMessage, Text} fro
 import {connect} from 'react-redux';
 
 import {signUp} from '../../store/actions';
-import MaskedFormInput from '../../components/MaskedFormInput';
+// import MaskedFormInput from '../../components/MaskedFormInput';
+import MaskedFormInput from '../../components/FormIniputMask';
 import {MAIN_COLOR, PDN_RULES_LINK} from '../../../config';
 import validateEmail from '../helpers/validateEmail';
 
@@ -64,7 +65,7 @@ class SignUpScreen extends Component {
             placeholder: '8 (123) 456-78-90',
             attrs: {
                 keyboardType: 'phone-pad',
-                mask: '8 ([000]) [000]-[00]-[00]',
+                mask: '8 (999) 999 99 99',
             }
         }
     };
@@ -127,7 +128,7 @@ class SignUpScreen extends Component {
                     first_name: this.state.inputs.first_name.value,
                     email: this.state.inputs.email.value,
                     mobile_password: this.state.inputs.password.value,
-                    phone_number: this.state.inputs.phone.value,
+                    phone_number: this.state.inputs.phone.value.replace(/\W/g, ''),
                 });
             });
         }
@@ -184,12 +185,12 @@ class SignUpScreen extends Component {
                 onChangeText: value => this.changeInput(key, value),
                 value: this.state.inputs[key].value,
                 inputStyle: styles.textInput,
-                containerStyle: [this.state.inputs[key].containerStyle, styles.textInputContainerStyle],
+                containerStyle: [styles.textInputContainerStyle, this.state.inputs[key].containerStyle],
                 ...this.formModel[key].attrs,
             };
             // Form
             const inputElem = key === 'phone' ? (
-                <MaskedFormInput {...inputAttrs} onChangeText={this.handlePhoneInputChange}/>
+                <MaskedFormInput {...inputAttrs}/>
             ) : (
                 <FormInput {...inputAttrs} />
             );
@@ -267,7 +268,8 @@ const styles = StyleSheet.create({
         color: '#000',
     },
     textInputContainerStyle: {
-        borderBottomWidth: 2
+        borderBottomWidth: 2,
+        borderBottomColor: '#adadad'
     },
     activeTextInputContainerStyle: {
         borderBottomColor: MAIN_COLOR,

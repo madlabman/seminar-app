@@ -141,7 +141,7 @@ class SignInScreen extends Component {
                 onChangeText: value => this.changeInput(key, value),
                 value: this.state.inputs[key].value,
                 inputStyle: styles.textInput,
-                containerStyle: [this.state.inputs[key].containerStyle, styles.textInputContainerStyle],
+                containerStyle: [styles.textInputContainerStyle, this.state.inputs[key].containerStyle],
                 ...this.formModel[key].attrs,
             };
             // Form
@@ -213,7 +213,8 @@ const styles = StyleSheet.create({
         color: '#000',
     },
     textInputContainerStyle: {
-        borderBottomWidth: 2
+        borderBottomWidth: 2,
+        borderBottomColor: '#adadad'
     },
     activeTextInputContainerStyle: {
         borderBottomColor: MAIN_COLOR,
