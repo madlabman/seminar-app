@@ -10,12 +10,16 @@ import {
     REQUEST_SIGN_UP,
     REQUEST_USER,
     REQUEST_USER_UPDATE,
-    UPDATE_FCM_TOKEN
+    UPDATE_FCM_TOKEN,
+    UPDATE_USER_CITIES,
+    UPDATE_USER_SUBJECTS
 } from '../actions/actionTypes';
 
 const initialState = {
     name: null,
     email: null,
+    cities: null,
+    subjects: null,
     installationId: null,
     isSignedUp: false,
     isSetupCompleted: false,
@@ -35,9 +39,24 @@ const userReducer = (userState = initialState, action) => {
                 isProcessRequest: true
             };
         case RECEIVE_USER:
+            if (
+                action.payload
+                && action.payload.success
+            ) {
+                if (action.payload.data) {
+                    const receivedUser = action.payload.data;
+                    return {
+                        ...userState,
+                        email: receivedUser.data.user_email,
+                        name: receivedUser.data.user_nicename,
+                        cities: receivedUser.cities,
+                        subjects: receivedUser.subjects,
+                        isProcessRequest: false
+                    };
+                }
+            }
             return {
                 ...userState,
-                ...action.payload,
                 isProcessRequest: false
             };
         case RECEIVE_SIGN_UP: {
@@ -77,7 +96,7 @@ const userReducer = (userState = initialState, action) => {
                     returnState.installationId = action.payload.data.installation_id;
                     returnState.email = action.payload.data.email;
                     returnState.isSignedUp = true;
-                } else  {
+                } else {
                     returnState.errors = ['Неверное имя пользователя или пароль!'];
                 }
             } else {
@@ -118,6 +137,18 @@ const userReducer = (userState = initialState, action) => {
                 ...userState,
                 fcmToken: action.token
             };
+        case UPDATE_USER_CITIES: {
+            return {
+                ...userState,
+                cities: action.cities
+            }
+        }
+        case UPDATE_USER_SUBJECTS: {
+            return {
+                ...userState,
+                subjects: action.subjects
+            }
+        }
         default:
             return userState;
     }

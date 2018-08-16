@@ -20,7 +20,9 @@ import {
     FAIL_FCM_UPDATE,
     REQUEST_SIGN_IN,
     RECEIVE_SIGN_IN,
-    FAIL_SIGN_IN
+    FAIL_SIGN_IN,
+    UPDATE_USER_CITIES,
+    UPDATE_USER_SUBJECTS
 } from './actionTypes';
 
 import {API_BASE} from '../../../config';
@@ -35,17 +37,26 @@ if (__DEV__) {
     }
 }
 
-export const fetchUser = installation_id => {
-    return {
-        [RSAA]: {
-            endpoint: `${API_BASE}/mobile_user/${installation_id}`,
-            method: 'GET',
-            types: [
-                REQUEST_USER,
-                RECEIVE_USER,
-                FAIL_GET_USER
-            ]
-        }
+export const fetchUser = () => {
+    return (dispatch, getState) => {
+        const endpoint = buildUrl(
+            API_BASE,
+            {
+                path: `mobile_user/${getState().user.installationId}`,
+                queryParams
+            }
+        );
+        return dispatch({
+            [RSAA]: {
+                endpoint,
+                method: 'GET',
+                types: [
+                    REQUEST_USER,
+                    RECEIVE_USER,
+                    FAIL_GET_USER
+                ]
+            }
+        });
     }
 };
 
@@ -229,5 +240,19 @@ export const updateFCMTokenInStore = token => {
     return {
         type: UPDATE_FCM_TOKEN,
         token
+    }
+};
+
+export const updateUserCities = cities => {
+    return {
+        type: UPDATE_USER_CITIES,
+        cities
+    }
+};
+
+export const updateUserSubjects = subjects => {
+    return {
+        type: UPDATE_USER_SUBJECTS,
+        subjects
     }
 };

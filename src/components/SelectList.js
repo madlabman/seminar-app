@@ -11,19 +11,19 @@ export default class SelectList extends Component {
     // I don't know why it works with or without this lines of code :(
     componentDidMount() {
         // Init items
-        //let items = [];
-        // Object.keys(this.props.data).forEach((index) => {
-        //     items = {
-        //         ...items,
-        //         [this.props.data[index].title]: false
-        //     }
-        // });
-        // this.setState(prevState => {
-        //     return {
-        //         ...prevState,
-        //         items: items
-        //     }
-        // })
+        let items = this.state.items;
+        Object.keys(this.props.selected).forEach(item => {
+            items = {
+                ...items,
+                [item]: true
+            }
+        });
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                items: items
+            }
+        })
     }
 
     handleCheckboxPress = key => {

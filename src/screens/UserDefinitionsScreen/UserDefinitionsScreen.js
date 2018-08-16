@@ -4,7 +4,14 @@ import {Button, FormValidationMessage, Text} from 'react-native-elements';
 import {connect} from 'react-redux';
 
 import openMainApp from '../helpers/openMainApp';
-import {fetchCities, fetchSubjects, setUserDefinitions} from '../../store/actions';
+import {
+    fetchCities,
+    fetchSubjects,
+    fetchUser,
+    setUserDefinitions,
+    updateUserCities,
+    updateUserSubjects
+} from '../../store/actions';
 import SelectList from '../../components/SelectList';
 
 class UserDefinitionsScreen extends Component {
@@ -15,41 +22,27 @@ class UserDefinitionsScreen extends Component {
         navBarCustomView: 'seminar.TopBar'
     };
 
-    state = {
-        selectedCities: [],
-        selectedSubjects: [],
-    };
-
     handleSubmitButton = () => {
         this.props.setUserDefinitions(
             {
-                cities: this.state.selectedCities,
-                subjects: this.state.selectedSubjects
+                cities: this.props.user.cities,
+                subjects: this.props.user.subjects
             }
         );
     };
 
     onCitiesListChange = selected => {
-        this.setState(prevState => (
-            {
-                ...prevState,
-                selectedCities: selected
-            }
-        ))
+        this.props.updateUserCities(selected);
     };
 
     onSubjectsListChange = selected => {
-        this.setState(prevState => (
-            {
-                ...prevState,
-                selectedSubjects: selected
-            }
-        ))
+        this.props.updateUserSubjects(selected);
     };
 
     componentDidMount() {
         this.props.fetchCities();
         this.props.fetchSubjects();
+        // this.props.fetchUser();
     }
 
     render() {
@@ -59,7 +52,7 @@ class UserDefinitionsScreen extends Component {
                 <ActivityIndicator color={'#000'}/>
             ) :
             (
-                <SelectList data={this.props.cities} onChange={this.onCitiesListChange}/>
+                <SelectList data={this.props.cities} selected={this.props.user.cities} onChange={this.onCitiesListChange}/>
             );
 
         let subjects = this.props.isSubjectsLoading ?
@@ -67,7 +60,7 @@ class UserDefinitionsScreen extends Component {
                 <ActivityIndicator color={'#000'}/>
             ) :
             (
-                <SelectList data={this.props.subjects} onChange={this.onSubjectsListChange}/>
+                <SelectList data={this.props.subjects} selected={this.props.user.subjects} onChange={this.onSubjectsListChange}/>
             );
 
         let errors = this.props.user.errors.map((item, index) => {
@@ -153,7 +146,10 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchCities: () => dispatch(fetchCities()),
         fetchSubjects: () => dispatch(fetchSubjects()),
-        setUserDefinitions: data => dispatch(setUserDefinitions(data))
+        fetchUser: () => dispatch(fetchUser()),
+        setUserDefinitions: data => dispatch(setUserDefinitions(data)),
+        updateUserCities: cities => dispatch(updateUserCities(cities)),
+        updateUserSubjects: subjects => dispatch(updateUserSubjects(subjects)),
     }
 };
 
