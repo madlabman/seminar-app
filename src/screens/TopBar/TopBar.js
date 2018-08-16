@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 
-// import logo from '../../../assets/img/logo-seminar.png';
+import logo from '../../../assets/img/logo-seminar.png';
 
 export default class TopBar extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Image source={require('../../../assets/img/logo-seminar.png')} style={styles.logo}/>
+                <Image source={logo} resizeMethod="resize" style={styles.logo}/>
             </View>
         )
     }

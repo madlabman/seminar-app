@@ -54,7 +54,7 @@ class SignUpScreen extends Component {
         },
         password: {
             label: 'Пароль',
-            placeholder: 'Введите пароль',
+            placeholder: 'Придумайте пароль',
             attrs: {
                 secureTextEntry: true
             }
@@ -64,7 +64,7 @@ class SignUpScreen extends Component {
             placeholder: '8 (123) 456-78-90',
             attrs: {
                 keyboardType: 'phone-pad',
-                mask: '8 ([000]) [000]-[00]-[00]'
+                mask: '8 ([000]) [000]-[00]-[00]',
             }
         }
     };
@@ -154,6 +154,11 @@ class SignUpScreen extends Component {
         })
     };
 
+    handlePhoneInputChange = (formatted, extracted) => {
+        console.log(`formatted: ${formatted}`, `extracted: ${extracted}`);
+        this.setInputState('phone', { value: formatted });
+    };
+
     render() {
 
         const errors = this.props.errors.map((item, index) => {
@@ -184,7 +189,7 @@ class SignUpScreen extends Component {
             };
             // Form
             const inputElem = key === 'phone' ? (
-                <MaskedFormInput {...inputAttrs} />
+                <MaskedFormInput {...inputAttrs} onChangeText={this.handlePhoneInputChange}/>
             ) : (
                 <FormInput {...inputAttrs} />
             );
