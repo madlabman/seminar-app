@@ -133,7 +133,7 @@ export const postsReducer = (postsState = initialState, action) => {
                 if (postsState.announces.items[postId] !== undefined) {
                     relation = postsState.announces.items[postId].relation;
                     if (action.payload.data) {
-                        relation = action.payload.data[0].relation;
+                        relation = action.payload.data.relation;
                     } else if (action.meta.relation) {
                         relation = action.meta.relation;
                     }
