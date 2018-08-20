@@ -4,6 +4,11 @@ import buildUrl from 'build-url';
 import {API_BASE} from '../../../config';
 import {REQUEST_CITIES, RECEIVE_CITIES, FAIL_GET_CITIES} from './actionTypes';
 
+/**
+ * Get all cities
+ *
+ * @returns {{}}
+ */
 export const fetchCities = () => {
     let queryParams = {};
     if (__DEV__) {
@@ -16,7 +21,7 @@ export const fetchCities = () => {
     const endpoint = buildUrl(
         API_BASE,
         {
-            path: `cities`,
+            path: `/wp/v2/cities`,
             queryParams
         }
     );

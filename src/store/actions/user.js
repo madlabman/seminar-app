@@ -25,7 +25,7 @@ import {
     UPDATE_USER_SUBJECTS
 } from './actionTypes';
 
-import {API_BASE} from '../../../config';
+import {API_BASE, SPP_REST_ROUTE} from '../../../config';
 import openUserDefinitions from '../../screens/helpers/openUserDefinitions';
 import openMainApp from '../../screens/helpers/openMainApp';
 import {fetchAnnounces} from './index';
@@ -61,24 +61,29 @@ export const fetchUser = () => {
     }
 };
 
+/**
+ * Register user
+ *
+ * @param data
+ * @returns {function(*, *): (*|Promise<any>|PromiseLike<T | never>|Promise<T | never>)}
+ */
 export const signUp = data => {
     return (dispatch, getState) => {
         const endpoint = buildUrl(
             API_BASE,
             {
-                path: `create_mobile_user`,
-                queryParams
+                path: `${SPP_REST_ROUTE}/create_mobile_user`,
+                queryParams: {
+                    ...queryParams,
+                    ...data
+                }
             }
         );
 
         return dispatch({
             [RSAA]: {
                 endpoint,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data),
+                method: 'GET',
                 types: [
                     REQUEST_SIGN_UP,
                     RECEIVE_SIGN_UP,
@@ -94,24 +99,29 @@ export const signUp = data => {
     };
 };
 
+/**
+ * Login user
+ *
+ * @param data
+ * @returns {function(*, *): (*|Promise<any>|PromiseLike<T | never>|Promise<T | never>)}
+ */
 export const signIn = data => {
     return (dispatch, getState) => {
         const endpoint = buildUrl(
             API_BASE,
             {
-                path: `mobile_user_log_in`,
-                queryParams
+                path: `${SPP_REST_ROUTE}/mobile_user/log_in`,
+                queryParams: {
+                    ...queryParams,
+                    ...data
+                }
             }
         );
 
         return dispatch({
             [RSAA]: {
                 endpoint,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data),
+                method: 'GET',
                 types: [
                     REQUEST_SIGN_IN,
                     RECEIVE_SIGN_IN,
@@ -127,12 +137,18 @@ export const signIn = data => {
     };
 };
 
+/**
+ * Update user information
+ *
+ * @param data
+ * @returns {function(*, *): (*|Promise<any>|PromiseLike<T | never>|Promise<T | never>)}
+ */
 export const setUserDefinitions = data => {
     return (dispatch, getState) => {
         const endpoint = buildUrl(
             API_BASE,
             {
-                path: `mobile_user/${getState().user.installationId}`,
+                path: `${SPP_REST_ROUTE}/mobile_user`,
                 queryParams
             }
         );
@@ -145,6 +161,7 @@ export const setUserDefinitions = data => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
+                    installation_id: getState().user.installationId,
                     cities: Object.keys(data.cities),
                     subjects: Object.keys(data.subjects)
                 }),
@@ -166,6 +183,12 @@ export const setUserDefinitions = data => {
     }
 };
 
+/**
+ * Dispatch update or create Firebase token actions
+ *
+ * @param token
+ * @returns {function(*, *): *}
+ */
 export const updateFCM = token => {
     return (dispatch, getState) => {
         const storedToken = getState().user.fcmToken;
@@ -181,26 +204,30 @@ export const updateFCM = token => {
     }
 };
 
+/**
+ * Send new token to the backend
+ *
+ * @param token
+ * @returns {function(*, *): *}
+ */
 export const addFCMToken = token => {
     return (dispatch, getState) => {
         const endpoint = buildUrl(
             API_BASE,
             {
-                path: `add_fcm_token/${getState().user.installationId}`,
-                queryParams
+                path: `${SPP_REST_ROUTE}/mobile_user/fcm_tokens/add`,
+                queryParams: {
+                    ...queryParams,
+                    installation_id: getState().user.installationId,
+                    token
+                }
             }
         );
 
         return dispatch({
             [RSAA]: {
                 endpoint,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    token
-                }),
+                method: 'GET',
                 types: [
                     REQUEST_FCM_ADD,
                     RECEIVE_FCM_ADD,
@@ -211,32 +238,39 @@ export const addFCMToken = token => {
     }
 };
 
+/**
+ * Send token for replace on the backend
+ *
+ * @param oldToken
+ * @param newToken
+ * @returns {function(*, *): *}
+ */
 export const updateFCMToken = (oldToken, newToken) => {
-    const endpoint = buildUrl(
-        API_BASE,
-        {
-            path: `replace_fcm_token/${getState().user.installationId}`,
-            queryParams
-        }
-    );
+    return (dispatch, getState) => {
+        const endpoint = buildUrl(
+            API_BASE,
+            {
+                path: `${SPP_REST_ROUTE}/mobile_user/fcm_tokens/replace`,
+                queryParams: {
+                    ...queryParams,
+                    installation_id: getState().user.installationId,
+                    old_token: oldToken,
+                    new_token: newToken
+                }
+            }
+        );
 
-    return {
-        [RSAA]: {
-            endpoint,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                old_token: oldToken,
-                new_token: newToken
-            }),
-            types: [
-                REQUEST_FCM_UPDATE,
-                RECEIVE_FCM_UPDATE,
-                FAIL_FCM_UPDATE
-            ]
-        }
+        return dispatch({
+            [RSAA]: {
+                endpoint,
+                method: 'GET',
+                types: [
+                    REQUEST_FCM_UPDATE,
+                    RECEIVE_FCM_UPDATE,
+                    FAIL_FCM_UPDATE
+                ]
+            }
+        })
     }
 };
 

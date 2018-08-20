@@ -1,6 +1,6 @@
 import {
     FAIL_GET_ANNOUNCES, FAIL_GET_NEWS,
-    RECEIVE_ANNOUNCES, RECEIVE_GET_RELATION, RECEIVE_NEWS, RECEIVE_UPD_RELATION,
+    RECEIVE_ANNOUNCES, RECEIVE_BILL, RECEIVE_GET_RELATION, RECEIVE_NEWS, RECEIVE_UPD_RELATION,
     REQUEST_ANNOUNCES, REQUEST_NEWS
 } from '../actions/actionTypes';
 import moment from "moment";
@@ -123,35 +123,38 @@ export const postsReducer = (postsState = initialState, action) => {
             };
         case RECEIVE_GET_RELATION:
         case RECEIVE_UPD_RELATION:
+            const postId = action.meta.announceId;
+            let relation = null;
+
             if (
                 action.payload
                 && action.payload.success
             ) {
-                const postId = action.meta.announceId;
                 if (postsState.announces.items[postId] !== undefined) {
-                    let relation = postsState.announces.items[postId].relation;
+                    relation = postsState.announces.items[postId].relation;
                     if (action.payload.data) {
-                        relation = action.payload.data[0].relation;
+                        relation = action.payload.data.relation;
                     } else if (action.meta.relation) {
                         relation = action.meta.relation;
                     }
 
-                    return {
-                        ...postsState,
-                        announces: {
-                            ...postsState.announces,
-                            items: {
-                                ...postsState.announces.items,
-                                [postId]: {
-                                    ...postsState.announces.items[postId],
-                                    relation
-                                }
-                            }
+
+                }
+            }
+
+            return {
+                ...postsState,
+                announces: {
+                    ...postsState.announces,
+                    items: {
+                        ...postsState.announces.items,
+                        [postId]: {
+                            ...postsState.announces.items[postId],
+                            relation
                         }
                     }
                 }
             }
-            return postsState;
         default:
             return postsState;
     }

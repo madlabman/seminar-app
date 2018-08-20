@@ -129,7 +129,10 @@ class SignUpScreen extends Component {
                     email: this.state.inputs.email.value,
                     mobile_password: this.state.inputs.password.value,
                     phone_number: this.state.inputs.phone.value.replace(/\W/g, ''),
-                });
+                })
+                    .then(() => {
+                        this.scrollView.scrollTo({ x: 0, y: 0, animated: true})
+                    });
             });
         }
     };
@@ -209,7 +212,7 @@ class SignUpScreen extends Component {
 
                 <Text style={styles.header}>Введите данные, чтобы продолжить</Text>
 
-                <ScrollView>
+                <ScrollView ref={ref => this.scrollView = ref}>
 
                     {[errors, formInputs]}
 

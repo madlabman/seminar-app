@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, WebView} from 'react-native';
+import {Alert, StyleSheet, View, WebView} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import TouchableIcon from '../../components/TouchableIcon/TouchableIcon';
-import {updRelation, getRelation} from '../../store/actions';
-import injectedJS from '../helpers/hideMenuBarInWebView';
+import {updRelation, getRelation, sendBillRequest} from '../../store/actions';
 import {MAIN_COLOR} from "../../../config";
 
 class SinglePostScreen extends Component {
@@ -17,6 +16,20 @@ class SinglePostScreen extends Component {
             relation
         );
     };
+
+    handleBillButtonPress = () => {
+        this.props.sendBillRequest(
+            this.props.item.id
+            )
+            .then(action => {
+                if (
+                    action.payload
+                    && action.payload.success
+                ) {
+                    Alert.alert('Успешно!', 'Вы получите счет по вашему адресу электронной почты.')
+                }
+            })
+    }
 
     componentDidMount() {
         this.props.getRelation(this.props.item.id);
@@ -58,9 +71,11 @@ class SinglePostScreen extends Component {
 
                     <Button
                         title={'Высылайте счет'}
-                        onPress={() => console.log('checkout')}
+                        onPress={this.handleBillButtonPress}
                         backgroundColor={MAIN_COLOR}
                         textStyle={styles.button}
+                        loading={this.props.isLoading}
+                        disabled={this.props.isLoading}
                     />
                 </View>
             );
@@ -72,7 +87,6 @@ class SinglePostScreen extends Component {
                 <WebView
                     source={this.props.item.permalink}
                     style={styles.browser}
-                    // injectedJavaScript={injectedJS()}
                 />
             </View>
         )
@@ -120,7 +134,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         updRelation: (announceId, relation) => dispatch(updRelation(announceId, relation)),
-        getRelation: announceId => dispatch(getRelation(announceId))
+        getRelation: announceId => dispatch(getRelation(announceId)),
+        sendBillRequest: announceId => dispatch(sendBillRequest(announceId))
     }
 };
 

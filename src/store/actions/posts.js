@@ -3,12 +3,19 @@ import buildUrl from 'build-url';
 import moment from 'moment';
 
 import {
+    FAIL_BILL,
     FAIL_GET_ANNOUNCES, FAIL_GET_NEWS, FAIL_GET_RELATION, FAIL_UPD_RELATION,
-    RECEIVE_ANNOUNCES, RECEIVE_GET_RELATION, RECEIVE_NEWS, RECEIVE_UPD_RELATION,
-    REQUEST_ANNOUNCES, REQUEST_GET_RELATION, REQUEST_NEWS, REQUEST_UPD_RELATION,
+    RECEIVE_ANNOUNCES, RECEIVE_BILL, RECEIVE_GET_RELATION, RECEIVE_NEWS, RECEIVE_UPD_RELATION,
+    REQUEST_ANNOUNCES, REQUEST_BILL, REQUEST_GET_RELATION, REQUEST_NEWS, REQUEST_UPD_RELATION,
 } from './actionTypes';
-import {API_BASE} from '../../../config';
+import {API_BASE, SPP_REST_ROUTE} from '../../../config';
 
+/**
+ * Get announces related for user
+ *
+ * @param force
+ * @returns {function(*, *): *}
+ */
 export const fetchAnnounces = (force = false) => {
     return (dispatch, getState) => {
         const updatedAt = getState().posts.announces.updatedAt;
@@ -18,6 +25,7 @@ export const fetchAnnounces = (force = false) => {
 
         let queryParams = {
             since_date: updatedAtMoment.format('X'),
+            installation_id: getState().user.installationId
         };
 
         if (__DEV__) {
@@ -30,7 +38,7 @@ export const fetchAnnounces = (force = false) => {
         const endpoint = buildUrl(
             API_BASE,
             {
-                path: `seminars_for_mobile_user/${getState().user.installationId}`,
+                path: `${SPP_REST_ROUTE}/mobile_user/seminars`,
                 queryParams
             }
         );
@@ -49,6 +57,11 @@ export const fetchAnnounces = (force = false) => {
     }
 };
 
+/**
+ * Get all news
+ *
+ * @returns {function(*, *): *}
+ */
 export const fetchNews = () => {
     return (dispatch, getState) => {
         const updatedAt = getState().posts.news.updatedAt;
@@ -70,7 +83,7 @@ export const fetchNews = () => {
         const endpoint = buildUrl(
             API_BASE,
             {
-                path: `news_for_mobile_user/${getState().user.installationId}`,
+                path: `${SPP_REST_ROUTE}/news`,
                 queryParams
             }
         );
@@ -89,9 +102,20 @@ export const fetchNews = () => {
     }
 };
 
+/**
+ * Update relation between announce and user
+ *
+ * @param announceId
+ * @param relation
+ * @returns {function(*, *): *}
+ */
 export const updRelation = (announceId, relation) => {
     return (dispatch, getState) => {
-        let queryParams = {};
+        let queryParams = {
+            seminar_id: announceId,
+            installation_id: getState().user.installationId,
+            relation
+        };
         if (__DEV__) {
             queryParams = {
                 ...queryParams,
@@ -102,22 +126,15 @@ export const updRelation = (announceId, relation) => {
         const endpoint = buildUrl(
             API_BASE,
             {
-                path: `add_relation/${getState().user.installationId}`,
+                path: `${SPP_REST_ROUTE}/mobile_user/add_relation`,
                 queryParams
             }
         );
 
-        return dispatch({
+        dispatch({
             [RSAA]: {
                 endpoint,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    seminar_id: announceId,
-                    relation
-                }),
+                method: 'GET',
                 types: [
                     REQUEST_UPD_RELATION,
                     {
@@ -134,9 +151,16 @@ export const updRelation = (announceId, relation) => {
     }
 };
 
+/**
+ * Get relation for announce
+ *
+ * @param announceId
+ * @returns {function(*, *): *}
+ */
 export const getRelation = announceId => {
     return (dispatch, getState) => {
         let queryParams = {
+            installation_id: getState().user.installationId,
             seminar_id: announceId
         };
 
@@ -150,7 +174,7 @@ export const getRelation = announceId => {
         const endpoint = buildUrl(
             API_BASE,
             {
-                path: `relation/${getState().user.installationId}`,
+                path: `${SPP_REST_ROUTE}/relation`,
                 queryParams
             }
         );
@@ -173,3 +197,45 @@ export const getRelation = announceId => {
         });
     }
 };
+
+/**
+ * Send request for getting PDF bill by email
+ *
+ * @param announceId
+ * @returns {function(*, *): *}
+ */
+export const sendBillRequest = announceId => {
+    return (dispatch, getState) => {
+        let queryParams = {
+            installation_id: getState().user.installationId,
+            seminar_id: announceId
+        };
+
+        if (__DEV__) {
+            queryParams = {
+                ...queryParams,
+                XDEBUG_SESSION_START: 'PHPSTORM'
+            }
+        }
+
+        const endpoint = buildUrl(
+            API_BASE,
+            {
+                path: `${SPP_REST_ROUTE}/mobile_user/send_email`,
+                queryParams
+            }
+        );
+
+        return dispatch({
+            [RSAA]: {
+                endpoint,
+                method: 'GET',
+                types: [
+                    REQUEST_BILL,
+                    RECEIVE_BILL,
+                    FAIL_BILL
+                ]
+            }
+        });
+    }
+}
