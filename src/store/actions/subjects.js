@@ -4,6 +4,11 @@ import buildUrl from 'build-url';
 import {REQUEST_SUBJECTS, RECEIVE_SUBJECTS, FAIL_GET_SUBJECTS} from './actionTypes';
 import {API_BASE} from '../../../config';
 
+/**
+ * Get all subjects
+ *
+ * @returns {{}}
+ */
 export const fetchSubjects = () => {
     let queryParams = {};
     if (__DEV__) {
@@ -16,7 +21,7 @@ export const fetchSubjects = () => {
     const endpoint = buildUrl(
         API_BASE,
         {
-            path: `subjects`,
+            path: `/wp/v2/subjects`,
             queryParams
         }
     );

@@ -69,8 +69,8 @@ const userReducer = (userState = initialState, action) => {
                     returnState.installationId = action.payload.data.installation_id;
                     returnState.isSignedUp = true;
                 } else if (action.payload.data !== undefined) {
-                    Object.keys(action.payload.data).forEach((key) => {
-                        returnState.errors.push(action.payload.data[key]);
+                    action.payload.data.forEach((error) => {
+                        returnState.errors.push(error.message);
                     })
                 }
             } else {
@@ -94,7 +94,7 @@ const userReducer = (userState = initialState, action) => {
                     && action.payload.data
                 ) {
                     returnState.installationId = action.payload.data.installation_id;
-                    returnState.email = action.payload.data.email;
+                    returnState.email = action.payload.data.user_email;
                     returnState.isSignedUp = true;
                 } else {
                     returnState.errors = ['Неверное имя пользователя или пароль!'];

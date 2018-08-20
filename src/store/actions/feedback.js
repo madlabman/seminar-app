@@ -2,7 +2,7 @@ import {RSAA} from 'redux-api-middleware';
 import buildUrl from 'build-url';
 
 import {FAIL_GET_FEEDBACK, RECEIVE_FEEDBACK, REQUEST_FEEDBACK} from './actionTypes';
-import {API_BASE} from '../../../config';
+import {API_BASE, SPP_REST_ROUTE} from '../../../config';
 
 let queryParams = {};
 if (__DEV__) {
@@ -12,27 +12,30 @@ if (__DEV__) {
     }
 }
 
+/**
+ * Send question to administrator
+ *
+ * @param question
+ * @returns {function(*, *): (*|Promise<any>|PromiseLike<T | never>|Promise<T | never>)}
+ */
 export const sendFeedback = question => {
     return (dispatch, getState) => {
         const endpoint = buildUrl(
             API_BASE,
             {
-                path: `send_question`,
-                queryParams
+                path: `${SPP_REST_ROUTE}/send_question`,
+                queryParams: {
+                    ...queryParams,
+                    installation_id: getState().user.installationId,
+                    question
+                }
             }
         );
 
         return dispatch({
             [RSAA]: {
                 endpoint,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    installation_id: getState().user.installationId,
-                    question
-                }),
+                method: 'GET',
                 types: [
                     REQUEST_FEEDBACK,
                     RECEIVE_FEEDBACK,
