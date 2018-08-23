@@ -71,7 +71,7 @@ export const postsReducer = (postsState = initialState, action) => {
                         postDate = moment(item.post_date);
                     } else {
                         postDate = moment.unix(item.seminar_date_time);
-                        if (item.association_post) permalink = item.association_post;
+                        if (item.association_post_url) permalink = item.association_post_url;
                     }
 
                     tempItems[item.ID] = {
