@@ -26,7 +26,7 @@ class SinglePostScreen extends Component {
                     action.payload
                     && action.payload.success
                 ) {
-                    Alert.alert('Успешно!', 'Вы получите счет по вашему адресу электронной почты.')
+                    Alert.alert('Успешно!', 'Ваш запрос отправлен администратору.')
                 }
             })
     }
