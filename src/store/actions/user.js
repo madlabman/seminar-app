@@ -175,10 +175,8 @@ export const setUserDefinitions = data => {
             .then(() => {
                 // Check state
                 if (getState().user.isSetupCompleted) {
-                    dispatch(fetchAnnounces(true))
-                    openMainApp();
+                    openMainApp({forceUpdate: true});
                 }
-
             });
     }
 };

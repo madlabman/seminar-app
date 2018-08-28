@@ -53,10 +53,14 @@ export const postsReducer = (postsState = initialState, action) => {
             };
         case RECEIVE_ANNOUNCES:
         case RECEIVE_NEWS:
-            let tempItems = {
-                ...postsState[storeKey].items
-            };
             let sortedItems = [];
+            let storedState = postsState[storeKey];
+            let tempItems = {...postsState[storeKey].items};
+
+            if (action.meta && action.meta.forceUpdate) {
+                storedState = {};
+                tempItems = {};
+            }
 
             if (
                 action.payload
@@ -107,13 +111,13 @@ export const postsReducer = (postsState = initialState, action) => {
                 });
             }
 
-            sortedItems = sortedItems.length ? sortedItems : postsState[storeKey].sortedItems;
-            let recentItems = sortedItems.slice(0, 5);
+            sortedItems = sortedItems.length ? sortedItems : storedState.sortedItems;
+            let recentItems = sortedItems ? sortedItems.slice(0, 5) : [];
 
             return {
                 ...postsState,
                 [storeKey]: {
-                    ...postsState[storeKey],
+                    ...storedState,
                     items: tempItems,
                     sortedItems,
                     recentItems,

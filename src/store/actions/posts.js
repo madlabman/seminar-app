@@ -49,7 +49,12 @@ export const fetchAnnounces = (force = false) => {
                 method: 'GET',
                 types: [
                     REQUEST_ANNOUNCES,
-                    RECEIVE_ANNOUNCES,
+                    {
+                        type: RECEIVE_ANNOUNCES,
+                        meta: {
+                            forceUpdate: force
+                        }
+                    },
                     FAIL_GET_ANNOUNCES
                 ]
             }

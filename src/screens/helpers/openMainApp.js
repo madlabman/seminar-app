@@ -1,7 +1,19 @@
 import {Navigation} from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default openMainApp = () => {
+export default openMainApp = (options = {}) => {
+    const defaults = {
+        forceUpdate: false
+    };
+    // Merge options
+    console.log('before merge', options);
+    options = {
+        ...defaults,
+        ...options
+    }
+
+    console.log('after merge', options);
+
     Promise.all([
         Icon.getImageSource('bars', 24),
         Icon.getImageSource('user-circle', 24)
@@ -27,6 +39,9 @@ export default openMainApp = () => {
                             }
                         ]
                     },
+                },
+                passProps: {
+                    forceUpdate: options.forceUpdate
                 },
                 drawer: {
                     left: {

@@ -156,7 +156,7 @@ class MainScreen extends Component {
         });
 
         // Fetch announces
-        this.props.fetchAnnounces();
+        this.props.fetchAnnounces(this.props.forceUpdate);
         // Fetch news
         this.props.fetchNews();
     }
@@ -293,7 +293,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchAnnounces: () => dispatch(fetchAnnounces()),
+        fetchAnnounces: forceUpdate => dispatch(fetchAnnounces(forceUpdate)),
         fetchNews: () => dispatch(fetchNews()),
         updateFCM: token => dispatch(updateFCM(token))
     }
