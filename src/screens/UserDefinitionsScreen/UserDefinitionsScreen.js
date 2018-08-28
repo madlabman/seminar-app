@@ -19,8 +19,7 @@ class UserDefinitionsScreen extends Component {
 
     static navigatorStyle = {
         navBarTitleTextCentered: true,
-        navBarButtonColor: '#000',
-        navBarCustomView: 'seminar.TopBar'
+        navBarButtonColor: '#000'
     };
 
     handleSubmitButton = () => {

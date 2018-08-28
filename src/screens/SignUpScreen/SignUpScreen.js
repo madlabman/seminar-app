@@ -4,8 +4,7 @@ import {Button, CheckBox, FormLabel, FormInput, FormValidationMessage, Text} fro
 import {connect} from 'react-redux';
 
 import {signUp} from '../../store/actions';
-// import MaskedFormInput from '../../components/MaskedFormInput';
-import MaskedFormInput from '../../components/FormIniputMask';
+import MaskedFormInput from '../../components/MaskedFormInput';
 import {MAIN_COLOR, PDN_RULES_LINK} from '../../../config';
 import validateEmail from '../helpers/validateEmail';
 
@@ -65,7 +64,7 @@ class SignUpScreen extends Component {
             placeholder: '8 (123) 456-78-90',
             attrs: {
                 keyboardType: 'phone-pad',
-                mask: '8 (999) 999 99 99',
+                mask: '8 ([000]) [000]-[00]-[00]'
             }
         }
     };
@@ -128,7 +127,7 @@ class SignUpScreen extends Component {
                     first_name: this.state.inputs.first_name.value,
                     email: this.state.inputs.email.value,
                     mobile_password: this.state.inputs.password.value,
-                    phone_number: this.state.inputs.phone.value.replace(/\W/g, ''),
+                    phone_number: this.state.inputs.phone.value,
                 })
                     .then(() => {
                         this.scrollView.scrollTo({ x: 0, y: 0, animated: true})
@@ -193,7 +192,7 @@ class SignUpScreen extends Component {
             };
             // Form
             const inputElem = key === 'phone' ? (
-                <MaskedFormInput {...inputAttrs}/>
+                <MaskedFormInput {...inputAttrs} />
             ) : (
                 <FormInput {...inputAttrs} />
             );
