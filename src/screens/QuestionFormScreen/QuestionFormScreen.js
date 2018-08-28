@@ -143,7 +143,8 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     labelStyle: {
-        color: MAIN_COLOR
+        color: MAIN_COLOR,
+        textAlign: 'center'
     },
     textInputContainerStyle: {
         marginBottom: 20,
