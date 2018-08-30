@@ -25,7 +25,8 @@ export const fetchAnnounces = (force = false) => {
 
         let queryParams = {
             since_date: updatedAtMoment.format('X'),
-            installation_id: getState().user.installationId
+            installation_id: getState().user.installationId,
+            exclude_tax: 'subjects'
         };
 
         if (__DEV__) {
