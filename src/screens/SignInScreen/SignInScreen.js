@@ -1,12 +1,13 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {Button, FormInput, FormLabel, FormValidationMessage, Text} from 'react-native-elements';
-import {ScrollView, StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
-import Communication from 'react-native-communications';
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {Button, FormInput, FormLabel, FormValidationMessage, Text} from 'react-native-elements'
+import {ScrollView, StyleSheet, TouchableWithoutFeedback, View} from 'react-native'
+import Communication from 'react-native-communications'
+import buildUrl from 'build-url'
 
-import {FEEDBACK_PHONE, MAIN_COLOR} from '../../../config';
-import {signIn} from '../../store/actions';
-import validateEmail from '../helpers/validateEmail';
+import {FEEDBACK_PHONE, LOST_PASSWORD_LINK, MAIN_COLOR} from '../../../config'
+import {signIn} from '../../store/actions'
+import validateEmail from '../helpers/validateEmail'
 
 class SignInScreen extends Component {
     state = {
@@ -42,7 +43,7 @@ class SignInScreen extends Component {
                 secureTextEntry: true
             }
         },
-    };
+    }
 
     changeInput = (key, value) => {
         this.setInputState(key, {value});
@@ -57,7 +58,7 @@ class SignInScreen extends Component {
                 this.setErrorState('email', validateEmail(value));
                 break;
         }
-    };
+    }
 
     setInputState = (key, stateSlice) => {
         this.setState(prevState => {
@@ -70,9 +71,9 @@ class SignInScreen extends Component {
                         ...stateSlice
                     },
                 },
-            };
-        });
-    };
+            }
+        })
+    }
 
     setErrorState = (key, error, callback) => {
         this.setState(prevState => {
@@ -86,53 +87,61 @@ class SignInScreen extends Component {
         }, () => {
             if (typeof callback === 'function') callback();
         })
-    };
+    }
 
     onInputFocus = key => {
         this.setInputState(key, {
             containerStyle: styles.activeTextInputContainerStyle
         })
-    };
+    }
 
     onInputBlur = key => {
         this.setInputState(key, {
             containerStyle: {}
         })
-    };
+    }
 
     submitButtonPress = () => {
         let hasError = false;
         Object.keys(this.state.errors).forEach(key => {
-            if (this.state.errors[key] !== null) hasError = true;
-        });
+            if (this.state.errors[key] !== null) hasError = true
+        })
         if (!hasError) this.props.signIn({
             email: this.state.inputs.email.value,
             mobile_password: this.state.inputs.password.value,
-        });
-    };
+        })
+    }
 
     handleHelpPress = () => {
         Communication.phonecall(FEEDBACK_PHONE, false);
-    };
+    }
 
-    handleForgotPress = () => {};
+    handleForgotPress = () => {
+        // Push to link
+        this.props.navigator.showModal({
+            screen: 'seminar.BrowserScreen',
+            passProps: {
+                uri: buildUrl(LOST_PASSWORD_LINK)
+            },
+        })
+    };
 
     render() {
         const errors = this.props.errors.map((item, index) => {
             return (
                 <FormValidationMessage key={index}>{item}</FormValidationMessage>
             )
-        });
+        })
 
         const formInputs = Object.keys(this.formModel).map(key => {
             // Label
             const label = (
                 <FormLabel labelStyle={styles.labelStyle}>{this.formModel[key].label}</FormLabel>
-            );
+            )
             // Validation error
             const errorMessage = (
                 <FormValidationMessage>{this.state.errors[key]}</FormValidationMessage>
-            );
+            )
             // Attributes
             const inputAttrs = {
                 placeholder: this.formModel[key].placeholder,
@@ -143,11 +152,11 @@ class SignInScreen extends Component {
                 inputStyle: styles.textInput,
                 containerStyle: [styles.textInputContainerStyle, this.state.inputs[key].containerStyle],
                 ...this.formModel[key].attrs,
-            };
+            }
             // Form
             const inputElem = (
                 <FormInput {...inputAttrs} />
-            );
+            )
 
             return (
                 <View key={key}>
@@ -234,19 +243,19 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         color: MAIN_COLOR
     }
-});
+})
 
 const mapStateToProps = state => {
     return {
         isLoading: state.user.isProcessRequest,
         errors: state.user.errors
     }
-};
+}
 
 const mapDispatchToProps = dispatch => {
     return {
         signIn: data => dispatch(signIn(data)),
     }
-};
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen)
