@@ -6,13 +6,10 @@ export default openMainApp = (options = {}) => {
         forceUpdate: false
     };
     // Merge options
-    console.log('before merge', options);
     options = {
         ...defaults,
         ...options
     }
-
-    console.log('after merge', options);
 
     Promise.all([
         Icon.getImageSource('bars', 24),
