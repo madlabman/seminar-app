@@ -1,8 +1,8 @@
-import {RSAA} from 'redux-api-middleware';
-import buildUrl from 'build-url';
-import {API_BASE} from '../../../config';
+import {RSAA} from 'redux-api-middleware'
+import buildUrl from 'build-url'
 
-import {REQUEST_MENU, RECEIVE_MENU, FAIL_GET_MENU} from './actionTypes';
+import {REQUEST_MENU, RECEIVE_MENU, FAIL_GET_MENU} from './actionTypes'
+import {API_BASE} from '../../../config'
 
 export const fetchMenu = () => {
     let queryParams = {};
@@ -14,9 +14,9 @@ export const fetchMenu = () => {
     }
 
     const endpoint = buildUrl(
-        'http://hosthub.ru:8080/wp-json',
+        API_BASE,
         {
-            path: `menus/v1/menus/side-menu`,
+            path: `menus/v1/menus/side-menu`,   // Route defined by plugin
             queryParams
         }
     );
