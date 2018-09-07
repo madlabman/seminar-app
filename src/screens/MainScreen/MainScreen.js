@@ -6,61 +6,20 @@ import firebase from 'react-native-firebase';
 import {connect} from 'react-redux';
 import buildUrl from 'build-url';
 
-import PostList from '../../components/SummaryPostList';
 import MainSlider from '../../components/MainSlider/MainSlider';
 import {
     FEEDBACK_PHONE,
-    FEEDBACK_EMAIL,
-    FEEDBACK_SUBJECT,
     MAIN_COLOR,
     ARCHIVE_LINK,
     ONLY_CONTENT_PARAM
 } from '../../../config';
-import {fetchAnnounces, fetchNews, updateFCM} from '../../store/actions';
-import openUserDefinitions from '../helpers/openUserDefinitions';
+import {fetchAnnounces, fetchNews, fetchSlides, updateFCM} from '../../store/actions';
 
 class MainScreen extends Component {
 
     static navigatorStyle = {
         navBarTitleTextCentered: true,
         navBarButtonColor: '#000'
-    };
-
-    state = {
-        slides: [
-            {
-                image: {
-                    uri: 'http://seminar-pro.ru/wp-content/uploads/2018/06/АСТ-Вариант-1.png'
-                },
-                link: {
-                    uri: 'http://seminar-pro.ru/announces/astraxan-13-avgusta-2018-goda-seminar-po-oxrane-truda-oxrana-truda-2018-chto-izmenilos-i-chto-eshhe-zhdet-vperedi/'
-                }
-            },
-            {
-                image: {
-                    uri: 'http://seminar-pro.ru/wp-content/uploads/2018/07/Отзывы.png'
-                },
-                link: {
-                    uri: 'http://seminar-pro.ru/reviews/otzyvy-ot-uchastnikov-posetivshix-nashi-seminary-vo-vtorom-polugodii-2017-goda/'
-                }
-            },
-            {
-                image: {
-                    uri: 'http://seminar-pro.ru/wp-content/uploads/2018/06/Вариант-3.png'
-                },
-                link: {
-                    uri: 'http://seminar-pro.ru/archive/'
-                }
-            },
-            {
-                image: {
-                    uri: 'http://seminar-pro.ru/wp-content/uploads/2018/07/650x400-600x400.png'
-                },
-                link: {
-                    uri: 'https://partner.tochka.com/partnership/?referer1=34mrpseminarpro'
-                }
-            }
-        ]
     };
 
     handlePostPress = (item, isAnnounce) => {
@@ -111,8 +70,8 @@ class MainScreen extends Component {
     };
 
     componentDidMount() {
-        this.props.navigator.setStyle({ navBarCustomView: 'seminar.TopBar' });
-        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+        this.props.navigator.setStyle({ navBarCustomView: 'seminar.TopBar' })
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent)
 
         // Register device on FCM
         firebase.messaging().getToken()
@@ -128,7 +87,7 @@ class MainScreen extends Component {
             .catch(error => {
                 console.log('Cannot get FCM token');
                 console.log(error);
-            });
+            })
 
         // Check permissions
         firebase.messaging().hasPermission()
@@ -149,16 +108,18 @@ class MainScreen extends Component {
                             Alert.alert('Внимание', 'Вы отказались от приема важных уведомлений')
                         });
                 }
-            });
+            })
 
         this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
             this.props.updateFCM(fcmToken);
-        });
+        })
 
         // Fetch announces
-        this.props.fetchAnnounces(this.props.forceUpdate);
+        this.props.fetchAnnounces(this.props.forceUpdate)
         // Fetch news
-        this.props.fetchNews();
+        this.props.fetchNews()
+        //Fetch slider
+        this.props.fetchSlides()
     }
 
     handleMailButtonPress = () => {
@@ -214,7 +175,7 @@ class MainScreen extends Component {
                 <ScrollView style={styles.container}>
 
                     <MainSlider
-                        slides={this.state.slides}
+                        slides={this.props.slides.items}
                         onSlidePress={this.showBrowser}
                     />
 
@@ -288,6 +249,7 @@ const mapStateToProps = state => {
         announcesIsLoading: state.posts.announces.isLoading,
         news: state.posts.news.recentItems,
         newsIsLoading: state.posts.news.isLoading,
+        slides: state.slides
     }
 };
 
@@ -295,6 +257,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchAnnounces: forceUpdate => dispatch(fetchAnnounces(forceUpdate)),
         fetchNews: () => dispatch(fetchNews()),
+        fetchSlides: () => dispatch(fetchSlides()),
         updateFCM: token => dispatch(updateFCM(token))
     }
 };

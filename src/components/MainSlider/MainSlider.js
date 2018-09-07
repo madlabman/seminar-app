@@ -1,20 +1,27 @@
-import React, {Component} from 'react';
-import Carousel, {Pagination} from 'react-native-snap-carousel';
-import {CachedImage} from 'react-native-cached-image';
-import {Dimensions, StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
-import {Text} from 'react-native-elements';
+import React, {Component} from 'react'
+import Carousel, {Pagination} from 'react-native-snap-carousel'
+import {CachedImage} from 'react-native-cached-image'
+import {Dimensions, StyleSheet, TouchableWithoutFeedback, View} from 'react-native'
+import PropTypes from 'prop-types'
 
 export default class MainSlider extends Component {
 
+    static propTypes = {
+        slides: PropTypes.array.isRequired,
+        onSlidePress: PropTypes.func.isRequired
+    }
+
     state = {
         activeSlide: 0
-    };
+    }
 
-    _carousel = null;
+    _carousel = null
 
     render() {
-        const sliderWidth = Dimensions.get('window').width;
-        const itemWidth = Dimensions.get('window').width;
+        if (this.props.slides === undefined) return (<View/>)
+
+        const sliderWidth = Dimensions.get('window').width
+        const itemWidth = Dimensions.get('window').width
 
         return (
             <View>
@@ -80,4 +87,4 @@ const styles = StyleSheet.create({
         paddingVertical: 0,
         marginBottom: 20
     }
-});
+})
