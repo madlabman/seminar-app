@@ -178,15 +178,6 @@ class SignInScreen extends Component {
 
                     <Text style={styles.spacer}/>
 
-                    <TouchableWithoutFeedback onPress={() => this.handleForgotPress()}>
-                        <Text style={styles.lostPassword}>Забыли пароль?</Text>
-                    </TouchableWithoutFeedback>
-
-                    <TouchableWithoutFeedback onPress={() => this.handleHelpPress()}>
-                        <Text style={styles.needHelp}>Нужна помощь!</Text>
-                    </TouchableWithoutFeedback>
-
-
                     <Button title={'Войти'}
                             backgroundColor={MAIN_COLOR}
                             disabledStyle={{backgroundColor: '#888'}}
@@ -195,6 +186,14 @@ class SignInScreen extends Component {
                             loading={this.props.isLoading}
                             disabled={this.props.isLoading}
                     />
+
+                    <TouchableWithoutFeedback onPress={() => this.handleForgotPress()}>
+                        <Text style={styles.lostPassword}>Забыли пароль?</Text>
+                    </TouchableWithoutFeedback>
+
+                    <TouchableWithoutFeedback onPress={() => this.handleHelpPress()}>
+                        <Text style={styles.needHelp}>Нужна помощь!</Text>
+                    </TouchableWithoutFeedback>
 
                 </ScrollView>
 
