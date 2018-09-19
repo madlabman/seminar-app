@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">seminarPro</string>
+    <string name="app_name">Семинар-ПРО</string>
+    <string name="default_notification_channel_id">seminar_pro_notification</string>
 </resources>

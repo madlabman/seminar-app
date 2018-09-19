@@ -141,8 +141,8 @@ export const postsReducer = (postsState = initialState, action) => {
                     } else if (action.meta.relation) {
                         relation = action.meta.relation;
                     }
-
-
+                } else {
+                    return postsState
                 }
             }
 

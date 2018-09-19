@@ -7,6 +7,7 @@ import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +28,8 @@ public class MainApplication extends NavigationApplication {
                 new RNFetchBlobPackage(),
                 new RNTextInputMaskPackage(),
                 new RNFirebasePackage(),
-                new RNFirebaseMessagingPackage()
+                new RNFirebaseMessagingPackage(),
+                new RNFirebaseNotificationsPackage()
         );
     }
 

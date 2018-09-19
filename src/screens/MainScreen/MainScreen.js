@@ -1,26 +1,34 @@
-import React, {Component} from 'react';
-import {Alert, Platform, ScrollView, StyleSheet, View} from 'react-native';
-import {Button, Text} from 'react-native-elements';
-import Communication from 'react-native-communications';
-import firebase from 'react-native-firebase';
-import {connect} from 'react-redux';
-import buildUrl from 'build-url';
+import React, {Component} from 'react'
+import {Alert, Platform, ScrollView, StyleSheet, View} from 'react-native'
+import {Button} from 'react-native-elements'
+import Communication from 'react-native-communications'
+import firebase from 'react-native-firebase'
+import {connect} from 'react-redux'
+import buildUrl from 'build-url'
 
-import MainSlider from '../../components/MainSlider/MainSlider';
+import MainSlider from '../../components/MainSlider/MainSlider'
+import PushNotificationController from '../../components/PushNotificationController'
 import {
     FEEDBACK_PHONE,
     MAIN_COLOR,
     ARCHIVE_LINK,
     ONLY_CONTENT_PARAM
 } from '../../../config';
-import {fetchAnnounces, fetchNews, fetchSlides, updateFCM} from '../../store/actions';
+import {
+    fetchAnnounces,
+    fetchNews,
+    fetchSlides,
+    notificationOpened,
+    updateFCM,
+    getSingleAnnounce
+} from '../../store/actions';
 
 class MainScreen extends Component {
 
     static navigatorStyle = {
         navBarTitleTextCentered: true,
         navBarButtonColor: '#000'
-    };
+    }
 
     handlePostPress = (item, isAnnounce) => {
         this.props.navigator.push({
@@ -31,7 +39,7 @@ class MainScreen extends Component {
             },
             animationType: Platform.OS === 'android' ? 'slide-horizontal' : ''
         })
-    };
+    }
 
     onNavigatorEvent = event => {
         if (event.type === 'NavBarButtonPress')
@@ -46,7 +54,7 @@ class MainScreen extends Component {
                     });
                     break;
             }
-    };
+    }
 
     showPosts = isAnnounce => {
         this.props.navigator.push({
@@ -70,7 +78,7 @@ class MainScreen extends Component {
     };
 
     componentDidMount() {
-        this.props.navigator.setStyle({ navBarCustomView: 'seminar.TopBar' })
+        this.props.navigator.setStyle({navBarCustomView: 'seminar.TopBar'})
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent)
 
         // Register device on FCM
@@ -109,6 +117,12 @@ class MainScreen extends Component {
                         });
                 }
             })
+
+        // App in foreground
+        this.onForegroundNotification = firebase.notifications().onNotification(notification => {
+            console.log('[sa-32]: application received notification in foreground with post_id', notification.data.post_id)
+            this.openSingleAnnounce(notification.data.post_id)
+        })
 
         this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
             this.props.updateFCM(fcmToken);
@@ -163,13 +177,35 @@ class MainScreen extends Component {
                 }
             ],
         )
-    };
+    }
+
+    openSingleAnnounce = postId => {
+        this.props.notificationOpened()
+        firebase.notifications().cancelAllNotifications()
+        this.props.getSingleAnnounce(postId)
+            .then(announce => {
+                if (announce) {
+                    this.props.navigator.push({
+                        screen: 'seminar.SinglePostScreen',
+                        passProps: {
+                            item: announce,
+                            isAnnounce: true
+                        },
+                    })
+                }
+            })
+    }
 
     componentWillUnmount() {
-        this.onTokenRefreshListener();
+        this.onTokenRefreshListener()
+        this.onForegroundNotification()
     }
 
     render() {
+        const pushNotificationController = this.props.notification ?
+            (<PushNotificationController onNotificationReceived={this.openSingleAnnounce} notification={this.props.notification}/>)
+            : null
+
         return (
             <View style={styles.page}>
                 <ScrollView style={styles.container}>
@@ -204,6 +240,9 @@ class MainScreen extends Component {
                     />
 
                 </ScrollView>
+
+                {pushNotificationController}
+
             </View>
         )
     }
@@ -249,7 +288,8 @@ const mapStateToProps = state => {
         announcesIsLoading: state.posts.announces.isLoading,
         news: state.posts.news.recentItems,
         newsIsLoading: state.posts.news.isLoading,
-        slides: state.slides
+        slides: state.slides,
+        notification: state.ui.notification
     }
 };
 
@@ -258,7 +298,9 @@ const mapDispatchToProps = dispatch => {
         fetchAnnounces: forceUpdate => dispatch(fetchAnnounces(forceUpdate)),
         fetchNews: () => dispatch(fetchNews()),
         fetchSlides: () => dispatch(fetchSlides()),
-        updateFCM: token => dispatch(updateFCM(token))
+        updateFCM: token => dispatch(updateFCM(token)),
+        notificationOpened: () => dispatch(notificationOpened()),
+        getSingleAnnounce: postId => dispatch(getSingleAnnounce(postId))
     }
 };
 

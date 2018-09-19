@@ -38,7 +38,8 @@ class SinglePostScreen extends Component {
     render() {
 
         let relation = this.props.isAnnounce ?
-            this.props.announces[this.props.item.id].relation : null;
+            this.props.announces[this.props.item.id] ? this.props.announces[this.props.item.id].relation : null
+            : null;
 
         let voteButtons = null;
         if (this.props.isAnnounce) {

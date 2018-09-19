@@ -68,8 +68,8 @@ class QuestionFormScreen extends Component {
             });
         } else {
             this.props.sendFeedback(this.state.question)
-                .then(succes => {
-                    if (succes) {
+                .then(success => {
+                    if (success) {
                         this.setState(prevState => {
                             return {
                                 ...prevState,

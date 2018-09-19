@@ -1,14 +1,14 @@
-import {RSAA} from 'redux-api-middleware';
-import buildUrl from 'build-url';
-import moment from 'moment';
+import {RSAA} from 'redux-api-middleware'
+import buildUrl from 'build-url'
+import moment from 'moment'
 
 import {
     FAIL_BILL,
-    FAIL_GET_ANNOUNCES, FAIL_GET_NEWS, FAIL_GET_RELATION, FAIL_UPD_RELATION,
-    RECEIVE_ANNOUNCES, RECEIVE_BILL, RECEIVE_GET_RELATION, RECEIVE_NEWS, RECEIVE_UPD_RELATION,
-    REQUEST_ANNOUNCES, REQUEST_BILL, REQUEST_GET_RELATION, REQUEST_NEWS, REQUEST_UPD_RELATION,
+    FAIL_GET_ANNOUNCES, FAIL_GET_FEEDBACK, FAIL_GET_NEWS, FAIL_GET_RELATION, FAIL_UPD_RELATION,
+    RECEIVE_ANNOUNCES, RECEIVE_BILL, RECEIVE_FEEDBACK, RECEIVE_GET_RELATION, RECEIVE_NEWS, RECEIVE_UPD_RELATION,
+    REQUEST_ANNOUNCES, REQUEST_BILL, REQUEST_FEEDBACK, REQUEST_GET_RELATION, REQUEST_NEWS, REQUEST_UPD_RELATION,
 } from './actionTypes';
-import {API_BASE, SPP_REST_ROUTE} from '../../../config';
+import {API_BASE, ONLY_CONTENT_PARAM, SPP_REST_ROUTE, WP_REST_ROUTE} from '../../../config';
 
 /**
  * Get announces related for user
@@ -243,5 +243,62 @@ export const sendBillRequest = announceId => {
                 ]
             }
         });
+    }
+}
+
+export const getSingleAnnounce = postId => {
+    return dispatch => {
+
+        let queryParams = {};
+        if (__DEV__) {
+            queryParams = {
+                ...queryParams,
+                XDEBUG_SESSION_START: 'PHPSTORM'
+            }
+        }
+
+        const endpoint = buildUrl(
+            API_BASE,
+            {
+                path: `${SPP_REST_ROUTE}/seminar`,
+                queryParams: {
+                    ...queryParams,
+                    seminar_id: postId
+                }
+            }
+        )
+
+        return fetch(endpoint)
+            .then(response => response.json())
+            .then(responseJson => {
+                if (responseJson.success) {
+                    const item = responseJson.data
+                    if (item) {
+                        return {
+                            id: item.ID,
+                            key: item.post_name,
+                            date: moment.unix(item.seminar_date_time),
+                            thumbnail: {
+                                uri: item.post_thumbnail
+                            },
+                            title: item.post_title,
+                            excerpt: item.post_excerpt,
+                            permalink: {
+                                uri: buildUrl(
+                                    item.association_post_url,
+                                    {
+                                        queryParams: {
+                                            [ONLY_CONTENT_PARAM]: true
+                                        }
+                                    }
+                                )
+                            },
+                            relation: 'none'
+                        }
+                    }
+                }
+
+                return null;
+            })
     }
 }
