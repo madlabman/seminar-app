@@ -22,6 +22,7 @@
     "react-native-snap-carousel": "^3.7.2",
     "react-native-text-input-mask": "^0.8.0",
     "react-native-vector-icons": "^4.6.0",
+    "react-native-webview-bridge": "https://github.com/alinz/react-native-webview-bridge.git",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "redux-api-middleware": "^2.3.0",

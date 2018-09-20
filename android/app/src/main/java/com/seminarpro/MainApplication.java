@@ -8,6 +8,7 @@ import com.facebook.react.ReactPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
+import com.github.alinz.reactnativewebviewbridge.WebViewBridgePackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +30,8 @@ public class MainApplication extends NavigationApplication {
                 new RNTextInputMaskPackage(),
                 new RNFirebasePackage(),
                 new RNFirebaseMessagingPackage(),
-                new RNFirebaseNotificationsPackage()
+                new RNFirebaseNotificationsPackage(),
+                new WebViewBridgePackage()
         );
     }
 

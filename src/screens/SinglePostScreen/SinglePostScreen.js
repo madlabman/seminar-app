@@ -1,21 +1,31 @@
-import React, {Component} from 'react';
-import {Alert, StyleSheet, View, WebView} from 'react-native';
-import {Button, Text} from 'react-native-elements';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import React, {Component} from 'react'
+import {Alert, Animated, Platform, StyleSheet, View, WebView} from 'react-native'
+import {Button, Text} from 'react-native-elements'
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types'
+import WebViewBridge from 'react-native-webview-bridge'
 
-import TouchableIcon from '../../components/TouchableIcon/TouchableIcon';
-import {updRelation, getRelation, sendBillRequest} from '../../store/actions';
-import {MAIN_COLOR} from "../../../config";
+import TouchableIcon from '../../components/TouchableIcon/TouchableIcon'
+import {updRelation, getRelation, sendBillRequest} from '../../store/actions'
+import {MAIN_COLOR} from '../../../config'
+
+const NAVBAR_HEIGHT = 155
 
 class SinglePostScreen extends Component {
+
+    // Scroll position passed from WebViewBridge
+    scrollY = 0
+
+    state = {
+        scrollAnim: new Animated.Value(0)
+    }
 
     handlePressIcon = relation => {
         this.props.updRelation(
             this.props.item.id,
             relation
-        );
-    };
+        )
+    }
 
     handleBillButtonPress = () => {
         this.props.sendBillRequest(
@@ -31,24 +41,74 @@ class SinglePostScreen extends Component {
             })
     }
 
+    // Handle message, received from WebViewBridge
+    onBridgeMessage = message => {
+        this.scrollY = parseInt(message)
+        Animated.event([{scrollY: this.state.scrollAnim}])(this)
+    }
+
     componentDidMount() {
         this.props.getRelation(this.props.item.id);
     }
 
     render() {
 
+        // Script for passing scroll position to Component [Android Only]
+        const injectScript = `
+
+        if (WebViewBridge) {
+            window.onscroll = function() {
+                var scrolled = window.pageYOffset || document.documentElement.scrollTop;
+                WebViewBridge.send(scrolled);
+            }
+        }
+
+        `
+
+        const clampedScroll = Animated.diffClamp(
+            this.state.scrollAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 1],
+                extrapolateLeft: 'clamp',
+            }),
+            0,
+            NAVBAR_HEIGHT
+        )
+
+        const navbarTranslate = clampedScroll.interpolate({
+            inputRange: [0, NAVBAR_HEIGHT],
+            outputRange: [0, -(NAVBAR_HEIGHT)],
+            extrapolate: 'clamp',
+        })
+
+        const topOffset = clampedScroll.interpolate({
+            inputRange: [0, NAVBAR_HEIGHT],
+            outputRange: [NAVBAR_HEIGHT, 0],
+            extrapolate: 'extend'
+        })
+
         let relation = this.props.isAnnounce ?
             this.props.announces[this.props.item.id] ? this.props.announces[this.props.item.id].relation : null
-            : null;
+            : null
 
         let voteButtons = null;
         if (this.props.isAnnounce) {
             voteButtons = (
-                <View style={styles.voteContainer}>
+                <Animated.View style={[
+                    {
+                        width: "100%",
+                        position: "absolute",
+                        transform: [{
+                            translateY: navbarTranslate
+                        }],
+                        zIndex: 1
+                    },
+                    styles.voteContainer
+                ]}>
                     <Text style={styles.callText}>Вас интересует мероприятие?</Text>
 
                     <View style={styles.buttonContainer}>
-                        {/*Пойду*/}
+                        {/* Пойду */}
                         <TouchableIcon
                             text={'Да'}
                             color={'#000'}
@@ -58,7 +118,7 @@ class SinglePostScreen extends Component {
                             onPress={() => this.handlePressIcon('yes')}
                             isLoading={this.props.isLoading}
                         />
-                        {/*Не пойду*/}
+                        {/* Не пойду */}
                         <TouchableIcon
                             text={'Нет'}
                             color={'#000'}
@@ -78,18 +138,23 @@ class SinglePostScreen extends Component {
                         loading={this.props.isLoading}
                         disabled={this.props.isLoading}
                     />
-                </View>
+                </Animated.View>
             );
         }
 
         return (
-            <View style={styles.container}>
-                {voteButtons}
-                <WebView
+            <Animated.View style={[styles.container, {
+                paddingTop: topOffset
+            }]}>
+                <WebViewBridge
                     source={this.props.item.permalink}
-                    style={styles.browser}
+                    style={[styles.browser]}
+                    onBridgeMessage={this.onBridgeMessage}
+                    injectedJavaScript={injectScript}
+                    originWhitelist={["http://.*", "https://.*"]} // https://github.com/alinz/react-native-webview-bridge/issues/265#issue-337177864
                 />
-            </View>
+                {voteButtons}
+            </Animated.View>
         )
     }
 
@@ -112,10 +177,20 @@ const styles = StyleSheet.create({
     voteContainer: {
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: 10
+        paddingTop: 10,
+        paddingBottom: 10,
+        backgroundColor: '#fff',
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 0,
+            height: 3
+        },
+        shadowRadius: 5,
+        shadowOpacity: 0.6,
+        elevation: 5
     },
     browser: {
-        marginTop: 10
+        //
     },
     callText: {
         color: '#000'
