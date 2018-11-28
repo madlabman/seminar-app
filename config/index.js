@@ -2,7 +2,7 @@ export const FEEDBACK_PHONE = '88005553525'
 export const FEEDBACK_EMAIL = 'test@test.com'
 export const FEEDBACK_SUBJECT = 'Обратная связь'
 
-export const HOST = 'http://hosthub.ru:8080'
+export const HOST = 'http://seminar-pro.ru'
 export const API_BASE = `${HOST}/wp-json`
 export const WP_REST_ROUTE = '/wp/v2'
 export const SPP_REST_ROUTE = '/spp/v1'
