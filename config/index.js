@@ -1,5 +1,5 @@
-export const FEEDBACK_PHONE = '88005553525'
-export const FEEDBACK_EMAIL = 'test@test.com'
+export const FEEDBACK_PHONE = '89648872829'
+export const FEEDBACK_EMAIL = 'ukolov@gksgr.ru'
 export const FEEDBACK_SUBJECT = 'Обратная связь'
 
 export const HOST = 'http://seminar-pro.ru'
@@ -13,5 +13,5 @@ export const ONLY_CONTENT_PARAM = 'only_content'
 export const MAIN_COLOR = '#c73800'
 
 export const LOST_PASSWORD_LINK = `${HOST}/wp-login.php?action=lostpassword`
-export const PDN_RULES_LINK = 'http://www.gazprom.ru/about/legal/policy-personal-data/'
+export const PDN_RULES_LINK = 'http://seminar-pro.ru'
 export const ARCHIVE_LINK = `${HOST}/archive`

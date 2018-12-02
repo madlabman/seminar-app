@@ -4,21 +4,18 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import {AsyncStorage} from 'react-native'
 import {apiMiddleware} from 'redux-api-middleware'
 import thunk from 'redux-thunk'
-import logger from 'redux-logger'
 
 import {
     uiReducer,
     citiesReducer,
     subjectsReducer,
     userReducer,
-    debugReducer,
     postsReducer,
     menuReducer,
     slidesReducer
 } from './reducers'
 
 const rootReducer = combineReducers({
-    debug: debugReducer,
     ui: uiReducer,
     user: userReducer,
     cities: citiesReducer,

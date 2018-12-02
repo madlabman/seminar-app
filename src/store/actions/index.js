@@ -21,6 +21,3 @@ export {sendFeedback} from './feedback'
 
 // Main slider
 export {fetchSlides} from './slides'
-
-// Debug
-export {incrementDebugOpenCounter} from './debug'
