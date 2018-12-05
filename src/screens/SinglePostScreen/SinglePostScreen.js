@@ -62,6 +62,8 @@ class SinglePostScreen extends Component {
                 WebViewBridge.send(scrolled);
             }
         }
+        
+        document.body.style.paddingTop = "${NAVBAR_HEIGHT}px";
 
         `
 
@@ -79,12 +81,6 @@ class SinglePostScreen extends Component {
             inputRange: [0, NAVBAR_HEIGHT],
             outputRange: [0, -(NAVBAR_HEIGHT)],
             extrapolate: 'clamp',
-        })
-
-        const topOffset = clampedScroll.interpolate({
-            inputRange: [0, NAVBAR_HEIGHT],
-            outputRange: [NAVBAR_HEIGHT, 0],
-            extrapolate: 'extend'
         })
 
         let relation = this.props.isAnnounce ?
@@ -143,9 +139,7 @@ class SinglePostScreen extends Component {
         }
 
         return (
-            <Animated.View style={[styles.container, {
-                paddingTop: topOffset
-            }]}>
+            <Animated.View style={styles.container}>
                 <WebViewBridge
                     source={this.props.item.permalink}
                     style={[styles.browser]}
