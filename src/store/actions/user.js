@@ -43,8 +43,11 @@ export const fetchUser = () => {
         const endpoint = buildUrl(
             API_BASE,
             {
-                path: `mobile_user/${getState().user.installationId}`,
-                queryParams
+                path: `${SPP_REST_ROUTE}/mobile_user`,
+                queryParams: {
+                    ...queryParams,
+                    installation_id: getState().user.installationId
+                }
             }
         );
         return dispatch({

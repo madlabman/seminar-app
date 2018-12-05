@@ -47,8 +47,8 @@ const userReducer = (userState = initialState, action) => {
                     const receivedUser = action.payload.data;
                     return {
                         ...userState,
-                        email: receivedUser.data.user_email,
-                        name: receivedUser.data.user_nicename,
+                        email: receivedUser.user_email,
+                        name: receivedUser.user_nicename,
                         cities: receivedUser.cities,
                         subjects: receivedUser.subjects,
                         isProcessRequest: false

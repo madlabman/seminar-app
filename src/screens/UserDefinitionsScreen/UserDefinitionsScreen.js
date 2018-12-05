@@ -50,7 +50,7 @@ class UserDefinitionsScreen extends Component {
     componentDidMount() {
         this.props.fetchCities();
         this.props.fetchSubjects();
-        // this.props.fetchUser();
+        this.props.fetchUser();
     }
 
     render() {
