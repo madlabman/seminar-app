@@ -1,19 +1,20 @@
-import React, {Component} from 'react';
-import {ActivityIndicator, Alert, StyleSheet, ScrollView, View} from 'react-native';
-import {Button, FormValidationMessage, Text} from 'react-native-elements';
-import {connect} from 'react-redux';
+import React, {Component} from 'react'
+import {ActivityIndicator, Alert, StyleSheet, ScrollView, View} from 'react-native'
+import {Button, FormValidationMessage, Text} from 'react-native-elements'
+import {connect} from 'react-redux'
+import configureStore from '../../store/store'
 
-import openMainApp from '../helpers/openMainApp';
 import {
     fetchCities,
     fetchSubjects,
     fetchUser,
     setUserDefinitions,
     updateUserCities,
-    updateUserSubjects
-} from '../../store/actions';
-import SelectList from '../../components/SelectList';
-import {MAIN_COLOR} from '../../../config';
+    updateUserSubjects,
+} from '../../store/actions'
+import SelectList from '../../components/SelectList'
+import {MAIN_COLOR} from '../../../config'
+import openSplashScreen from '../helpers/openSplashScreen'
 
 class UserDefinitionsScreen extends Component {
 
@@ -38,6 +39,16 @@ class UserDefinitionsScreen extends Component {
             );
         }
     };
+
+    handleLogoutButton = () => {
+        // Purge store
+        // TODO: make it more elegant way
+        const {store, persistor} = configureStore()
+        persistor.purge()
+            .then(() => {
+                openSplashScreen(store, persistor)
+            })
+    }
 
     onCitiesListChange = selected => {
         this.props.updateUserCities(selected);
@@ -77,6 +88,18 @@ class UserDefinitionsScreen extends Component {
             )
         });
 
+        let logoutButton = this.props.user.isSetupCompleted ? (
+            <Button title={'Выйти'}
+                    backgroundColor={MAIN_COLOR}
+                    buttonStyle={styles.button}
+                    textStyle={{color: '#fff'}}
+                    disabledStyle={{backgroundColor: '#888'}}
+                    onPress={this.handleLogoutButton}
+                    loading={this.props.user.isProcessRequest}
+                    disabled={this.props.user.isProcessRequest}
+            />
+        ) : null
+
         return (
             <ScrollView style={styles.scrollContainer}>
 
@@ -99,7 +122,7 @@ class UserDefinitionsScreen extends Component {
                     {errors}
                     <Button title={'Продолжить'}
                             backgroundColor={MAIN_COLOR}
-                            buttonStyle={styles.button}
+                            buttonStyle={[styles.button, {marginBottom: 0}]}
                             textStyle={{color: '#fff'}}
                             disabledStyle={{backgroundColor: '#888'}}
                             onPress={this.handleSubmitButton}
@@ -107,6 +130,8 @@ class UserDefinitionsScreen extends Component {
                             disabled={this.props.user.isProcessRequest || this.props.isCitiesLoading || this.props.isSubjectsLoading}
                     />
                 </View>
+
+                {logoutButton}
 
             </ScrollView>
         )

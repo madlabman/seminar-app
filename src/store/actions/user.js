@@ -28,7 +28,6 @@ import {
 import {API_BASE, SPP_REST_ROUTE} from '../../../config';
 import openUserDefinitions from '../../screens/helpers/openUserDefinitions';
 import openMainApp from '../../screens/helpers/openMainApp';
-import {fetchAnnounces} from './index';
 
 let queryParams = {};
 if (__DEV__) {
