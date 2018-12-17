@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Button, FormInput, FormLabel, FormValidationMessage, Text} from 'react-native-elements'
 import {ScrollView, StyleSheet, TouchableWithoutFeedback, View} from 'react-native'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import Communication from 'react-native-communications'
 import buildUrl from 'build-url'
 
@@ -168,36 +169,38 @@ class SignInScreen extends Component {
         });
 
         return (
-            <View style={styles.container}>
+            <KeyboardAwareScrollView style={{ flex: 1 }} enableOnAndroid={true} enableAutomaticScroll={true}>
+                <View style={styles.container}>
 
-                <Text style={styles.header}>Введите данные, чтобы продолжить</Text>
+                    <Text style={styles.header}>Введите данные, чтобы продолжить</Text>
 
-                <ScrollView>
+                    <ScrollView>
 
-                    {[errors, formInputs]}
+                        {[errors, formInputs]}
 
-                    <Text style={styles.spacer}/>
+                        <Text style={styles.spacer}/>
 
-                    <Button title={'Войти'}
-                            backgroundColor={MAIN_COLOR}
-                            disabledStyle={{backgroundColor: '#888'}}
-                            containerViewStyle={{marginBottom: 30}}
-                            onPress={this.submitButtonPress}
-                            loading={this.props.isLoading}
-                            disabled={this.props.isLoading}
-                    />
+                        <Button title={'Войти'}
+                                backgroundColor={MAIN_COLOR}
+                                disabledStyle={{backgroundColor: '#888'}}
+                                containerViewStyle={{marginBottom: 30}}
+                                onPress={this.submitButtonPress}
+                                loading={this.props.isLoading}
+                                disabled={this.props.isLoading}
+                        />
 
-                    <TouchableWithoutFeedback onPress={() => this.handleForgotPress()}>
-                        <Text style={styles.lostPassword}>Забыли пароль?</Text>
-                    </TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback onPress={() => this.handleForgotPress()}>
+                            <Text style={styles.lostPassword}>Забыли пароль?</Text>
+                        </TouchableWithoutFeedback>
 
-                    <TouchableWithoutFeedback onPress={() => this.handleHelpPress()}>
-                        <Text style={styles.needHelp}>Нужна помощь!</Text>
-                    </TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback onPress={() => this.handleHelpPress()}>
+                            <Text style={styles.needHelp}>Нужна помощь!</Text>
+                        </TouchableWithoutFeedback>
 
-                </ScrollView>
+                    </ScrollView>
 
-            </View>
+                </View>
+            </KeyboardAwareScrollView>
         )
     }
 }

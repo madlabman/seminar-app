@@ -1,12 +1,13 @@
-import React, {Component} from 'react';
-import {StyleSheet, ScrollView, TouchableWithoutFeedback, View} from 'react-native';
-import {Button, CheckBox, FormLabel, FormInput, FormValidationMessage, Text} from 'react-native-elements';
-import {connect} from 'react-redux';
+import React, {Component} from 'react'
+import {StyleSheet, ScrollView, TouchableWithoutFeedback, View} from 'react-native'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import {Button, CheckBox, FormLabel, FormInput, FormValidationMessage, Text} from 'react-native-elements'
+import {connect} from 'react-redux'
 
-import {signUp} from '../../store/actions';
-import MaskedFormInput from '../../components/MaskedFormInput';
-import {MAIN_COLOR, PDN_RULES_LINK} from '../../../config';
-import validateEmail from '../helpers/validateEmail';
+import {signUp} from '../../store/actions'
+import MaskedFormInput from '../../components/MaskedFormInput'
+import {MAIN_COLOR, PDN_RULES_LINK} from '../../../config'
+import validateEmail from '../helpers/validateEmail'
 
 class SignUpScreen extends Component {
 
@@ -36,7 +37,7 @@ class SignUpScreen extends Component {
             confirmation: null,
         },
         confirmation: false
-    };
+    }
 
     formModel = {
         first_name: {
@@ -67,20 +68,20 @@ class SignUpScreen extends Component {
                 mask: '8 ([000]) [000]-[00]-[00]'
             }
         }
-    };
+    }
 
     changeInput = (key, value) => {
-        this.setInputState(key, {value});
+        this.setInputState(key, {value})
 
         // Validate data
         // All fields required
-        if (value.trim() === '') this.setErrorState(key, 'Поле обязательно для заполнения!');
-        else this.setErrorState(key, null);
+        if (value.trim() === '') this.setErrorState(key, 'Поле обязательно для заполнения!')
+        else this.setErrorState(key, null)
 
         switch (key) {
             case 'email':
-                this.setErrorState('email', validateEmail(value));
-                break;
+                this.setErrorState('email', validateEmail(value))
+                break
         }
     };
 
@@ -95,9 +96,9 @@ class SignUpScreen extends Component {
                         ...stateSlice
                     },
                 },
-            };
-        });
-    };
+            }
+        })
+    }
 
     setErrorState = (key, error, callback) => {
         this.setState(prevState => {
@@ -109,20 +110,20 @@ class SignUpScreen extends Component {
                 }
             }
         }, () => {
-            if (typeof callback === 'function') callback();
+            if (typeof callback === 'function') callback()
         })
-    };
+    }
 
     submitButtonPress = () => {
         let hasError = false;
         if (!this.state.confirmation) {
-            this.setErrorState('confirmation', 'Согласие обязательно!');
+            this.setErrorState('confirmation', 'Согласие обязательно!')
         }
         else {
             this.setErrorState('confirmation', null, () => {
                 Object.keys(this.state.errors).forEach(key => {
                     if (this.state.errors[key] !== null) hasError = true;
-                });
+                })
                 if (!hasError) this.props.signUp({
                     first_name: this.state.inputs.first_name.value,
                     email: this.state.inputs.email.value,
@@ -130,23 +131,23 @@ class SignUpScreen extends Component {
                     phone_number: this.state.inputs.phone.value,
                 })
                     .then(() => {
-                        this.scrollView.scrollTo({ x: 0, y: 0, animated: true})
-                    });
-            });
+                        this.scrollView.scrollTo({x: 0, y: 0, animated: true})
+                    })
+            })
         }
-    };
+    }
 
     onInputFocus = key => {
         this.setInputState(key, {
             containerStyle: styles.activeTextInputContainerStyle
         })
-    };
+    }
 
     onInputBlur = key => {
         this.setInputState(key, {
             containerStyle: {}
         })
-    };
+    }
 
     handleLinkPress = () => {
         this.props.navigator.showModal({
@@ -155,12 +156,11 @@ class SignUpScreen extends Component {
                 uri: PDN_RULES_LINK
             },
         })
-    };
+    }
 
     handlePhoneInputChange = (formatted, extracted) => {
-        console.log(`formatted: ${formatted}`, `extracted: ${extracted}`);
-        this.setInputState('phone', { value: formatted });
-    };
+        this.setInputState('phone', {value: formatted})
+    }
 
     render() {
 
@@ -168,17 +168,17 @@ class SignUpScreen extends Component {
             return (
                 <FormValidationMessage key={index}>{item}</FormValidationMessage>
             )
-        });
+        })
 
         const formInputs = Object.keys(this.formModel).map(key => {
             // Label
             const label = (
                 <FormLabel labelStyle={styles.labelStyle}>{this.formModel[key].label}</FormLabel>
-            );
+            )
             // Validation error
             const errorMessage = (
                 <FormValidationMessage>{this.state.errors[key]}</FormValidationMessage>
-            );
+            )
             // Attributes
             const inputAttrs = {
                 placeholder: this.formModel[key].placeholder,
@@ -189,13 +189,13 @@ class SignUpScreen extends Component {
                 inputStyle: styles.textInput,
                 containerStyle: [styles.textInputContainerStyle, this.state.inputs[key].containerStyle],
                 ...this.formModel[key].attrs,
-            };
+            }
             // Form
             const inputElem = key === 'phone' ? (
                 <MaskedFormInput {...inputAttrs} />
             ) : (
                 <FormInput {...inputAttrs} />
-            );
+            )
 
             return (
                 <View key={key}>
@@ -204,14 +204,13 @@ class SignUpScreen extends Component {
                     {errorMessage}
                 </View>
             )
-        });
+        })
 
         return (
-            <View style={styles.container}>
+            <KeyboardAwareScrollView style={{ flex: 1 }} enableOnAndroid={true} enableAutomaticScroll={true}>
+                <View style={styles.container}>
 
-                <Text style={styles.header}>Введите данные, чтобы продолжить</Text>
-
-                <ScrollView ref={ref => this.scrollView = ref}>
+                    <Text style={styles.header}>Введите данные, чтобы продолжить</Text>
 
                     {[errors, formInputs]}
 
@@ -234,7 +233,6 @@ class SignUpScreen extends Component {
                         <Text style={styles.ruleLink}>Политика обработки персональных данных</Text>
                     </TouchableWithoutFeedback>
 
-
                     <Button title={'Зарегистрироваться'}
                             backgroundColor={MAIN_COLOR}
                             disabledStyle={{backgroundColor: '#888'}}
@@ -244,9 +242,9 @@ class SignUpScreen extends Component {
                             disabled={this.props.isLoading}
                     />
 
-                </ScrollView>
+                </View>
+            </KeyboardAwareScrollView>
 
-            </View>
         )
     }
 }
@@ -286,7 +284,7 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         margin: 0,
     }
-});
+})
 
 const mapStateToProps = state => {
     return {
@@ -294,12 +292,12 @@ const mapStateToProps = state => {
         isLoading: state.user.isProcessRequest,
         errors: state.user.errors
     }
-};
+}
 
 const mapDispatchToProps = dispatch => {
     return {
         signUp: data => dispatch(signUp(data)),
     }
-};
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen)
