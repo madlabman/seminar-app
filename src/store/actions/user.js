@@ -164,8 +164,8 @@ export const setUserDefinitions = data => {
                 },
                 body: JSON.stringify({
                     installation_id: getState().user.installationId,
-                    cities: Object.keys(data.cities),
-                    subjects: Object.keys(data.subjects)
+                    cities: data.cities,
+                    subjects: data.subjects
                 }),
                 types: [
                     REQUEST_USER_UPDATE,
