@@ -5,7 +5,7 @@ import {CheckBox} from "react-native-elements";
 export default class SelectList extends Component {
 
     handleCheckboxPress = key => {
-        let selectedItems = this.props.selected
+        let selectedItems = this.props.selected || []
         const indexOfItem = selectedItems.indexOf(key)
         indexOfItem !== -1 ? selectedItems.splice(indexOfItem, 1) : selectedItems.push(key)
         const availableItems = this.props.data.map(item => item.title)
@@ -15,7 +15,7 @@ export default class SelectList extends Component {
 
     render() {
         // Init items
-        let selectedItems = null
+        let selectedItems = {}
 
         if (this.props.data && this.props.selected) {
             this.props.data.forEach(item => {
