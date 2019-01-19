@@ -130,9 +130,6 @@ class SignUpScreen extends Component {
                     mobile_password: this.state.inputs.password.value,
                     phone_number: this.state.inputs.phone.value,
                 })
-                    .then(() => {
-                        this.scrollView.scrollTo({x: 0, y: 0, animated: true})
-                    })
             })
         }
     }
@@ -244,7 +241,6 @@ class SignUpScreen extends Component {
 
                 </View>
             </KeyboardAwareScrollView>
-
         )
     }
 }

@@ -31,13 +31,16 @@ const initialState = {
 const userReducer = (userState = initialState, action) => {
     switch (action.type) {
         case REQUEST_USER:
-        case REQUEST_SIGN_UP:
-        case REQUEST_SIGN_IN:
         case REQUEST_USER_UPDATE:
             return {
                 ...userState,
                 isProcessRequest: true
             };
+        case REQUEST_SIGN_UP:
+        case REQUEST_SIGN_IN:
+            return {
+                ...initialState
+            }
         case RECEIVE_USER:
             if (
                 action.payload
@@ -61,7 +64,7 @@ const userReducer = (userState = initialState, action) => {
             };
         case RECEIVE_SIGN_UP: {
             let returnState = {
-                ...userState,
+                ...initialState,
                 errors: []
             };
             if (action.payload) {
@@ -78,7 +81,6 @@ const userReducer = (userState = initialState, action) => {
             }
 
             return {
-                ...userState,
                 ...returnState,
                 isProcessRequest: false
             };
