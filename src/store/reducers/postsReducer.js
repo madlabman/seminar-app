@@ -112,7 +112,7 @@ export const postsReducer = (postsState = initialState, action) => {
             }
 
             sortedItems = sortedItems.length ? sortedItems : storedState.sortedItems;
-            let recentItems = sortedItems ? sortedItems.slice(0, 5) : [];
+            // let recentItems = sortedItems ? sortedItems.slice(0, 5) : [];
 
             return {
                 ...postsState,
@@ -120,7 +120,7 @@ export const postsReducer = (postsState = initialState, action) => {
                     ...storedState,
                     items: tempItems,
                     sortedItems,
-                    recentItems,
+                    recentItems: sortedItems,
                     updatedAt: Date.now(),
                     isLoading: false
                 }
