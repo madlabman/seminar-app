@@ -1,4 +1,4 @@
-export const FEEDBACK_PHONE = '89648872829'
+export const FEEDBACK_PHONE = '88005517752'
 export const FEEDBACK_EMAIL = 'ukolov@gksgr.ru'
 export const FEEDBACK_SUBJECT = 'Обратная связь'
 
@@ -13,5 +13,5 @@ export const ONLY_CONTENT_PARAM = 'only_content'
 export const MAIN_COLOR = '#c73800'
 
 export const LOST_PASSWORD_LINK = `${HOST}/wp-login.php?action=lostpassword`
-export const PDN_RULES_LINK = 'http://seminar-pro.ru'
+export const PDN_RULES_LINK = 'http://seminar-pro.ru/politika-obrabotki-personalnyx-dannyx'
 export const ARCHIVE_LINK = `${HOST}/archive`
