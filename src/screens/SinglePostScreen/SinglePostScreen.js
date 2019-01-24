@@ -36,7 +36,9 @@ class SinglePostScreen extends Component {
                     action.payload
                     && action.payload.success
                 ) {
-                    Alert.alert('Успешно!', 'Ваш запрос отправлен администратору.')
+                    Alert.alert('Успешно!', 'Ваш запрос отправлен менеджеру.')
+                } else {
+                    Alert.alert('', 'Возникла ошибка, повторите позднее!')
                 }
             })
     }
