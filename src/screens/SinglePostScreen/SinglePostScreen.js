@@ -24,7 +24,20 @@ class SinglePostScreen extends Component {
         this.props.updRelation(
             this.props.item.id,
             relation
-        )
+        ).then(action => {
+            if (
+                action.payload
+                && action.payload.success
+            ) {
+                if (relation === 'yes') {
+                    Alert.alert('Успешно!', 'Спасибо. Проверьте Вашу почту.')
+                } else {
+                    Alert.alert('', 'Спасибо за информацию.')
+                }
+            } else {
+                Alert.alert('', 'Возникла ошибка, повторите позднее!')
+            }
+        })
     }
 
     handleBillButtonPress = () => {
@@ -36,7 +49,7 @@ class SinglePostScreen extends Component {
                     action.payload
                     && action.payload.success
                 ) {
-                    Alert.alert('Успешно!', 'Ваш запрос отправлен менеджеру.')
+                    Alert.alert('Успешно!', 'Спасибо. Проверьте Вашу почту.')
                 } else {
                     Alert.alert('', 'Возникла ошибка, повторите позднее!')
                 }

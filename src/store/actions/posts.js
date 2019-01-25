@@ -137,7 +137,7 @@ export const updRelation = (announceId, relation) => {
             }
         );
 
-        dispatch({
+        return dispatch({
             [RSAA]: {
                 endpoint,
                 method: 'GET',
