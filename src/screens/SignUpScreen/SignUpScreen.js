@@ -29,6 +29,9 @@ class SignUpScreen extends Component {
                 value: '',
                 containerStyle: {},
             },
+            inn: {
+                value: ''
+            }
         },
         errors: {
             first_name: null,
@@ -66,6 +69,14 @@ class SignUpScreen extends Component {
             attrs: {
                 keyboardType: 'phone-pad',
                 mask: '8 ([000]) [000]-[00]-[00]'
+            }
+        },
+        inn: {
+            label: 'ИНН',
+            placeholder: 'Необязательно',
+            attrs: {
+                autoCapitalize: 'none',
+                autoCorrect: false
             }
         }
     }
@@ -129,6 +140,7 @@ class SignUpScreen extends Component {
                     email: this.state.inputs.email.value,
                     mobile_password: this.state.inputs.password.value,
                     phone_number: this.state.inputs.phone.value,
+                    inn: this.state.inputs.inn.value,
                 })
             })
         }
