@@ -72,8 +72,8 @@ class SignUpScreen extends Component {
             }
         },
         inn: {
-            label: 'ИНН',
-            placeholder: 'Необязательно',
+            label: 'ИНН организации',
+            placeholder: 'Для определения размера скидки',
             attrs: {
                 autoCapitalize: 'none',
                 autoCorrect: false

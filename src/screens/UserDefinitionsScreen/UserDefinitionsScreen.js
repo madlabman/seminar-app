@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {ActivityIndicator, Alert, StyleSheet, ScrollView, View} from 'react-native'
-import {Button, FormValidationMessage, Text} from 'react-native-elements'
+import {Button, FormInput, FormLabel, FormValidationMessage, Text} from 'react-native-elements'
 import {connect} from 'react-redux'
 import configureStore from '../../store/store'
 
@@ -21,7 +21,11 @@ class UserDefinitionsScreen extends Component {
     static navigatorStyle = {
         navBarTitleTextCentered: true,
         navBarButtonColor: '#000'
-    };
+    }
+
+    state = {
+        inn: ''
+    }
 
     handleSubmitButton = () => {
         // Simple validation
@@ -34,7 +38,8 @@ class UserDefinitionsScreen extends Component {
             this.props.setUserDefinitions(
                 {
                     cities: this.props.user.cities,
-                    subjects: this.props.user.subjects
+                    subjects: this.props.user.subjects,
+                    inn: this.state.inn
                 }
             );
         }
@@ -52,11 +57,20 @@ class UserDefinitionsScreen extends Component {
 
     onCitiesListChange = selected => {
         this.props.updateUserCities(selected);
-    };
+    }
 
     onSubjectsListChange = selected => {
         this.props.updateUserSubjects(selected);
-    };
+    }
+
+    onInnChange = value => {
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                inn: value
+            }
+        })
+    }
 
     componentDidMount() {
         this.props.fetchCities();
@@ -116,6 +130,11 @@ class UserDefinitionsScreen extends Component {
 
                     <Text style={styles.sectionTitle}>Тематики</Text>
                     {subjects}
+
+                    <FormLabel labelStyle={styles.labelStyle}>ИНН организации</FormLabel>
+                    <FormInput placeholder={'Для определения размера скидки'} onChangeText={this.onInnChange}
+                               containerStyle={styles.textInputContainerStyle} inputStyle={styles.textInput}
+                               value={this.props.user.inn}/>
                 </View>
 
                 <View style={styles.buttonContainer}>
@@ -166,7 +185,17 @@ const styles = StyleSheet.create({
         marginTop: 10,
         textAlign: 'center',
         color: '#0099ff'
-    }
+    },
+    labelStyle: {
+        color: MAIN_COLOR
+    },
+    textInput: {
+        color: '#000',
+    },
+    textInputContainerStyle: {
+        borderBottomWidth: 2,
+        borderBottomColor: '#adadad'
+    },
 });
 
 const mapStateToProps = state => {

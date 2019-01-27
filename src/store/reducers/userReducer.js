@@ -20,6 +20,7 @@ const initialState = {
     email: null,
     cities: null,
     subjects: null,
+    inn: null,
     installationId: null,
     isSignedUp: false,
     isSetupCompleted: false,
@@ -54,6 +55,7 @@ const userReducer = (userState = initialState, action) => {
                         name: receivedUser.user_nicename,
                         cities: receivedUser.cities,
                         subjects: receivedUser.subjects,
+                        inn: receivedUser.inn,
                         isProcessRequest: false
                     };
                 }
