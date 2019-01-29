@@ -20,7 +20,8 @@ import {
     fetchSlides,
     notificationOpened,
     updateFCM,
-    getSingleAnnounce
+    getSingleAnnounce,
+    validateCache
 } from '../../store/actions';
 
 class MainScreen extends Component {
@@ -132,8 +133,10 @@ class MainScreen extends Component {
         this.props.fetchAnnounces(this.props.forceUpdate)
         // Fetch news
         this.props.fetchNews()
-        //Fetch slider
+        // Fetch slider
         this.props.fetchSlides()
+        // Validate cache
+        this.props.validateCache()
     }
 
     handleMailButtonPress = () => {
@@ -300,7 +303,8 @@ const mapDispatchToProps = dispatch => {
         fetchSlides: () => dispatch(fetchSlides()),
         updateFCM: token => dispatch(updateFCM(token)),
         notificationOpened: () => dispatch(notificationOpened()),
-        getSingleAnnounce: postId => dispatch(getSingleAnnounce(postId))
+        getSingleAnnounce: postId => dispatch(getSingleAnnounce(postId)),
+        validateCache: () => dispatch(validateCache()),
     }
 };
 

@@ -4,9 +4,24 @@ import moment from 'moment'
 
 import {
     FAIL_BILL,
-    FAIL_GET_ANNOUNCES, FAIL_GET_FEEDBACK, FAIL_GET_NEWS, FAIL_GET_RELATION, FAIL_UPD_RELATION,
-    RECEIVE_ANNOUNCES, RECEIVE_BILL, RECEIVE_FEEDBACK, RECEIVE_GET_RELATION, RECEIVE_NEWS, RECEIVE_UPD_RELATION,
-    REQUEST_ANNOUNCES, REQUEST_BILL, REQUEST_FEEDBACK, REQUEST_GET_RELATION, REQUEST_NEWS, REQUEST_UPD_RELATION,
+    FAIL_GET_ANNOUNCES,
+    FAIL_GET_FEEDBACK,
+    FAIL_GET_NEWS,
+    FAIL_GET_RELATION,
+    FAIL_UPD_RELATION, FAIL_VALIDATE_CACHE,
+    RECEIVE_ANNOUNCES,
+    RECEIVE_BILL,
+    RECEIVE_FEEDBACK,
+    RECEIVE_GET_RELATION,
+    RECEIVE_NEWS,
+    RECEIVE_UPD_RELATION, RECEIVE_VALIDATE_CACHE,
+    REQUEST_ANNOUNCES,
+    REQUEST_BILL,
+    REQUEST_FEEDBACK,
+    REQUEST_GET_RELATION,
+    REQUEST_NEWS,
+    REQUEST_UPD_RELATION,
+    REQUEST_VALIDATE_CACHE,
 } from './actionTypes';
 import {API_BASE, ONLY_CONTENT_PARAM, SPP_REST_ROUTE, WP_REST_ROUTE} from '../../../config';
 
@@ -300,5 +315,31 @@ export const getSingleAnnounce = postId => {
 
                 return null;
             })
+    }
+}
+
+export const validateCache = () => {
+    return (dispatch, getState) => {
+        const postsIds = Object.keys(getState().posts.announces.items)
+        const endpoint = buildUrl(
+            API_BASE,
+            {
+                path: `${SPP_REST_ROUTE}/validate_cache`,
+                queryParams: {
+                    cached: postsIds
+                }
+            }
+        )
+        return dispatch({
+            [RSAA]: {
+                endpoint,
+                method: 'GET',
+                types: [
+                    REQUEST_VALIDATE_CACHE,
+                    RECEIVE_VALIDATE_CACHE,
+                    FAIL_VALIDATE_CACHE
+                ]
+            }
+        })
     }
 }

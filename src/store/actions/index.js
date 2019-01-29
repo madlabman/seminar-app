@@ -11,7 +11,7 @@ export {fetchSubjects} from './subjects'
 export {fetchUser, signUp, signIn, setUserDefinitions, updateFCM, updateUserCities, updateUserSubjects} from './user'
 
 // Posts
-export {fetchAnnounces, fetchNews, updRelation, getRelation, sendBillRequest, getSingleAnnounce} from './posts'
+export {fetchAnnounces, fetchNews, updRelation, getRelation, sendBillRequest, getSingleAnnounce, validateCache} from './posts'
 
 // Menu
 export {fetchMenu} from './menu'

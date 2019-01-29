@@ -1,6 +1,6 @@
 import {
     FAIL_GET_ANNOUNCES, FAIL_GET_NEWS,
-    RECEIVE_ANNOUNCES, RECEIVE_BILL, RECEIVE_GET_RELATION, RECEIVE_NEWS, RECEIVE_UPD_RELATION,
+    RECEIVE_ANNOUNCES, RECEIVE_BILL, RECEIVE_GET_RELATION, RECEIVE_NEWS, RECEIVE_UPD_RELATION, RECEIVE_VALIDATE_CACHE,
     REQUEST_ANNOUNCES, REQUEST_NEWS
 } from '../actions/actionTypes';
 import moment from "moment";
@@ -158,6 +158,26 @@ export const postsReducer = (postsState = initialState, action) => {
                         }
                     }
                 }
+            }
+        case RECEIVE_VALIDATE_CACHE:
+            if (
+                action.payload
+                && action.payload.success
+                && action.payload.data.length
+            ) {
+                console.warn(action.payload.data)
+                action.payload.data.forEach(keyToDelete => {
+                    delete postsState.announces.items[keyToDelete]
+                    postsState.announces.sortedItems.forEach((item, id) => {
+                        if (item.id === keyToDelete) {
+                            delete postsState.announces.sortedItems[id]
+                        }
+                    })
+                })
+            }
+
+            return {
+                ...postsState
             }
         default:
             return postsState;
