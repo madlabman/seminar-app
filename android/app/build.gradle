@@ -101,8 +101,8 @@ android {
         applicationId "com.seminarpro"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 8
-        versionName "1.0.8"
+        versionCode 12
+        versionName "1.0.12"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }

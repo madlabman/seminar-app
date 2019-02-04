@@ -42,6 +42,7 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		6E020C9EFC564E669A975876 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A7F86CA5D234BF190FDEA23 /* MaterialCommunityIcons.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		84B1446821F4789F000A3629 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84B1446721F4789F000A3629 /* GoogleService-Info.plist */; };
 		84C9B76721537CA500474132 /* libReact-Native-Webview-Bridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C9B75121537C4000474132 /* libReact-Native-Webview-Bridge.a */; };
 		86CE96C841E055AD92FDC1D5 /* libPods-seminarPro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827DD1C0ECF214FA90392E4F /* libPods-seminarPro.a */; };
 		A447633F2CF343DA8B766B62 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22B03AB4D1C0492882E45004 /* EvilIcons.ttf */; };
@@ -53,7 +54,6 @@
 		EF6130DFD9CF4FAAA1BEA886 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A1CA62D41AE4ED2822B5CB5 /* libRNFirebase.a */; };
 		F20CA630210A141000E95BFC /* InputMask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F20CA62F210A141000E95BFC /* InputMask.framework */; };
 		F20CA631210A141000E95BFC /* InputMask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F20CA62F210A141000E95BFC /* InputMask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F236845A210B7E9D006C79D9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F236842F210B7E9D006C79D9 /* GoogleService-Info.plist */; };
 		F2CECE332109E03E009E1838 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F2CECE322109E01B009E1838 /* libReactNativeNavigation.a */; };
 		FD204FE27686446AB061539C /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 597544A1D5F9425495FB35BA /* SimpleLineIcons.ttf */; };
 /* End PBXBuildFile section */
@@ -416,6 +416,7 @@
 		827DD1C0ECF214FA90392E4F /* libPods-seminarPro.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-seminarPro.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		84013466219C0379002D63F0 /* seminarPro.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = seminarPro.entitlements; path = seminarPro/seminarPro.entitlements; sourceTree = "<group>"; };
+		84B1446721F4789F000A3629 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		84C9B73721537C4000474132 /* React-Native-Webview-Bridge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "React-Native-Webview-Bridge.xcodeproj"; path = "../node_modules/react-native-webview-bridge/ios/React-Native-Webview-Bridge.xcodeproj"; sourceTree = "<group>"; };
 		89212C778FCBD6618B8A343D /* Pods-seminarProTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seminarProTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-seminarProTests/Pods-seminarProTests.debug.xcconfig"; sourceTree = "<group>"; };
 		94FFA80676304ACD2AD3B9F8 /* Pods-seminarProTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seminarProTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-seminarProTests/Pods-seminarProTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -433,7 +434,6 @@
 		EDB7351829289C9B92AC1374 /* Pods-seminarPro-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seminarPro-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-seminarPro-tvOS/Pods-seminarPro-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		EDD006308BD832C977CA7222 /* libPods-seminarProTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-seminarProTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F20CA62F210A141000E95BFC /* InputMask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = InputMask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F236842F210B7E9D006C79D9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "seminarPro/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F2CECE2D2109E01B009E1838 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -550,8 +550,8 @@
 		13B07FAE1A68108700A75B9A /* seminarPro */ = {
 			isa = PBXGroup;
 			children = (
+				84B1446721F4789F000A3629 /* GoogleService-Info.plist */,
 				84013466219C0379002D63F0 /* seminarPro.entitlements */,
-				F236842F210B7E9D006C79D9 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -790,6 +790,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				F20CA632210A141000E95BFC /* Embed Frameworks */,
+				84B1446921F4855B000A3629 /* Fix InputMask.framework bundle error */,
 			);
 			buildRules = (
 			);
@@ -1261,7 +1262,7 @@
 				442AF919744F479887E0A975 /* Octicons.ttf in Resources */,
 				FD204FE27686446AB061539C /* SimpleLineIcons.ttf in Resources */,
 				24DCF08E28234A938432B79D /* Zocial.ttf in Resources */,
-				F236845A210B7E9D006C79D9 /* GoogleService-Info.plist in Resources */,
+				84B1446821F4789F000A3629 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1321,6 +1322,24 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		84B1446921F4855B000A3629 /* Fix InputMask.framework bundle error */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Fix InputMask.framework bundle error";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "EXTRA_DIR=\"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Frameworks/InputMask.framework/Frameworks\"\n\nif [[ -d \"${EXTRA_DIR}\" ]]; then\n    rm -rf \"${EXTRA_DIR}\"\nfi\n";
 		};
 		A269693173A5334B9A7998E5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
