@@ -101,7 +101,7 @@ export const postsReducer = (postsState = initialState, action) => {
                 });
                 // Sort items by date desc
                 const sortedKeys = Object.keys(tempItems).sort((a, b) =>
-                    -moment(tempItems[a].date)
+                    moment(tempItems[a].date)
                         .diff(moment(tempItems[b].date)));
                 sortedKeys.forEach(key => {
                     sortedItems.push({
