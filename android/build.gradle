@@ -16,7 +16,7 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
-}
+}   
 
 allprojects {
     repositories {
@@ -30,6 +30,17 @@ allprojects {
         maven {
             url 'https://maven.google.com/'
             name 'Google'
+        }
+    }
+}
+
+subprojects {
+    afterEvaluate {project ->
+        if (project.hasProperty("android")) {
+            android {
+                compileSdkVersion 27
+                buildToolsVersion "27.0.3"
+            }
         }
     }
 }
