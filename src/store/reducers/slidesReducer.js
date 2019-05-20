@@ -26,14 +26,29 @@ export const slidesReducer = (slidesState = initialState, action) => {
                 return {
                     ...slidesState,
                     items: action.payload.map(item => {
+                        // Init slider item navigation link
+                        let link = {}
+                        // In case we have to push to the announce screen
+                        if (item.slide_announce) {
+                            link = {
+                                ...link,
+                                announce: item.slide_announce
+                            }
+                        }
+                        // External link in browser as fallback
+                        if (item.slide_link) {  
+                            link = {
+                                ...link,
+                                uri: item.slide_link
+                            }
+                        }
+
                         return {
                             key: item.id.toString(),
                             image: {
                                 uri: item.slide_image
                             },
-                            link: {
-                                uri: item.slide_link
-                            }
+                            link
                         }
                     }),
                     updatedAt: Date.now(),

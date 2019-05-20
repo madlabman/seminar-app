@@ -267,8 +267,7 @@ export const getSingleAnnounce = postId => {
         let queryParams = {};
         if (__DEV__) {
             queryParams = {
-                ...queryParams,
-                XDEBUG_SESSION_START: 'PHPSTORM'
+                ...queryParams
             }
         }
 

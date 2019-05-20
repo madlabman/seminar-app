@@ -67,16 +67,22 @@ class MainScreen extends Component {
             },
             animationType: Platform.OS === 'android' ? 'slide-horizontal' : ''
         })
-    };
+    }
 
-    showBrowser = item => {
-        this.props.navigator.showModal({
-            screen: 'seminar.BrowserScreen',
-            passProps: {
-                uri: item.link.uri
-            },
-        })
-    };
+    handleSlidePress = item => {
+        if (item.link.announce) {
+            // Navigate to the announce screen
+            this.openSingleAnnounce(item.link.announce)
+        } else if (item.link.uri) {
+            // Open browser with uri
+            this.props.navigator.showModal({
+                screen: 'seminar.BrowserScreen',
+                passProps: {
+                    uri: item.link.uri
+                },
+            })
+        }
+    }
 
     componentDidMount() {
         this.props.navigator.setStyle({navBarCustomView: 'seminar.TopBar'})
@@ -122,7 +128,7 @@ class MainScreen extends Component {
         // App in foreground
         this.onForegroundNotification = firebase.notifications().onNotification(notification => {
             console.log('[sa-32]: application received notification in foreground with post_id', notification.data.post_id)
-            this.openSingleAnnounce(notification.data.post_id)
+            this.openSingleAnnounce(notification.data.post_id, true)
         })
 
         this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
@@ -182,9 +188,12 @@ class MainScreen extends Component {
         )
     }
 
-    openSingleAnnounce = postId => {
-        this.props.notificationOpened()
-        firebase.notifications().cancelAllNotifications()
+    openSingleAnnounce = (postId, byNotification = false) => {
+        if (byNotification) {
+            this.props.notificationOpened()
+            firebase.notifications().cancelAllNotifications()
+        }
+        
         this.props.getSingleAnnounce(postId)
             .then(announce => {
                 if (announce) {
@@ -215,7 +224,7 @@ class MainScreen extends Component {
 
                     <MainSlider
                         slides={this.props.slides.items}
-                        onSlidePress={this.showBrowser}
+                        onSlidePress={this.handleSlidePress}
                     />
 
                     <Button
