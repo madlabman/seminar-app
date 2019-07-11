@@ -165,7 +165,6 @@ export const postsReducer = (postsState = initialState, action) => {
                 && action.payload.success
                 && action.payload.data.length
             ) {
-                console.warn(action.payload.data)
                 action.payload.data.forEach(keyToDelete => {
                     delete postsState.announces.items[keyToDelete]
                     postsState.announces.sortedItems.forEach((item, id) => {
